@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html class="no-js">
+<html class="no-js" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
 
 <head>
     <!-- meta -->
@@ -27,7 +27,8 @@
 <!-- body -->
 
 <body>
-    <div class="app" data-sidebar="locked">
+    <script type='text/x-handlebars' data-template-name='application'>
+        <div class="app" data-sidebar="locked">
         <!-- top header -->
         <header class="header header-fixed navbar bg-white">
 
@@ -41,7 +42,6 @@
                     </span>
                 </a>
             </div>
-
 
         </header>
         <!-- /top header -->
@@ -70,101 +70,11 @@
             </aside>
             <!-- /sidebar menu -->
 
-         
-
             <!-- main content -->
             <section class="main-content">
-
                 <!-- content wrapper -->
                 <div class="content-wrap">
-
-                    <div class="row mg-b">
-                        <div class="col-xs-12">
-                            <h3 class="no-margin">My Assignments</h3>
-                        </div>
-                      
-                    </div>
-
-                    <div class="row">
-                        <div class="col-md-3 col-sm-6 col-xs-12">
-                            <section class="panel">
-                                <div class="panel-body">
-                                    <div class="circle-icon bg-success">
-                                        <i class="fa fa-microphone"></i>
-                                    </div>
-                                    <div>
-                                        <h3 class="no-margin">5468</h3>
-                                        New signups
-                                    </div>
-                                </div>
-                            </section>
-                        </div>
-                        <div class="col-md-3 col-sm-6 col-xs-12">
-                            <section class="panel">
-                                <div class="panel-body">
-                                    <div class="circle-icon bg-danger">
-                                        <i class="fa fa-anchor"></i>
-                                    </div>
-                                    <div>
-                                        <h3 class="no-margin">2,300</h3>
-                                        Total equity
-                                    </div>
-                                </div>
-                            </section>
-                        </div>
-                        <div class="col-md-3 col-sm-6 col-xs-12">
-                            <section class="panel">
-                                <div class="panel-body">
-                                    <div class="circle-icon bg-default">
-                                        <i class="fa fa-magnet"></i>
-                                    </div>
-                                    <div>
-                                        <h3 class="no-margin">3,823</h3>
-                                        Views today
-                                    </div>
-                                </div>
-                            </section>
-                        </div>
- 						<div class="col-md-3 col-sm-6 col-xs-12">
- 						    <section class="panel">
- 						        <div class="panel-body">
- 						            <div class="circle-icon bg-success">
- 						                <i class="fa fa-microphone"></i>
- 						            </div>
- 						            <div>
- 						                <h3 class="no-margin">5468</h3>
- 						                New signups
- 						            </div>
- 						        </div>
- 						    </section>
- 						</div>
- 						<div class="col-md-3 col-sm-6 col-xs-12">
- 						    <section class="panel">
- 						        <div class="panel-body">
- 						            <div class="circle-icon bg-danger">
- 						                <i class="fa fa-anchor"></i>
- 						            </div>
- 						            <div>
- 						                <h3 class="no-margin">2,300</h3>
- 						                Total equity
- 						            </div>
- 						        </div>
- 						    </section>
- 						</div>
- 						<div class="col-md-3 col-sm-6 col-xs-12">
- 						    <section class="panel">
- 						        <div class="panel-body">
- 						            <div class="circle-icon bg-default">
- 						                <i class="fa fa-magnet"></i>
- 						            </div>
- 						            <div>
- 						                <h3 class="no-margin">3,823</h3>
- 						                Views today
- 						            </div>
- 						        </div>
- 						    </section>
- 						</div>
-                	</div>
+                    {{outlet}}
                 </div>
                 <!-- /content wrapper -->
             </section>
@@ -172,14 +82,16 @@
         </section>
 
     </div>
+    </script>
 
+
+    <script src="js/libs/jquery-1.10.2.min.js"></script>
 
     <!-- core scripts -->
-    <script src="vendor/jquery-1.11.0.min.js"></script>
     <script src="bootstrap/js/bootstrap.js"></script>
     <!-- /core scripts -->
 
-    
+
     <!-- theme scripts -->
     <script src="js/off-canvas.js"></script>
     <script src="vendor/offline/offline.min.js"></script>
@@ -187,6 +99,108 @@
     <!-- /theme scripts -->
 
     <script src="js/dashboard.js"></script>
+
+    <!-- Ember Core Scripts -->
+    <script src="js/libs/handlebars-1.0.0.js"></script>
+    <script src="js/libs/ember.js"></script>
+    <script src="js/libs/ember-data.js"></script>
+    <!-- /Ember Core Scripts -->
+
+    <!-- Ember Main Scripts -->
+    <script src="js/ember/application.js"></script>
+    <script src="js/ember/router.js"></script>
+    <!-- /Ember Main Scripts -->
+
+    <!-- Ember Templates -->
+    <script type="text/x-handlebars" data-template-name="dashboard">
+        <div class="row mg-b">
+            <div class="col-xs-12">
+                <h3 class="no-margin">My Assignments</h3>
+            </div>
+
+        </div>
+
+        <div class="row">
+            <div class="col-md-3 col-sm-6 col-xs-12">
+                <section class="panel">
+                    <div class="panel-body">
+                        <div class="circle-icon bg-success">
+                            <i class="fa fa-microphone"></i>
+                        </div>
+                        <div>
+                            <h3 class="no-margin">5468</h3>
+                            New signups
+                        </div>
+                    </div>
+                </section>
+            </div>
+            <div class="col-md-3 col-sm-6 col-xs-12">
+                <section class="panel">
+                    <div class="panel-body">
+                        <div class="circle-icon bg-danger">
+                            <i class="fa fa-anchor"></i>
+                        </div>
+                        <div>
+                            <h3 class="no-margin">2,300</h3>
+                            Total equity
+                        </div>
+                    </div>
+                </section>
+            </div>
+            <div class="col-md-3 col-sm-6 col-xs-12">
+                <section class="panel">
+                    <div class="panel-body">
+                        <div class="circle-icon bg-default">
+                            <i class="fa fa-magnet"></i>
+                        </div>
+                        <div>
+                            <h3 class="no-margin">3,823</h3>
+                            Views today
+                        </div>
+                    </div>
+                </section>
+            </div>
+            <div class="col-md-3 col-sm-6 col-xs-12">
+                <section class="panel">
+                    <div class="panel-body">
+                        <div class="circle-icon bg-success">
+                            <i class="fa fa-microphone"></i>
+                        </div>
+                        <div>
+                            <h3 class="no-margin">5468</h3>
+                            New signups
+                        </div>
+                    </div>
+                </section>
+            </div>
+            <div class="col-md-3 col-sm-6 col-xs-12">
+                <section class="panel">
+                    <div class="panel-body">
+                        <div class="circle-icon bg-danger">
+                            <i class="fa fa-anchor"></i>
+                        </div>
+                        <div>
+                            <h3 class="no-margin">2,300</h3>
+                            Total equity
+                        </div>
+                    </div>
+                </section>
+            </div>
+            <div class="col-md-3 col-sm-6 col-xs-12">
+                <section class="panel">
+                    <div class="panel-body">
+                        <div class="circle-icon bg-default">
+                            <i class="fa fa-magnet"></i>
+                        </div>
+                        <div>
+                            <h3 class="no-margin">3,823</h3>
+                            Views today
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </script>
 
 </body>
 <!-- /body -->

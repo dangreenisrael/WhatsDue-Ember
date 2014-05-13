@@ -1,9 +1,11 @@
 ! function ($) {
     "use strict";
 
-    var container = $(".app"), canvasDirection, w = $(window), delay = 300;
+    var canvasDirection, w = $(window), delay = 300;
+
 
     function closeOffCanvas(delay) {
+        var container = $(".app");
         setTimeout(function(){
           container.removeClass("off-canvas");
           canvasDirection = undefined;
@@ -12,7 +14,9 @@
 
     $(".main-content").append('<div class="site-overlay"></div>');
 
+
     $(document).on("click", "[data-toggle=off-canvas]", function (e) {
+        var container = $(".app");
 
         e.preventDefault();
 
@@ -30,15 +34,18 @@
         } else {
             container.toggleClass("move-left").removeClass("move-right");
             canvasDirection = "ltr";
+
         }
 
         if (container.hasClass("move-right") || container.hasClass("move-left")) {
             container.addClass("off-canvas");
+
         }
 
     });
 
     $(".main-content").on("click", ".site-overlay", function (e) {
+        var container = $(".app");
 
         e.preventDefault();
 
