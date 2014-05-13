@@ -2,183 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e7106dbf-4ec0-4e3d-b4a3-2ae16a363363" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/CONTRIBUTING.md" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Gruntfile.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/LICENSE" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/README.md" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/api-stub/README.md" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/api-stub/routes.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/WhatsDueTemplateEspresso.esproj/Project.espressostorage" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/WhatsDueTemplateEspresso.esproj/user.dan.espressostorage" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/adapters/application.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/app.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/bootstrap/css/bootstrap-theme.css" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/bootstrap/css/bootstrap-theme.css.map" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/bootstrap/css/bootstrap-theme.min.css" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/bootstrap/css/bootstrap.css" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/bootstrap/css/bootstrap.css.map" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/bootstrap/css/bootstrap.min.css" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/bootstrap/fonts/glyphicons-halflings-regular.eot" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/bootstrap/fonts/glyphicons-halflings-regular.svg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/bootstrap/fonts/glyphicons-halflings-regular.ttf" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/bootstrap/fonts/glyphicons-halflings-regular.woff" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/bootstrap/js/bootstrap.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/bootstrap/js/bootstrap.min.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/components/.gitkeep" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/components/pretty-color.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/components/template-less.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/controllers/.gitkeep" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/css/animate.css" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/css/animate.min.css" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/css/icons.css" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/css/main.css" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/css/main.css.map" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/favicon.ico" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/fonts/FontAwesome.otf" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/fonts/fontawesome-webfont.eot" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/fonts/fontawesome-webfont.svg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/fonts/fontawesome-webfont.ttf" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/fonts/fontawesome-webfont.woff" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/helpers/.gitkeep" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/helpers/reverse-word.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/img/.gitignore" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/img/about.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/img/avatar.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/index.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/initializers/.gitkeep" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/initializers/inject-store-into-component.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/js/dashboard.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/js/main.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/js/off-canvas.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/less/demo.less" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/less/header.less" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/less/icon-font.less" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/less/main.less" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/less/mixins.less" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/less/modules/400_500.less" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/less/modules/alert.less" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/less/modules/badge.less" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/less/modules/breadcrumbs.less" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/less/modules/buttons.less" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/less/modules/carousel.less" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/less/modules/charts.less" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/less/modules/chat.less" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/less/modules/code.less" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/less/modules/dropdown.less" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/less/modules/forms.less" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/less/modules/fuelux.less" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/less/modules/gallery.less" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/less/modules/labels.less" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/less/modules/navbar.less" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/less/modules/navs.less" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/less/modules/off-canvas.less" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/less/modules/pagination.less" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/less/modules/panel.less" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/less/modules/popover.less" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/less/modules/progress.less" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/less/modules/ribbon.less" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/less/modules/scheme.less" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/less/modules/sortable.less" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/less/modules/switch.less" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/less/modules/table.less" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/less/modules/tasks.less" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/less/modules/timeline.less" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/less/modules/tooltip.less" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/less/modules/view-switcher.less" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/less/modules/widgets.less" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/less/scaffolding.less" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/less/sidebar.less" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/less/structure.less" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/less/utilities.less" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/less/variables.less" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/models/.gitkeep" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/router.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/routes/.gitkeep" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/routes/component-test.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/routes/helper-test.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/routes/index.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/styles/.gitkeep" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/styles/app.css" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/templates/.gitkeep" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/templates/application.hbs" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/templates/component-test.hbs" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/templates/components/.gitkeep" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/templates/components/pretty-color.hbs" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/templates/error.hbs" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/templates/helper-test.hbs" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/templates/index.hbs" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/templates/loading.hbs" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/utils/.gitkeep" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/utils/ajax.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/vendor/bootstrap-select/bootstrap-select.css" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/vendor/bootstrap-select/bootstrap-select.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/vendor/bootstrap-select/bootstrap-select.min.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/vendor/jquery-1.11.0.min.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/vendor/jquery-ui.custom.min.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/vendor/jquery.blockUI.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/vendor/jquery.easing.min.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/vendor/modernizr.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/vendor/offline/offline.min.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/vendor/offline/theme.css" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/views/.gitkeep" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bower.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/config/environment.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/config/environments/development.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/config/environments/production.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/config/environments/test.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/package.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/public/assets/.gitkeep" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/public/crossdomain.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/public/humans.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/public/robots.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/public/testem.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tasks/.jshintrc" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tasks/custom-options/.gitkeep" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tasks/express-server.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tasks/helpers.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tasks/locking.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tasks/options/autoprefixer.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tasks/options/clean.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tasks/options/coffee.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tasks/options/compass.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tasks/options/concat_sourcemap.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tasks/options/concurrent.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tasks/options/copy.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tasks/options/emberTemplates.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tasks/options/emberscript.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tasks/options/emblem.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tasks/options/express-server.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tasks/options/fancySprites.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tasks/options/htmlmin.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tasks/options/imagemin.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tasks/options/jshint.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tasks/options/less.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tasks/options/preprocess.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tasks/options/rev.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tasks/options/sass.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tasks/options/stylus.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tasks/options/testem.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tasks/options/transpile.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tasks/options/usemin.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tasks/options/useminPrepare.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tasks/options/validate-imports.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tasks/options/watch.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tasks/options/yuidoc.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/testem.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tests/.jshintrc" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tests/acceptance/component-test.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tests/acceptance/helper-test.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tests/acceptance/index-test.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tests/helpers/resolver.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tests/helpers/start-app.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tests/test-helper.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tests/test-loader.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tests/unit/.gitkeep" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tests/unit/components/pretty-color-test.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tests/unit/components/template-less-component-test.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tests/unit/routes/index-test.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/vendor/ember-shim.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/vendor/qunit-shim.js" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/index.html" afterPath="$PROJECT_DIR$/index.html" />
     </list>
     <ignored path="WhatsDue-Ember.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -200,7 +24,17 @@
     <favorites_list name="WhatsDue-Ember" />
   </component>
   <component name="FileEditorManager">
-    <leaf />
+    <leaf>
+      <file leaf-file-name="index.html" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/index.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="23" column="4" selection-start="662" selection-end="662" vertical-scroll-proportion="0.6828125" vertical-offset="0" max-vertical-offset="3800">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
   </component>
   <component name="FindManager">
     <FindUsagesManager>
@@ -214,6 +48,7 @@
     <option name="changedFiles">
       <list>
         <option value="$PROJECT_DIR$/app/index.html" />
+        <option value="$PROJECT_DIR$/index.html" />
       </list>
     </option>
   </component>
@@ -293,14 +128,14 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="22" width="1276" height="778" extended-state="6" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
@@ -332,9 +167,9 @@
     <breakpoint-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app/index.html">
+    <entry file="file://$PROJECT_DIR$/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="25" column="49" selection-start="856" selection-end="856" vertical-scroll-proportion="0.7421875" vertical-offset="0" max-vertical-offset="3838">
+        <state line="23" column="4" selection-start="662" selection-end="662" vertical-scroll-proportion="0.6828125" vertical-offset="0" max-vertical-offset="3800">
           <folding />
         </state>
       </provider>
