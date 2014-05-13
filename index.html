@@ -17,7 +17,14 @@
 
     <!-- core styles -->
     <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/animate.min.css">
+    <link rel="stylesheet" href="vendor/offline/theme.css">
     <!-- /core styles -->
+
+    <!-- page styles -->
+    <link rel="stylesheet" href="vendor/bootstrap-select/bootstrap-select.css">
+    <link rel="stylesheet" href="vendor/datatables/jquery.dataTables.css">
+    <!-- /page styles -->
 
     <!-- load modernizer -->
     <script src="vendor/modernizr.js"></script>
@@ -52,18 +59,25 @@
                 <!-- main navigation -->
                 <nav class="main-navigation">
                     <ul>
-                        <li class="active">
-                            <a href="#" class="h4">
-                                <i class="fa fa-coffee"></i>
-                                <span>Framework</span>
+                        {{#link-to 'dashboard' tagName='li'}}
+                            <a class="h4">
+                            <i class="fa fa-coffee"></i>
+                            <span>
+                                Dashboard
+                            </span>
                             </a>
-                        </li>
-                        <li class="h4">
-                            <a href="#">
-                                <i class="fa fa-comment"></i>
-                                <span>Chat</span>
-                            </a>
-                        </li>
+                        {{/link-to}}
+
+                        {{#link-to 'courses' tagName='li'}}
+                        <a class="h4">
+                            <i class="fa fa-coffee"></i>
+                            <span>
+                                Courses
+                            </span>
+                        </a>
+                        {{/link-to}}
+
+
                     </ul>
                 </nav>
                 <!-- /main navigation -->
@@ -96,9 +110,17 @@
     <script src="js/off-canvas.js"></script>
     <script src="vendor/offline/offline.min.js"></script>
     <script src="js/main.js"></script>
+
     <!-- /theme scripts -->
 
+
+    <!-- page scripts -->
+    <script src="vendor/bootstrap-select/bootstrap-select.js"></script>
+    <script src="vendor/datatables/jquery.dataTables.js"></script>
     <script src="js/dashboard.js"></script>
+    <script src="js/datatables.js"></script>
+    <!-- /page scripts -->
+
 
     <!-- Ember Core Scripts -->
     <script src="js/libs/handlebars-1.0.0.js"></script>
@@ -109,6 +131,7 @@
     <!-- Ember Main Scripts -->
     <script src="js/ember/application.js"></script>
     <script src="js/ember/router.js"></script>
+    <script src="js/ember/models/whatsdue.js"></script>
     <!-- /Ember Main Scripts -->
 
     <!-- Ember Templates -->
@@ -134,72 +157,28 @@
                     </div>
                 </section>
             </div>
-            <div class="col-md-3 col-sm-6 col-xs-12">
-                <section class="panel">
-                    <div class="panel-body">
-                        <div class="circle-icon bg-danger">
-                            <i class="fa fa-anchor"></i>
-                        </div>
-                        <div>
-                            <h3 class="no-margin">2,300</h3>
-                            Total equity
-                        </div>
-                    </div>
-                </section>
-            </div>
-            <div class="col-md-3 col-sm-6 col-xs-12">
-                <section class="panel">
-                    <div class="panel-body">
-                        <div class="circle-icon bg-default">
-                            <i class="fa fa-magnet"></i>
-                        </div>
-                        <div>
-                            <h3 class="no-margin">3,823</h3>
-                            Views today
-                        </div>
-                    </div>
-                </section>
-            </div>
-            <div class="col-md-3 col-sm-6 col-xs-12">
-                <section class="panel">
-                    <div class="panel-body">
-                        <div class="circle-icon bg-success">
-                            <i class="fa fa-microphone"></i>
-                        </div>
-                        <div>
-                            <h3 class="no-margin">5468</h3>
-                            New signups
-                        </div>
-                    </div>
-                </section>
-            </div>
-            <div class="col-md-3 col-sm-6 col-xs-12">
-                <section class="panel">
-                    <div class="panel-body">
-                        <div class="circle-icon bg-danger">
-                            <i class="fa fa-anchor"></i>
-                        </div>
-                        <div>
-                            <h3 class="no-margin">2,300</h3>
-                            Total equity
-                        </div>
-                    </div>
-                </section>
-            </div>
-            <div class="col-md-3 col-sm-6 col-xs-12">
-                <section class="panel">
-                    <div class="panel-body">
-                        <div class="circle-icon bg-default">
-                            <i class="fa fa-magnet"></i>
-                        </div>
-                        <div>
-                            <h3 class="no-margin">3,823</h3>
-                            Views today
-                        </div>
-                    </div>
-                </section>
-            </div>
         </div>
+    </script>
+
+    <script type="text/x-handlebars" data-template-name="courses">
+        <section class="panel bg-none">
+            <div class="panel-group">
+                {{#each}}
+                <div class="panel" style="margin-top:7px">
+                    <div class="panel-heading">
+                        <a data-toggle="collapse" data-parent="#accordion" class="collapsed">
+                            {{courseId}} - {{adminID}}
+                        </a>
+                    </div>
+                    <div class="panel-collapse collapse">
+                        <div class="panel-body">
+                            {{courseDescription}}
+                        </div>
+                    </div>
+                </div>
+                {{/each}}
+            </div>
+        </section>
     </script>
 
 </body>

@@ -3,3 +3,6 @@
  */
 
 window.Whatsdue = Ember.Application.create();
+
+Whatsdue.ApplicationAdapter = DS.FixtureAdapter.extend();
+

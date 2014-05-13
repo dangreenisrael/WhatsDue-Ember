@@ -44,9 +44,8 @@
 
     });
 
-    $(".main-content").on("click", ".site-overlay", function (e) {
+    $(document).on("click", ".site-overlay, .main-navigation ul li", function (e) {
         var container = $(".app");
-
         e.preventDefault();
 
         if (w.width() >= 767) {
