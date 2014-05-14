@@ -2,8 +2,6 @@
  * Created by dan on 2014-05-14.
  */
 
-/** Theme Scripts that have to be run after ember templates load **/
-
 
 App.CoursesView = Ember.View.extend({
     didInsertElement: function() {
@@ -17,19 +15,24 @@ App.CoursesView = Ember.View.extend({
 });
 
 
+/** My Functions for fanciness**/
 
 
+
+/* Toggle for the courses page (Phone Gap Friendly) */
 function toggle(){
     $( ".panel-heading" ).click(function() {
-        if ($( this).next().css( "display")=="block"){
-            $(this).next().toggle('fast');
-            $(this).find('button').fadeOut('fast');
+        console.log($( this).next().css( "max-height"));
+        if ($( this).next().css( "height")<"50px"){
+            $( ".panel-collapse").transition({ height: '0' }, 0, 'snap');
+            $( "button.invisible").transition({ 'opacity': '0' }, 500, 'linear');
+
+            $(this).find('button.opacity-zero').transition({ 'opacity': '1' }, 500, 'snap');
+            $(this).next().transition({ height: '75px' }, 500, 'linear');
         }
         else{
-            $( ".panel-collapse").hide('fast');
-            $(this).next().toggle('fast');
-            $(this).find('button').fadeIn('fast');
-
+            $(this).next().transition({ height: '0px' }, 500, 'linear');
+            $(this).find('button').transition({ 'opacity': '0' }, 500, 'snap');
         }
     });
 }

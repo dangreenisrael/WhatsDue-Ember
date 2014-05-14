@@ -3,4 +3,15 @@ html{
     height: 100%;
 }
 
-.collapse, button {-webkit-transform:translateZ(0); }
+.panel-collapse {
+    height: 0;
+    display: block!important;
+    overflow: hidden;
+    margin-top: 10px;
+}
+
+button.opacity-zero{
+    opacity: 0;
+    margin-top: -2px;
+}
+
