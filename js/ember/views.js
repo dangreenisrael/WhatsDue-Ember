@@ -24,15 +24,16 @@ function toggle(){
     $( ".panel-heading" ).click(function() {
         console.log($( this).next().css( "max-height"));
         if ($( this).next().css( "height")<"50px"){
-            $( ".panel-collapse").transition({ height: '0' }, 0, 'snap');
-            $( "button.invisible").transition({ 'opacity': '0' }, 500, 'linear');
 
-            $(this).find('button.opacity-zero').transition({ 'opacity': '1' }, 500, 'snap');
-            $(this).next().transition({ height: '75px' }, 500, 'linear');
+            $( ".panel-collapse").css('height', '0');
+            $( "button").css('opacity', '0' );
+
+            $(this).find('button.opacity-zero').css('opacity', '1' );
+            $(this).next().css('height', '75px' );
         }
         else{
-            $(this).next().transition({ height: '0px' }, 500, 'linear');
-            $(this).find('button').transition({ 'opacity': '0' }, 500, 'snap');
+            $(this).next().css( 'height', '0px' );
+            $(this).find('button').css('opacity','0' );
         }
     });
 }

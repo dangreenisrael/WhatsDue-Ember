@@ -8,9 +8,10 @@ html{
     display: block!important;
     overflow: hidden;
     margin-top: 10px;
-    -webkit-backface-visibility: hidden;
-    -webkit-perspective: 1000;
-    -webkit-transform: translate3d(0, 0, 0);
+    -webkit-transform: translate3d(0,0,0);
+    transform: translate3d(0,0,0);
+    -webkit-transition: height 1s; /* For Safari 3.1 to 6.0 */
+    transition: height 1s;
 }
 
 button.opacity-zero{
