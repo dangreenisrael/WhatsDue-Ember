@@ -9,13 +9,14 @@
     <meta name="description" content="Flat, Clean, Responsive, admin template built with bootstrap 3">
     <meta name="viewport" content="width=device-width, user-scalable=1, initial-scale=1, maximum-scale=1">
 
-    <title>Cameo | Responsive Admin Dashboard</title>
+    <title>Whats Due</title>
 
     <!-- bootstrap -->
     <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
     <!-- /bootstrap -->
 
     <!-- core styles -->
+    <link rel="stylesheet" href="css/custom.css">
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="css/animate.min.css">
     <link rel="stylesheet" href="vendor/offline/theme.css">
@@ -33,7 +34,7 @@
 
 <!-- body -->
 
-<body>
+<body class="full-size">
     <script type='text/x-handlebars' data-template-name='application'>
         <div class="app" data-sidebar="locked">
         <!-- top header -->
@@ -68,11 +69,20 @@
                             </a>
                         {{/link-to}}
 
-                        {{#link-to 'courses' tagName='li'}}
+                        {{#link-to 'enrolled' tagName='li'}}
                         <a class="h4">
                             <i class="fa fa-coffee"></i>
                             <span>
-                                Courses
+                                My Courses
+                            </span>
+                        </a>
+                        {{/link-to}}
+
+                        {{#link-to 'courses.index' tagName='li'}}
+                        <a class="h4">
+                            <i class="fa fa-coffee"></i>
+                            <span>
+                                All Courses
                             </span>
                         </a>
                         {{/link-to}}
@@ -126,12 +136,16 @@
     <script src="js/libs/handlebars-1.0.0.js"></script>
     <script src="js/libs/ember.js"></script>
     <script src="js/libs/ember-data.js"></script>
+    <script src="js/libs/localstorage_adapter.js"></script>
     <!-- /Ember Core Scripts -->
 
     <!-- Ember Main Scripts -->
     <script src="js/ember/application.js"></script>
     <script src="js/ember/router.js"></script>
-    <script src="js/ember/models/whatsdue.js"></script>
+    <script src="js/ember/controllers.js"></script>
+    <script src="js/ember/models.js"></script>
+    <script src="js/ember/views.js"></script>
+
     <!-- /Ember Main Scripts -->
 
     <!-- Ember Templates -->
@@ -160,19 +174,20 @@
         </div>
     </script>
 
-    <script type="text/x-handlebars" data-template-name="courses">
+    <script type="text/x-handlebars" data-template-name="enrolled">
+            {{input type="text" value=searchTerm classNames='form-control input-rounded' id="search"}}
         <section class="panel bg-none">
             <div class="panel-group">
-                {{#each}}
-                <div class="panel" style="margin-top:7px">
+                {{#each course in content}}
+                <div class="panel list" style="margin-top:7px">
                     <div class="panel-heading">
                         <a data-toggle="collapse" data-parent="#accordion" class="collapsed">
-                            {{courseId}} - {{adminID}}
+                            {{course.courseId}} - {{course.adminID}} <button {{action "removeCourse" course}} class="pull-right">Delete</button>
                         </a>
                     </div>
                     <div class="panel-collapse collapse">
                         <div class="panel-body">
-                            {{courseDescription}}
+                            {{course.courseDescription}}
                         </div>
                     </div>
                 </div>
@@ -180,6 +195,29 @@
             </div>
         </section>
     </script>
+
+    <script type="text/x-handlebars" data-template-name="courses">
+        {{input type="text" value=searchTerm classNames='form-control input-rounded' id="search"}}
+        <section class="panel bg-none">
+            <div class="panel-group">
+                {{#each item in content }}
+                <div class="panel list" style="margin-top:7px">
+                    <div class="panel-heading">
+                        <a data-toggle="collapse" data-parent="#accordion" class="collapsed">
+                            {{item.courseId}} - {{item.adminID}}  <button style="display:none"  {{action "addCourse" item}} class="pull-right">Add Course</button>
+                        </a>
+                    </div>
+                    <div class="panel-collapse collapse">
+                        <div class="panel-body">
+                            {{item.courseDescription}}
+                        </div>
+                    </div>
+                </div>
+                {{/each}}
+            </div>
+        </section>
+    </script>
+
 
 </body>
 <!-- /body -->
