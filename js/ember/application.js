@@ -8,4 +8,6 @@ App.ApplicationAdapter = DS.LSAdapter.extend({
     namespace: 'whatsdue'
 });
 
+App.Store = DS.Store.extend({
 
+});

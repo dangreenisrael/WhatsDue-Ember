@@ -14,6 +14,15 @@ App.CoursesView = Ember.View.extend({
     }
 });
 
+App.AssignmentsView = Ember.View.extend({
+    didInsertElement: function() {
+        Ember.run.schedule('afterRender', this, 'processChildElements');
+    },
+    processChildElements: function() {
+        // do here what you want with the DOM
+
+    }
+});
 
 /** My Functions for fanciness**/
 

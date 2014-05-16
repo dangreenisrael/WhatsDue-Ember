@@ -6,20 +6,15 @@ App.CoursesController = Ember.ObjectController.extend({
     actions: {
         addCourse: function(course) {
             var store = this.store.createRecord('enrolled', {
-                courseId: course.get('courseId'),
+                courseName: course.get('courseName'),
                 courseDescription: course.get('courseDescription'),
-                adminID: course.get('adminID')
+                adminId: course.get('adminId'),
+                courseId: course.get('courseId')
             });
             store.save();
-            course.deleteRecord();
-
-
-
         }
     }
-
 });
-
 
 
 
@@ -30,6 +25,4 @@ App.EnrolledController = Ember.ObjectController.extend({
         }
     }
 });
-
-
 

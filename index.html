@@ -59,11 +59,11 @@
                 <!-- main navigation -->
                 <nav class="main-navigation">
                     <ul>
-                        {{#link-to 'dashboard' tagName='li'}}
+                        {{#link-to 'assignments' tagName='li'}}
                             <a class="h4">
                             <i class="fa fa-coffee"></i>
                             <span>
-                                Dashboard
+                                Assignments
                             </span>
                             </a>
                         {{/link-to}}
@@ -125,9 +125,11 @@
     <!-- page scripts -->
     <script src="vendor/bootstrap-select/bootstrap-select.js"></script>
     <script src="vendor/datatables/jquery.dataTables.js"></script>
+    <script src="vendor/jquery.transit.min.js"></script>
+    <script src="vendor/moment.min.js"></script>
+
     <script src="js/dashboard.js"></script>
     <script src="js/datatables.js"></script>
-    <script src="vendor/jquery.transit.min.js"></script>
     <!-- /page scripts -->
 
 
@@ -140,6 +142,7 @@
 
     <!-- Ember Main Scripts -->
     <script src="js/ember/application.js"></script>
+    <script src="js/ember/functions.js"></script>
     <script src="js/ember/router.js"></script>
     <script src="js/ember/controllers.js"></script>
     <script src="js/ember/models.js"></script>
@@ -148,10 +151,11 @@
     <!-- /Ember Main Scripts -->
 
     <!-- Ember Templates -->
+
     <script type="text/x-handlebars" data-template-name="dashboard">
         <div class="row mg-b">
             <div class="col-xs-12">
-                <h3 class="no-margin">My Assignments</h3>
+                <h3 class="no-margin">Dashboard</h3>
             </div>
 
         </div>
@@ -164,10 +168,38 @@
                             <i class="fa fa-microphone"></i>
                         </div>
                         <div>
-                            <h3 class="no-margin">5468</h3>
-                            New signups
+                            <h3 class="no-margin">more</h3>
+                            Cool Shit
                         </div>
                     </div>
+                </section>
+            </div>
+        </div>
+    </script>
+
+    <script type="text/x-handlebars" data-template-name="assignments">
+        <div class="row mg-b">
+            <div class="col-xs-12">
+                <h3 class="no-margin">My Assignments</h3>
+            </div>
+
+        </div>
+
+        <div class="row">
+            <div class="col-md-3 col-sm-6 col-xs-12">
+                <section class="panel">
+                    {{#each}}
+
+                    <div class="panel-body">
+                        <div class="circle-icon bg-success">
+                            <i class="fa fa-microphone"></i>
+                        </div>
+                        <div>
+                            <h3 class="no-margin time">{{dueDate}}</h3>
+                            {{assignment_name}}
+                        </div>
+                    </div>
+                    {{/each}}
                 </section>
             </div>
         </div>
@@ -181,7 +213,7 @@
                 <div class="panel list" style="margin-top:7px">
                     <div class="panel-heading">
                         <a data-toggle="collapse" data-parent="#accordion" class="collapsed">
-                            {{course.courseId}} - {{course.adminID}} <button {{action "removeCourse" course}} class="pull-right">Delete</button>
+                            {{course.courseName}} - {{course.adminId}} <button {{action "removeCourse" course}} class="pull-right">Delete</button>
                         </a>
                     </div>
                     <div class="panel-collapse collapse">
@@ -203,7 +235,7 @@
                 <div class="panel list h5" style="margin-top:7px">
                     <div class="panel-heading">
                         <a data-toggle="collapse" data-parent="#accordion" >
-                            {{item.courseId}} - {{item.adminID}}  <button  {{action "addCourse" item}} class="opacity-zero pull-right btn-rounded btn btn-default ">Add Course</button>
+                            {{item.enrolled}} {{item.courseName}} - {{item.adminId}}  <button  {{action "addCourse" item}} class="opacity-zero pull-right btn-rounded btn btn-default ">Add Course</button>
                         </a>
                     </div>
                     <div class="panel-collapse">
