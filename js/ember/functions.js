@@ -3,7 +3,7 @@
  */
 
 
-var site = "http://whats.due/app_dev.php";
+var site = "http://admin.whatsdueapp.com";
 
 /** Bringing In Data from the server **/
 
@@ -57,6 +57,8 @@ function getUpdates(url, parent, model, headers){
         }
     });
 }
+/** Start editing again **/
+
 
 function deleteAssignments(parent, course_ids){
     var i = 0;
