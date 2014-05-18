@@ -9,7 +9,7 @@ App.CoursesView = Ember.View.extend({
     },
     processChildElements: function() {
         // do here what you want with the DOM
-        courses();
+        toggle();
         filter('search');
     }
 });
@@ -20,7 +20,7 @@ App.EnrolledView = Ember.View.extend({
     },
     processChildElements: function() {
         // do here what you want with the DOM
-        courses();
+        toggle();
         filter('search');
     }
 });
@@ -36,31 +36,26 @@ App.AssignmentsView = Ember.View.extend({
 });
 
 
+
 /** My Functions for fanciness**/
 
 
 /* Toggle for the courses page (Phone Gap Friendly) */
-function courses(){
-    var hidden = {'height': '0px', 'opacity':'0' };
-    var visible = {'height': '75px', 'opacity':'1'}
+function toggle(){
     $( ".panel-heading" ).click(function() {
 
         if ($( this).next().css( "height")<"50px"){
 
-            $( ".panel-collapse").css(hidden);
+            $( ".panel-collapse").css('height', '0');
             $( "button").css('opacity', '0' );
 
             $(this).find('button.opacity-zero').css('opacity', '1' );
-            $(this).next().css(visible);
+            $(this).next().css('height', '75px' );
         }
         else{
-            $(this).next().css( hidden);
+            $(this).next().css( 'height', '0px' );
             $(this).find('button').css('opacity','0' );
         }
-    });
-
-    $(".remove").click(function(){
-       $(this).parents(".panel.list").css( hidden);
     });
 }
 

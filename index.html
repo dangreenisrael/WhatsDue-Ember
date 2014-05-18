@@ -1,16 +1,12 @@
 <!DOCTYPE html>
-<html class="no-js" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
+<html>
 
 <head>
-    <!-- meta -->
-    
-    
     <meta charset="utf-8">
     <meta name="description" content="Flat, Clean, Responsive, admin template built with bootstrap 3">
     <meta name="viewport" content="width=device-width, user-scalable=1, initial-scale=1, maximum-scale=1">
 
     <title>Whats Due</title>
-
     <!-- bootstrap -->
     <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
     <!-- /bootstrap -->
@@ -28,20 +24,15 @@
 
     <!-- load modernizer -->
     <script src="vendor/modernizr.js"></script>
-
 </head>
-
-<!-- body -->
 
 <body class="full-size">
     <script type='text/x-handlebars' data-template-name='application'>
         <div class="app" data-sidebar="locked">
         <!-- top header -->
         <header class="header header-fixed navbar bg-white">
-
             <div class="brand bg-success">
                 <a href="#" class="fa fa-bars off-left visible-xs" data-toggle="off-canvas" data-move="ltr"></a>
-
                 <a href="index.html" class="navbar-brand text-white">
                     <i class="fa fa-microphone mg-r-xs"></i>
                     <span>Cameo
@@ -49,7 +40,6 @@
                     </span>
                 </a>
             </div>
-
         </header>
         <!-- /top header -->
 
@@ -85,8 +75,6 @@
                             </span>
                         </a>
                         {{/link-to}}
-
-
                     </ul>
                 </nav>
                 <!-- /main navigation -->
@@ -107,31 +95,24 @@
     </div>
     </script>
 
-
-    <script src="js/libs/jquery-1.10.2.min.js"></script>
-
     <!-- core scripts -->
+    <script src="js/libs/jquery-1.10.2.min.js"></script>
     <script src="bootstrap/js/bootstrap.js"></script>
     <!-- /core scripts -->
-
 
     <!-- theme scripts -->
     <script src="js/off-canvas.js"></script>
     <script src="js/main.js"></script>
-
     <!-- /theme scripts -->
-
 
     <!-- page scripts -->
     <script src="vendor/bootstrap-select/bootstrap-select.js"></script>
     <script src="vendor/datatables/jquery.dataTables.js"></script>
     <script src="vendor/jquery.transit.min.js"></script>
     <script src="vendor/moment.min.js"></script>
-
     <script src="js/dashboard.js"></script>
     <script src="js/datatables.js"></script>
     <!-- /page scripts -->
-
 
     <!-- Ember Core Scripts -->
     <script src="js/libs/handlebars-1.0.0.js"></script>
@@ -141,55 +122,28 @@
     <!-- /Ember Core Scripts -->
 
     <!-- Ember Main Scripts -->
-    <script src="js/ember/application.js"></script>
     <script src="js/ember/functions.js"></script>
+    <script src="js/ember/application.js"></script>
     <script src="js/ember/router.js"></script>
     <script src="js/ember/controllers.js"></script>
     <script src="js/ember/models.js"></script>
     <script src="js/ember/views.js"></script>
+    <script src="js/ember/components.js"></script>
 
     <!-- /Ember Main Scripts -->
 
-    <!-- Ember Templates -->
-
-    <script type="text/x-handlebars" data-template-name="dashboard">
-        <div class="row mg-b">
-            <div class="col-xs-12">
-                <h3 class="no-margin">Dashboard</h3>
-            </div>
-
-        </div>
-
-        <div class="row">
-            <div class="col-md-3 col-sm-6 col-xs-12">
-                <section class="panel">
-                    <div class="panel-body">
-                        <div class="circle-icon bg-success">
-                            <i class="fa fa-microphone"></i>
-                        </div>
-                        <div>
-                            <h3 class="no-margin">more</h3>
-                            Cool Shit
-                        </div>
-                    </div>
-                </section>
-            </div>
-        </div>
-    </script>
+    <!-- Handlebars Templates -->
 
     <script type="text/x-handlebars" data-template-name="assignments">
         <div class="row mg-b">
             <div class="col-xs-12">
                 <h3 class="no-margin">My Assignments</h3>
             </div>
-
         </div>
-
         <div class="row">
             <div class="col-md-3 col-sm-6 col-xs-12">
                 <section class="panel">
                     {{#each}}
-
                     <div class="panel-body">
                         <div class="circle-icon bg-success">
                             <i class="fa fa-microphone"></i>
@@ -210,18 +164,7 @@
         <section class="panel bg-none">
             <div class="panel-group">
                 {{#each course in content}}
-                <div class="panel list" style="margin-top:7px">
-                    <div class="panel-heading">
-                        <a data-toggle="collapse" data-parent="#accordion" class="collapsed">
-                            {{course.courseName}} - {{course.adminId}} <button {{action "removeCourse" course}} class="pull-right">Delete</button>
-                        </a>
-                    </div>
-                    <div class="panel-collapse collapse">
-                        <div class="panel-body">
-                            {{course.courseDescription}}
-                        </div>
-                    </div>
-                </div>
+                        {{course-info chooseCourse="removeCourse" course = course chooseCourseLabel = "Remove Course"}}
                 {{/each}}
             </div>
         </section>
@@ -231,26 +174,28 @@
         {{input type="text" value=searchTerm classNames='form-control input-rounded' id="search"}}
         <section class="panel bg-none">
             <div class="panel-group">
-                {{#each item in content }}
-                <div class="panel list h5" style="margin-top:7px">
-                    <div class="panel-heading">
-                        <a data-toggle="collapse" data-parent="#accordion" >
-                            {{item.enrolled}} {{item.courseName}} - {{item.adminId}}  <button  {{action "addCourse" item}} class="opacity-zero pull-right btn-rounded btn btn-default ">Add Course</button>
-                        </a>
-                    </div>
-                    <div class="panel-collapse">
-                        <div class="panel-body">
-                            {{item.courseDescription}}
-                        </div>
-                    </div>
-                </div>
+                {{#each course in content }}
+                    {{course-info chooseCourse = "addCourse" course = course chooseCourseLabel = "Add Course"}}
                 {{/each}}
             </div>
         </section>
     </script>
 
+    <script type="text/x-handlebars" data-template-name="components/course-info">
+        <div class="panel list h5" style="margin-top:7px">
+            <div class="panel-heading">
+                <a data-toggle="collapse" data-parent="#accordion" >
+                    {{course.course_name}} - {{course.admin_id}}  <button  {{action "chooseCourse" item}} class="remove opacity-zero pull-right btn-rounded btn btn-default ">{{chooseCourseLabel}}</button>
+                </a>
+            </div>
+            <div class="panel-collapse">
+                <div class="panel-body">
+                    {{course.course_description}}
+                </div>
+            </div>
+        </div>
+    </script>
 
 </body>
-<!-- /body -->
 
 </html>

@@ -4,21 +4,23 @@
 
 App.CoursesController = Ember.ObjectController.extend({
     actions: {
-        addCourse: function(course) {
-            course = course.course;
-            addRecentlyUnRemovedCourse(course.id)
+        addCourse: function(action) {
+            var course = action;
+            console.log(course)
             course.set('enrolled', true);
             course.save();
+            course.deleteRecord();
+            course.rollback();
         }
     }
 });
 
 
+
 App.EnrolledController = Ember.ObjectController.extend({
     actions: {
         removeCourse: function(course) {
-            course = course.course;
-            addRecentlyRemovedCourse(course.id);
+            console.log(1)
             course.set('enrolled', false);
             course.save();
         }

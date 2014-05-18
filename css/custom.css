@@ -3,14 +3,16 @@ html{
     height: 100%;
 }
 
-.panel-collapse {
+.panel.list, .panel-collapse{
+    -webkit-transform: translate3d(0,0,0);
+    transform: translate3d(0,0,0);
+    transition: all 0.2s;
+}
+ .panel-collapse {
     height: 0;
     display: block!important;
     overflow: hidden;
     margin-top: 10px;
-    -webkit-transform: translate3d(0,0,0);
-    transform: translate3d(0,0,0);
-    transition: height 0.2s;
 }
 
 button.opacity-zero{

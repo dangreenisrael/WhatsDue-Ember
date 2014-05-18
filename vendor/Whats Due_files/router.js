@@ -12,9 +12,13 @@ App.Router.map(function(){
     })
 });
 
+App.ApplicationRoute = Ember.Route.extend({
+    model: function() {
+    }
+});
+
 App.CoursesRoute = Ember.Route.extend({
     model: function() {
-        console.log()
         var headers = {
             "timestamp":"1"
             };
@@ -33,6 +37,6 @@ App.AssignmentsRoute = Ember.Route.extend({
     model: function() {
         //deleteAll(this, 'assignment')
         updateAssignments(this)
-        return this.store.find('assignment', {'enrolled': true});
+        return this.store.find('assignment');
     }
 });
