@@ -24,9 +24,16 @@ function updateAssignments(parent){
             });
         }
    );
-   deleteAssignments(parent, getRecentlyDeletedCourses());
-   unDeleteAssignments(parent, getRecentlyUnDeletedCourses());
-}
+    var recentlyDeleted = getRecentlyDeletedCourses();
+    var recentlyUnDeleted = getRecentlyUnDeletedCourses();
+
+    if (recentlyDeleted != 'null' && recentlyDeleted != null){
+        deleteAssignments(parent, recentlyDeleted);
+    }
+
+    if (recentlyUnDeleted != 'null' && recentlyUnDeleted != null){
+        unDeleteAssignments(parent, recentlyUnDeleted);
+    }}
 
 /** This gets ALL different types of updates - DON'T fucking touch this **/
 function getUpdates(url, parent, model, headers){
@@ -135,12 +142,20 @@ function addRecentlyUnRemovedCourse(courseId){
 
 function getRecentlyDeletedCourses(){
     var serialized = localStorage.getItem('whatsdue-recentlyDeletedCourses');
-    return serialized.split(',');
+    var unSerialized = null;
+    if (serialized != 'null' && serialized != null){
+        unSerialized = serialized.split(',')
+    }
+    return unSerialized;
 }
 
 function getRecentlyUnDeletedCourses(){
     var serialized = localStorage.getItem('whatsdue-recentlyUnRemovedCourses');
-    return serialized.split(',');
+    var unSerialized = null;
+    if (serialized != 'null' && serialized != null){
+        unSerialized = serialized.split(',')
+    }
+    return unSerialized;
 }
 
 function wipeRecentlyDeletedCourses(){
@@ -152,4 +167,4 @@ function wipeRecentlyUnDeletedCourses(){
 }
 //wipeRecentlyDeletedCourses();
 //addRecentlyDeletedCourse(41)
-console.log(getRecentlyDeletedCourses())
+//console.log(getRecentlyDeletedCourses())
