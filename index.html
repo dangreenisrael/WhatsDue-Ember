@@ -22,6 +22,12 @@
     <link rel="stylesheet" href="vendor/datatables/jquery.dataTables.css">
     <!-- /page styles -->
 
+
+    <!-- Custom Stuff -->
+    <link rel="stylesheet" href="vendor/switchery/switchery.min.css" />
+    <script src="vendor/switchery/switchery.min.js"></script>
+
+    <!-- /Custom Stuff -->
     <!-- load modernizer -->
     <script src="vendor/modernizr.js"></script>
 </head>
@@ -58,7 +64,7 @@
                             </a>
                         {{/link-to}}
 
-                        {{#link-to 'enrolled' tagName='li'}}
+                        {{#link-to 'courses' tagName='li'}}
                         <a class="h4">
                             <i class="fa fa-coffee"></i>
                             <span>
@@ -67,7 +73,7 @@
                         </a>
                         {{/link-to}}
 
-                        {{#link-to 'courses.index' tagName='li'}}
+                        {{#link-to 'courses' tagName='li'}}
                         <a class="h4">
                             <i class="fa fa-coffee"></i>
                             <span>
@@ -75,6 +81,7 @@
                             </span>
                         </a>
                         {{/link-to}}
+
                     </ul>
                 </nav>
                 <!-- /main navigation -->
@@ -88,6 +95,7 @@
                     {{outlet}}
                 </div>
                 <!-- /content wrapper -->
+                <div class="site-overlay"></div>
             </section>
             <!-- /main content -->
         </section>
@@ -113,6 +121,7 @@
     <script src="js/dashboard.js"></script>
     <script src="js/datatables.js"></script>
     <script src="vendor/fastclick.js"></script>
+    <script src="vendor/switchery/switchery.min.js"></script>
     <!-- /page scripts -->
 
     <!-- Ember Core Scripts -->
@@ -144,6 +153,8 @@
         <div class="row">
             <div class="col-md-3 col-sm-6 col-xs-12">
                 <section class="panel">
+
+
                     {{#each}}
                     <div class="panel-body">
                         <div class="circle-icon bg-success">
@@ -171,32 +182,75 @@
         </section>
     </script>
 
-    <script type="text/x-handlebars" data-template-name="courses">
-        {{input type="text" value=searchTerm classNames='form-control input-rounded' id="search"}}
-        <section class="panel bg-none">
-            <div class="panel-group">
-                {{#each course in content }}
-                    {{course-info chooseCourse = "addCourse" course = course chooseCourseLabel = "Add Course"}}
-                {{/each}}
-            </div>
-        </section>
-    </script>
 
-    <script type="text/x-handlebars" data-template-name="components/course-info">
-        <div class="panel list h5" style="margin-top:7px">
-            <div class="panel-heading">
-                <a data-toggle="collapse" data-parent="#accordion" >
-                    {{course.course_name}} - {{course.admin_id}}  <button  {{action "chooseCourse" item}} class="remove opacity-zero pull-right btn-rounded btn btn-default ">{{chooseCourseLabel}}</button>
-                </a>
-            </div>
-            <div class="panel-collapse">
-                <div class="panel-body">
-                    {{course.course_description}}
+
+    <script type="text/x-handlebars" data-template-name="courses">
+        <!-- sidebar details -->
+        <aside class="details-sidebar canvas-right bg-dark pull-right">
+            <div class="slimscroll" data-height="auto" data-size="6px" data-distance="0">
+                <div class="row pd-md right-sidebar-content">
+                    {{outlet}}
                 </div>
             </div>
+        </aside>
+        <!-- /sidebar details -->
+        {{input type="text" value=searchTerm classNames='form-control input-rounded' id="search"}}
+        &nbsp;&nbsp;
+
+        {{#each course in content}}
+
+        <div class="col-md-3 col-sm-6 col-xs-12 toggle-right">
+            <section class="panel list">
+                {{#link-to 'courses.profile' course }}
+                <div class="panel-body">
+                    <div class="circle-icon bg-success">
+                        <i class="fa fa-microphone"></i>
+                    </div>
+                    <div>
+                        <h3 class="no-margin">{{course.admin_id}}</h3>
+                        {{course.course_name}}
+                    </div>
+                </div>
+                {{/link-to}}
+            </section>
+        </div>
+
+        {{/each}}
+
+
+    </script>
+
+    <script type="text/x-handlebars" data-template-name="courses/profile">
+        <br/>
+        <br/>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            <section class="panel position-relative">
+                <div class="ribbon ribbon-danger">
+                    <div class="banner">
+                        <div class="text">New Course</div>
+                    </div>
+                </div>
+                <div class="panel-body">
+
+                    <div>{{course_name}}
+                        <i class="fa fa-star toggle-active mg-l-xs mg-r-xs active"></i>
+                    </div>
+                    <small>{{admin_id}}</small>
+                    <p class="mg-t-xs">
+                        <span class="label label-primary">Facebook</span>
+                        <span class="label label-info">Twitter</span>
+                        <span class="label label-danger">Dribbble</span>
+                    </p>
+                    <p>
+                        {{course_description}}
+                    </p>
+
+                    <button type="button" class="btn btn-info btn-outline btn-rounded" {{action 'changeCourse'}}>Add Course</button>
+
+                </div>
+            </section>
         </div>
     </script>
 
 </body>
-
 </html>

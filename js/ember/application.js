@@ -11,3 +11,5 @@ App.ApplicationAdapter = DS.LSAdapter.extend({
 App.Store = DS.Store.extend({
 
 });
+
+App.inject('controller', 'store', 'store:main')

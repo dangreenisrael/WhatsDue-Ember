@@ -3,7 +3,7 @@
  */
 
 
-var site = "http://admin.whatsdueapp.com";
+var site = "http://whats.due/app_dev.php";
 
 /** Bringing In Data from the server **/
 
@@ -33,7 +33,8 @@ function updateAssignments(parent){
 
     if (recentlyUnDeleted != 'null' && recentlyUnDeleted != null){
         unDeleteAssignments(parent, recentlyUnDeleted);
-    }}
+    }
+}
 
 /** This gets ALL different types of updates - DON'T fucking touch this **/
 function getUpdates(url, parent, model, headers){
