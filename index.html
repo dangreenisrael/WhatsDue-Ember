@@ -194,28 +194,31 @@
             </div>
         </aside>
         <!-- /sidebar details -->
-        {{input type="text" value=searchTerm classNames='form-control input-rounded' id="search"}}
-        &nbsp;&nbsp;
 
-        {{#each course in content}}
+        <section class="panel panel-primary">
+            <div class="panel-heading">
 
-        <div class="col-md-3 col-sm-6 col-xs-12 toggle-right">
-            <section class="panel list">
+                {{input type="text" value=searchTerm classNames='form-control input-rounded' id="search"}}
+            </div>
+            <ul class="list-group list">
+
+
+                {{#each course in content}}
                 {{#link-to 'courses.profile' course }}
-                <div class="panel-body">
-                    <div class="circle-icon bg-success">
-                        <i class="fa fa-microphone"></i>
-                    </div>
-                    <div>
-                        <h3 class="no-margin">{{course.admin_id}}</h3>
+                <li class="list-group-item toggle-right">
+                    <div class="show no-margin pd-t-xs">
                         {{course.course_name}}
+                        <small class="pull-right">{{course.admin_id}}</small>
                     </div>
-                </div>
-                {{/link-to}}
-            </section>
-        </div>
+                    <small class="text-muted">IDC Herzliya</small>
+                </li>
 
-        {{/each}}
+                {{/link-to}}
+
+                {{/each}}
+            </ul>
+        </section>
+
 
 
     </script>
@@ -227,26 +230,22 @@
             <section class="panel position-relative">
                 <div class="ribbon ribbon-danger">
                     <div class="banner">
-                        <div class="text">New Course</div>
+                        <div class="text">{{admin_id}}</div>
                     </div>
                 </div>
-                <div class="panel-body">
+                <div class="panel-body black">
 
-                    <div>{{course_name}}
-                        <i class="fa fa-star toggle-active mg-l-xs mg-r-xs active"></i>
+                    <div>
+                        <h4>
+                            {{course_name}}
+                        </h4>
                     </div>
-                    <small>{{admin_id}}</small>
-                    <p class="mg-t-xs">
-                        <span class="label label-primary">Facebook</span>
-                        <span class="label label-info">Twitter</span>
-                        <span class="label label-danger">Dribbble</span>
-                    </p>
+
                     <p>
                         {{course_description}}
                     </p>
 
                     <button type="button" class="btn btn-info btn-outline btn-rounded" {{action 'changeCourse'}}>Add Course</button>
-
                 </div>
             </section>
         </div>

@@ -6,7 +6,6 @@ App.Router.map(function(){
 
     this.resource('courses', function(){
         this.route('profile', { path: "/:id" });
-        this.route('all', {path: "/all"})
     });
     /*this.resource('courses', function(){
         this.route('enrolled', {path: '/enrolled'});

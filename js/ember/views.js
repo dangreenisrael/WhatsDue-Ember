@@ -8,10 +8,6 @@ App.CoursesView = Ember.View.extend({
         Ember.run.schedule('afterRender', this, 'processChildElements');
         filter('search');
         toggleRight();
-    },
-
-    processChildElements: function() {
-        filter('search');
     }
 });
 
@@ -31,12 +27,16 @@ App.AssignmentsView = Ember.View.extend({
 
 function filter(textArea){
     $('#'+textArea).keyup(function(){
-        var search = $(this).val().toLowerCase();
-        $('.list').each(function(){
-            var text = $(this).find('a').text().toLowerCase();
-            console.log(text);
-            if(text.indexOf(search) < 0){
-                $(this).hide();
+        var searchTerm = $(this).val();
+        $('.list li').each(function(){
+            var text = $(this).text().toLowerCase();
+            if (searchTerm != "") {
+                if(text.indexOf(searchTerm) > 0){
+                    $(this).show();
+                }
+                else{
+                    $(this).hide();
+                }
             }
             else{
                 $(this).show();
@@ -49,9 +49,5 @@ function filter(textArea){
 function toggleRight(){
     $('.toggle-right').click(function(){
        $('.app').addClass('move-right off-canvas');
-       //var html = $( ".right-sidebar-move").clone(true,true);
-       //var sidebar = $('.right-sidebar-content');
-       //sidebar.empty();
-       //sidebar.html(html);
     })
 }
