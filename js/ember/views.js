@@ -2,10 +2,15 @@
  * Created by dan on 2014-05-14.
  */
 
-
-App.CoursesView = Ember.View.extend({
+App.EnrolledView = Ember.View.extend({
     didInsertElement: function() {
-        Ember.run.schedule('afterRender', this, 'processChildElements');
+        filter('search');
+        toggleRight();
+    }
+});
+
+App.UnenrolledView = Ember.View.extend({
+    didInsertElement: function() {
         filter('search');
         toggleRight();
     }
@@ -14,10 +19,7 @@ App.CoursesView = Ember.View.extend({
 
 App.AssignmentsView = Ember.View.extend({
     didInsertElement: function() {
-        Ember.run.schedule('afterRender', this, 'processChildElements');
-    },
-    processChildElements: function() {
-        // do here what you want with the DOM
+
     }
 });
 
@@ -49,5 +51,5 @@ function filter(textArea){
 function toggleRight(){
     $('.toggle-right').click(function(){
        $('.app').addClass('move-right off-canvas');
-    })
+    });
 }

@@ -3,50 +3,36 @@
  */
 
 App.Router.map(function(){
-
-    this.resource('courses', function(){
+    this.resource('enrolled', function(){
         this.route('profile', { path: "/:id" });
     });
-    /*this.resource('courses', function(){
-        this.route('enrolled', {path: '/enrolled'});
-        this.route('new', {path: '/new'});
-    })
-    */
-    /*
-    this.resource('course', { path: '/course/:course_id' }, function() {
-        this.route('edit');
-        this.resource('comments', function() {
-            this.route('new');
-        });
+
+    this.resource('unenrolled', function(){
+        this.route('profile', { path: "/:id" });
     });
-    */
 
     this.route('assignments', {path: '/'}, function(){
         this.resource('assignments', {path: '/:assignment_assignmentID'});
     })
 });
 
-
-App.CoursesRoute = Ember.Route.extend({
+App.UnenrolledRoute = Ember.Route.extend({
     model: function() {
         var headers = {
             };
         getUpdates("/all/courses", this, 'course', headers);
-        return this.store.find('course');
+        return this.store.find('course', {'enrolled': false});
     }
 });
 
-
-
-App.CoursesAllRoute = Ember.Route.extend({
-    model: function(){
-        return this.store.find('course')
+App.EnrolledRoute = Ember.Route.extend({
+    model: function() {
+        return this.store.find('course', {'enrolled': true});
     }
 });
 
 App.AssignmentsRoute = Ember.Route.extend({
     model: function() {
-        //deleteAll(this, 'assignment')
         updateAssignments(this)
         return this.store.find('assignment', {'enrolled': true});
     }

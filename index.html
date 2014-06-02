@@ -64,7 +64,7 @@
                             </a>
                         {{/link-to}}
 
-                        {{#link-to 'courses' tagName='li'}}
+                        {{#link-to 'enrolled' tagName='li'}}
                         <a class="h4">
                             <i class="fa fa-coffee"></i>
                             <span>
@@ -73,11 +73,11 @@
                         </a>
                         {{/link-to}}
 
-                        {{#link-to 'courses' tagName='li'}}
+                        {{#link-to 'unenrolled' tagName='li'}}
                         <a class="h4">
                             <i class="fa fa-coffee"></i>
                             <span>
-                                All Courses
+                                Add Courses
                             </span>
                         </a>
                         {{/link-to}}
@@ -171,20 +171,8 @@
         </div>
     </script>
 
+
     <script type="text/x-handlebars" data-template-name="enrolled">
-            {{input type="text" value=searchTerm classNames='form-control input-rounded' id="search"}}
-        <section class="panel bg-none">
-            <div class="panel-group">
-                {{#each course in content}}
-                        {{course-info chooseCourse="removeCourse" course = course chooseCourseLabel = "Remove Course"}}
-                {{/each}}
-            </div>
-        </section>
-    </script>
-
-
-
-    <script type="text/x-handlebars" data-template-name="courses">
         <!-- sidebar details -->
         <aside class="details-sidebar canvas-right bg-dark pull-right">
             <div class="slimscroll" data-height="auto" data-size="6px" data-distance="0">
@@ -194,58 +182,86 @@
             </div>
         </aside>
         <!-- /sidebar details -->
-
         <section class="panel panel-primary">
             <div class="panel-heading">
-
                 {{input type="text" value=searchTerm classNames='form-control input-rounded' id="search"}}
             </div>
             <ul class="list-group list">
-
-
                 {{#each course in content}}
-                {{#link-to 'courses.profile' course }}
-                <li class="list-group-item toggle-right">
-                    <div class="show no-margin pd-t-xs">
-                        {{course.course_name}}
-                        <small class="pull-right">{{course.admin_id}}</small>
-                    </div>
-                    <small class="text-muted">IDC Herzliya</small>
-                </li>
-
-                {{/link-to}}
-
+                    {{#link-to 'enrolled.profile' course }}
+                        <li class="list-group-item toggle-right">
+                            <div class="show no-margin pd-t-xs">
+                                {{course.course_name}}
+                                <small class="pull-right">{{course.admin_id}}</small>
+                            </div>
+                            <small class="text-muted">IDC Herzliya</small>
+                        </li>
+                    {{/link-to}}
                 {{/each}}
             </ul>
         </section>
-
-
-
     </script>
 
-    <script type="text/x-handlebars" data-template-name="courses/profile">
+    <script type="text/x-handlebars" data-template-name="enrolled/profile">
+        {{course-profile toggleCourse="removeCourse" name=course_name description = course_description add_remove="Remove Course" }}
+    </script>
+
+    <script type="text/x-handlebars" data-template-name="unenrolled">
+        <!-- sidebar details -->
+        <aside class="details-sidebar canvas-right bg-dark pull-right">
+            <div class="slimscroll" data-height="auto" data-size="6px" data-distance="0">
+                <div class="row pd-md right-sidebar-content">
+                    {{outlet}}
+                </div>
+            </div>
+        </aside>
+        <!-- /sidebar details -->
+        <section class="panel panel-primary">
+            <div class="panel-heading">
+                {{input type="text" value=searchTerm classNames='form-control input-rounded' id="search"}}
+            </div>
+            <ul class="list-group list">
+                {{#each course in content}}
+                    {{#link-to 'unenrolled.profile' course }}
+                        <li class="list-group-item toggle-right">
+                            <div class="show no-margin pd-t-xs">
+                                {{course.course_name}}
+                                <small class="pull-right">{{course.admin_id}}</small>
+                            </div>
+                            <small class="text-muted">IDC Herzliya</small>
+                        </li>
+                    {{/link-to}}
+                {{/each}}
+            </ul>
+        </section>
+    </script>
+
+    <script type="text/x-handlebars" data-template-name="unenrolled/profile">
+        {{course-profile toggleCourse="addCourse" name=course_name description = course_description add_remove="Add Course" }}
+    </script>
+
+
+
+    <script type="text/x-handlebars" data-template-name="components/course-profile">
         <br/>
         <br/>
         <div class="col-md-6 col-sm-6 col-xs-12">
             <section class="panel position-relative">
                 <div class="ribbon ribbon-danger">
                     <div class="banner">
-                        <div class="text">{{admin_id}}</div>
+                        <div class="text">IDC Herzliya</div>
                     </div>
                 </div>
                 <div class="panel-body black">
-
                     <div>
                         <h4>
-                            {{course_name}}
+                            {{name}}
                         </h4>
                     </div>
-
                     <p>
-                        {{course_description}}
+                        {{description}}
                     </p>
-
-                    <button type="button" class="btn btn-info btn-outline btn-rounded" {{action 'changeCourse'}}>Add Course</button>
+                    <button type="button" class="btn btn-info btn-outline btn-rounded" {{action 'toggleCourse'}}>{{add_remove}}</button>
                 </div>
             </section>
         </div>
