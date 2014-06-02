@@ -2,7 +2,6 @@
  * Created by dan on 2014-05-13.
  */
 
-
 App.EnrolledProfileController = Ember.ObjectController.extend({
     needs:   'assignment',
     actions: {
@@ -18,13 +17,11 @@ App.EnrolledProfileController = Ember.ObjectController.extend({
                        rec.save();
                    });
                }, this);
-
             });
             this.transitionToRoute('unenrolled').then(function(){
                 $('.app').removeClass('move-right off-canvas');
             });
         }
-
     }
 });
 
@@ -34,20 +31,27 @@ App.UnenrolledProfileController = Ember.ObjectController.extend({
             var course = this.get('model');
             course.set('enrolled', true);
             course.save();
+
             getUpdates('/assignments', this, 'assignment', {
                 'courses': "[" + this.get('id') + "]",
                 'sendAll': true
             });
-            this.transitionToRoute('assignments').then(function(){
+            this.transitionToRoute('enrolled').then(function(){
                 $('.app').removeClass('move-right off-canvas');
             });
         }
     }
 });
 
+App.AssignmentController = Ember.ArrayController.extend({
+});
 
-
-
-App.AssignmentController = Ember.ObjectController.extend({
+App.AssignmentInfoController = Ember.ObjectController.extend({
 
 });
+
+
+App.AssignmentsController = Ember.ArrayController.extend({
+    sortProperties: ['due_date']
+});
+

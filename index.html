@@ -40,9 +40,7 @@
             <div class="brand bg-success">
                 <a href="#" class="fa fa-bars off-left visible-xs" data-toggle="off-canvas" data-move="ltr"></a>
                 <a href="index.html" class="navbar-brand text-white">
-                    <i class="fa fa-microphone mg-r-xs"></i>
-                    <span>Cameo
-                        <b>ADMIN</b>
+                    <span>Whats<b>Due</b>
                     </span>
                 </a>
             </div>
@@ -145,29 +143,61 @@
     <!-- Handlebars Templates -->
 
     <script type="text/x-handlebars" data-template-name="assignments">
-        <div class="row mg-b">
-            <div class="col-xs-12">
-                <h3 class="no-margin">My Assignments</h3>
+        <!-- sidebar details -->
+        <aside class="details-sidebar canvas-right bg-dark pull-right">
+            <div class="slimscroll" data-height="auto" data-size="6px" data-distance="0">
+                <div class="row pd-md right-sidebar-content">
+                    {{outlet}}
+                </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="col-md-3 col-sm-6 col-xs-12">
-                <section class="panel">
-
-
-                    {{#each}}
-                    <div class="panel-body">
-                        <div class="circle-icon bg-success">
-                            <i class="fa fa-microphone"></i>
-                        </div>
-                        <div>
-                            <h3 class="no-margin time">{{dueDate}}</h3>
-                            {{assignment_name}}
-                        </div>
+        </aside>
+        <!-- /sidebar details -->
+        <section class="panel panel-primary">
+            <div class="panel-heading">
+                {{input type="text" value=searchTerm classNames='form-control input-rounded' id="search"}}
+            </div>
+            <ul class="list-group list">
+                {{#each assignment in content}}
+                {{#link-to 'assignments.info' assignment}}
+                <li class="list-group-item toggle-right">
+                    <div class="show no-margin pd-t-xs">
+                        {{assignment.assignment_name}}
+                        <small class="pull-right">{{assignment.dueDate}}</small>
                     </div>
-                    {{/each}}
-                </section>
+                    <small class="text-muted">{{assignment.owner.course_name}}</small>
+                </li>
+                {{/link-to}}
+                {{/each}}
+            </ul>
+        </section>
+
+    </script>
+
+    <script type="text/x-handlebars" data-template-name="assignments/info">
+
+        <div class="col-sm-12">
+        <section class="panel no-border overflow-hidden">
+            <div class="bg-info pd-md clearfix">
+
+
+                <div class="h3 mg-t-xs mg-b-xs">{{assignment_name}}</div>
+                <small>{{owner.course_name}}</small>
             </div>
+
+
+            <div class="panel-body black">
+                {{description}}
+            </div>
+
+            <div class="row no-margin">
+                <div class="col-sm-12 bg-warning pd-md text-center">
+                        <span class="h4">
+                        <i class="fa fa-clock-o"></i> {{dueDate}}
+                        </span>
+                </div>
+            </div>
+
+        </section>
         </div>
     </script>
 
@@ -239,8 +269,6 @@
     <script type="text/x-handlebars" data-template-name="unenrolled/profile">
         {{course-profile toggleCourse="addCourse" name=course_name description = course_description add_remove="Add Course" }}
     </script>
-
-
 
     <script type="text/x-handlebars" data-template-name="components/course-profile">
         <br/>

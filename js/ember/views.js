@@ -19,7 +19,8 @@ App.UnenrolledView = Ember.View.extend({
 
 App.AssignmentsView = Ember.View.extend({
     didInsertElement: function() {
-
+        filter('search');
+        toggleRight();
     }
 });
 

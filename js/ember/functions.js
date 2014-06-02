@@ -50,6 +50,7 @@ function getUpdates(url, parent, model, headers){
             localStorage.setItem("timestamp_"+model, newTimestamp);
             $.each(response, function(i, record) {
                 if (record.created_at == record.last_modified){
+                    record.owner = parent.get('content');
                     currentRecord = store.createRecord(model,record);
                     currentRecord.save();
                 }

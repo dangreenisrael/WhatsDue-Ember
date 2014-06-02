@@ -11,8 +11,8 @@ App.Router.map(function(){
         this.route('profile', { path: "/:id" });
     });
 
-    this.route('assignments', {path: '/'}, function(){
-        this.resource('assignments', {path: '/:assignment_assignmentID'});
+    this.resource('assignments', {path: '/'}, function(){
+        this.route('info', {path: '/:id'});
     })
 });
 
@@ -34,6 +34,7 @@ App.EnrolledRoute = Ember.Route.extend({
 App.AssignmentsRoute = Ember.Route.extend({
     model: function() {
         updateAssignments(this)
+        //deleteAll(this, 'assignment')
         return this.store.find('assignment', {'enrolled': true});
     }
 });
