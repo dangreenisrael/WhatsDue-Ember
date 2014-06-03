@@ -1,8 +1,13 @@
 
-html, body, .ember-view, .app, .layout, .main-content {
+html,body{
     height: 100%;
-    overflow-y: scroll;
-    overflow-x: hidden;
+}
+
+html{
+    background-color: white!important;
+}
+body{
+    background-color: #ebeef1!important;
 }
 
 button.opacity-zero{
