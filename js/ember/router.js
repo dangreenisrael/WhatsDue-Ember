@@ -34,7 +34,6 @@ App.EnrolledRoute = Ember.Route.extend({
 App.AssignmentsRoute = Ember.Route.extend({
     model: function() {
         updateAssignments(this)
-        //deleteAll(this, 'assignment')
         return this.store.find('assignment', {'enrolled': true});
     }
 });

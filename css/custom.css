@@ -3,12 +3,6 @@ html{
     height: 100%;
 }
 
-.app{
-   // position: absolute!important;
-    height: 100%;
-    width: 100%;
-    overflow: scroll;
-}
 
 button.opacity-zero{
     opacity: 0;
@@ -17,4 +11,9 @@ button.opacity-zero{
 
 .black{
     color: black;
+}
+
+
+button.reset{
+    margin-top: -5px;
 }

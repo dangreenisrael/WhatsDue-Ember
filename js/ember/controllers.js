@@ -2,6 +2,22 @@
  * Created by dan on 2014-05-13.
  */
 
+App.ApplicationController = Ember.Controller.extend({
+    actions: {
+        reset: function() {
+            deleteAll(this, 'assignment');
+            deleteAll(this, 'course');
+            localStorage.setItem("timestamp_assignment", 0);
+            localStorage.setItem("timestamp_course", 0);
+            var headers = {
+                sendAll:true
+            };
+            getUpdates("/all/courses", this, 'course', headers);
+        }
+    }
+});
+
+
 App.EnrolledProfileController = Ember.ObjectController.extend({
     needs:   'assignment',
     actions: {
@@ -31,7 +47,6 @@ App.UnenrolledProfileController = Ember.ObjectController.extend({
             var course = this.get('model');
             course.set('enrolled', true);
             course.save();
-
             getUpdates('/assignments', this, 'assignment', {
                 'courses': "[" + this.get('id') + "]",
                 'sendAll': true
