@@ -3,7 +3,7 @@
  */
 
 
-var site = "http://admin.whatsdueapp.com";
+var site = "http://whats.due/app_dev.php";
 
 /** Bringing In Data from the server **/
 
