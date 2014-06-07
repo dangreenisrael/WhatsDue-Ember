@@ -167,6 +167,10 @@ function wipeRecentlyDeletedCourses(){
 function wipeRecentlyUnDeletedCourses(){
     localStorage.setItem('whatsdue-recentlyUnRemovedCourses', null);
 }
+
+function setTitle(title){
+    $('#page-title').html(title);
+}
 //wipeRecentlyDeletedCourses();
 //addRecentlyDeletedCourse(41)
 //console.log(getRecentlyDeletedCourses())

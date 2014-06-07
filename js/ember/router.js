@@ -13,7 +13,11 @@ App.Router.map(function(){
 
     this.resource('assignments', {path: '/'}, function(){
         this.route('info', {path: '/:id'});
-    })
+    });
+
+    this.resource('completedAssignments', function(){
+        this.route('info', {path: '/:id'});
+    });
 });
 
 App.UnenrolledRoute = Ember.Route.extend({
@@ -21,23 +25,33 @@ App.UnenrolledRoute = Ember.Route.extend({
         var headers = {
             };
         getUpdates("/all/courses", this, 'course', headers);
+        setTitle('Add Courses');
         return this.store.find('course', {'enrolled': false});
     }
 });
 
 App.EnrolledRoute = Ember.Route.extend({
     model: function() {
+        setTitle('My Courses');
         return this.store.find('course', {'enrolled': true});
     }
 });
 
 App.AssignmentsRoute = Ember.Route.extend({
     model: function() {
-        updateAssignments(this)
-        return this.store.find('assignment', {'enrolled': true});
+        updateAssignments(this);
+        setTitle('Assignments Due');
+        return this.store.find('assignment', {'enrolled': true, 'completed':false});
     }
 });
 
+App.CompletedAssignmentsRoute = Ember.Route.extend({
+    model: function() {
+        updateAssignments(this);
+        setTitle('Recently Completed');
+        return this.store.find('assignment', {'enrolled': true, 'completed':true});
+    }
+});
 
 Handlebars.registerHelper("debug", function(optionalValue) {
     console.log("Current Context");

@@ -40,7 +40,8 @@
             <div class="brand bg-success">
                 <a href="#" class="fa fa-bars off-left visible-xs" data-toggle="off-canvas" data-move="ltr"></a>
                 <a href="index.html" class="navbar-brand text-white">
-                    <span>Whats<b>Due</b>
+                    <span id="page-title">
+                        Assignments Due
                     </span>
                 </a>
 
@@ -63,6 +64,16 @@
                                 Assignments
                             </span>
                             </a>
+                        {{/link-to}}
+
+                        {{#link-to 'completedAssignments' tagName='li'}}
+                        <a class="h4">
+                            &emsp;&emsp;&emsp;
+                            <i class="fa fa-coffee"></i>
+                            <span>
+                                Completed
+                            </span>
+                        </a>
                         {{/link-to}}
 
                         {{#link-to 'enrolled' tagName='li'}}
@@ -123,6 +134,7 @@
     <script src="js/datatables.js"></script>
     <script src="vendor/fastclick.js"></script>
     <script src="vendor/switchery/switchery.min.js"></script>
+    <script src="vendor/jquery.tinysort.min.js"></script>
     <!-- /page scripts -->
 
     <!-- Ember Core Scripts -->
@@ -156,52 +168,91 @@
         </aside>
         <!-- /sidebar details -->
         <section class="panel panel-primary">
+
             <div class="panel-heading">
                 {{input type="text" value=searchTerm classNames='form-control input-rounded' id="search"}}
             </div>
             <ul class="list-group list">
-                {{#each assignment in content}}
-                {{#link-to 'assignments.info' assignment}}
-                <li class="list-group-item toggle-right">
-                    <div class="show no-margin pd-t-xs">
-                        {{assignment.assignment_name}}
-                        <small class="pull-right">{{assignment.dueDate}}</small>
-                    </div>
-                    <small class="text-muted">{{assignment.owner.course_name}}</small>
-                </li>
-                {{/link-to}}
+                {{#each assignment in controller}}
+                    {{#link-to 'assignments.info' assignment}}
+                    <li class="list-group-item toggle-right assignment" >
+
+                        <div class="show no-margin mg-t-xs">
+                            {{assignment.assignment_name}}
+                            <span {{bind-attr class=":label :pull-right assignment.urgencyLabel"}}>
+                                Due {{assignment.dueDate}}
+                            </span>
+                        </div>
+
+                        <small class="text-muted">{{assignment.owner.course_name}}</small>
+                    </li>
+                    {{/link-to}}
                 {{/each}}
             </ul>
         </section>
 
     </script>
 
+
     <script type="text/x-handlebars" data-template-name="assignments/info">
-
         <div class="col-sm-12">
-        <section class="panel no-border overflow-hidden">
-            <div class="bg-info pd-md clearfix">
-
-
-                <div class="h3 mg-t-xs mg-b-xs">{{assignment_name}}</div>
-                <small>{{owner.course_name}}</small>
-            </div>
-
-
-            <div class="panel-body black">
-                {{description}}
-            </div>
-
-            <div class="row no-margin">
-                <div class="col-sm-12 bg-warning pd-md text-center">
+            <section class="panel no-border overflow-hidden">
+                <div class="bg-info pd-md clearfix">
+                    <div class="h3 mg-t-xs mg-b-xs">{{assignment_name}}</div>
+                    <small>{{enrolled.course_name}}</small>
+                </div>
+                <div class="panel-body black">
+                    {{description}}
+                </div>
+                <div class="row no-margin">
+                    <div class="col-sm-12 bg-warning pd-md text-center">
                         <span class="h4">
                         <i class="fa fa-clock-o"></i> {{dueDate}}
                         </span>
+                    </div>
                 </div>
-            </div>
 
-        </section>
+                <div class="row no-margin">
+                    <div class="col-sm-12 pd-md text-center">
+                        <span class="h4">
+                            <button type="button"  class="btn btn-primary btn-sm" {{action 'removeAssignment'}} >
+                                <i class="fa fa-check"></i> Done
+                            </button>
+                        </span>
+                    </div>
+                </div>
+            </section>
         </div>
+    </script>
+
+    <script type="text/x-handlebars" data-template-name="completedAssignments">
+        <section class="panel panel-primary">
+            <div class="panel-heading">
+                {{input type="text" value=searchTerm classNames='form-control input-rounded' id="search"}}
+            </div>
+            <ul class="list-group list">
+                {{#each assignment in controller}}
+                <li class="list-group-item toggle-right assignment" >
+
+                    <div class="show no-margin mg-t-xs">
+                        <button type="button"  class="pull-right btn-rounded btn btn-primary btn-circle btn-sm" {{action 'unRemoveAssignment' assignment}} >
+                        <i class="fa fa-check fa-refresh"></i>
+                        </button>
+
+
+                        {{assignment.assignment_name}}
+                        <span class="label pull-right">
+                        {{assignment.due_date}}
+                        </span>
+                    </div>
+
+                    <small class="text-muted">{{assignment.owner.course_name}}</small>
+
+                </li>
+                {{/each}}
+            </ul>
+        </section>
+
     </script>
 
 

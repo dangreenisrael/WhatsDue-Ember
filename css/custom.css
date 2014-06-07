@@ -23,3 +23,8 @@ button.opacity-zero{
 button.reset{
     margin-top: -5px;
 }
+
+.btn-circle{
+    height: 31px;
+    width: 31px;
+}

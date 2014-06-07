@@ -58,15 +58,40 @@ App.UnenrolledProfileController = Ember.ObjectController.extend({
     }
 });
 
-App.AssignmentController = Ember.ArrayController.extend({
+App.AssignmentsInfoController = Ember.ObjectController.extend({
+    actions: {
+        removeAssignment: function() {
+            var assignment = this.get('model');
+            assignment.set('completed', true);
+            assignment.set('date_completed', Date.now())
+            assignment.save();
+            this.transitionToRoute('completedAssignments').then(function(){
+                $('.app').removeClass('move-right off-canvas');
+            });
+        }
+    }
 });
 
-App.AssignmentInfoController = Ember.ObjectController.extend({
+App.CompletedAssignmentsController = Ember.ObjectController.extend({
 
 });
-
 
 App.AssignmentsController = Ember.ArrayController.extend({
     sortProperties: ['due_date']
 });
+
+App.CompletedAssignmentsController = Ember.ArrayController.extend({
+    sortProperties: ['date_completed'],
+    sortAscending:  false,
+    actions: {
+        unRemoveAssignment: function(assignment) {
+            assignment.set('completed', false);
+            assignment.set('date_completed', null)
+            assignment.save();
+            this.transitionToRoute('assignments').then(function(){
+            });
+        }
+    }
+});
+
 

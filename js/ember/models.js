@@ -23,11 +23,27 @@ App.Assignment = DS.Model.extend({
     last_modified:      DS.attr('number'),
     last_updated:       DS.attr('number'),
     course_id:          DS.attr('number'),
+    date_completed:     DS.attr('number'),
     enrolled:           DS.attr('boolean', {defaultValue: true}),
     completed:          DS.attr('boolean', {defaultValue: false}),
     owner:              DS.belongsTo('course'),
     dueDate: function() {
       return moment(this.get('due_date')).fromNow()
+    }.property('due_date'),
+    urgencyLabel: function() {
+        var now = moment();
+        var gap = moment(this.get('due_date'));
+        gap = gap.diff(now, 'hours')
+
+        if((gap < 24) && (gap > 0)){
+            return "label-warning";
+        }
+        else if (gap < 0){
+            return "label-danger";
+        }
+        else{
+            return "label-info";
+        }
     }.property('due_date')
 });
 
