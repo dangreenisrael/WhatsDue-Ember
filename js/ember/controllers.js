@@ -76,6 +76,10 @@ App.CompletedAssignmentsController = Ember.ObjectController.extend({
 
 });
 
+App.AssignmentController = Ember.ObjectController.extend({
+
+});
+
 App.AssignmentsController = Ember.ArrayController.extend({
     sortProperties: ['due_date']
 });
