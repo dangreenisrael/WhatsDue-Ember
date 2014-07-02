@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="description" content="Flat, Clean, Responsive, admin template built with bootstrap 3">
+    <meta name="viewport" content="width=device-width, user-scalable=1, initial-scale=1, maximum-scale=1">
+
+    <title>Whats Due</title>
+    <!-- bootstrap -->
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <!-- /bootstrap -->
+
+    <!-- core styles -->
+    <link rel="stylesheet" href="css/custom.css">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/animate.min.css">
+    <!-- /core styles -->
+
+    <!-- page styles -->
+    <link rel="stylesheet" href="vendor/bootstrap-select/bootstrap-select.css">
+    <link rel="stylesheet" href="vendor/datatables/jquery.dataTables.css">
+    <!-- /page styles -->
+
+
+    <!-- Custom Stuff -->
+    <link rel="stylesheet" href="vendor/switchery/switchery.min.css" />
+    <script src="vendor/switchery/switchery.min.js"></script>
+
+    <!-- /Custom Stuff -->
+    <!-- load modernizer -->
+    <script src="vendor/modernizr.js"></script>
+    <script src="build/js/angular/angular.js"></script>
+    <script src="build/js/angular/angular-touch.js"></script>
+</head>
+
+<body class="full-size">
+
+
+    <script type='text/x-handlebars' data-template-name='application'>
+        <div class="app" data-sidebar="locked">
+        <!-- top header -->
+        <header class="header header-fixed navbar bg-white">
+            <div class="brand bg-success">
+                <a href="#" class="fa fa-bars off-left visible-xs" data-toggle="off-canvas" data-move="ltr"></a>
+                <a href="index.html" class="navbar-brand text-white">
+                    <span id="page-title">
+                        Assignments Due
+                    </span>
+                </a>
+
+                <button type="button" class="btn btn-rounded btn-white reset" {{action 'reset'}}><i class="fa fa-refresh"></i></button>
+                <br/>
+            </div>
+        </header>
+        <!-- /top header -->
+
+        <section class="layout">
+            <!-- sidebar menu -->
+            <aside class="sidebar canvas-left bg-dark">
+                <!-- main navigation -->
+                <nav class="main-navigation">
+                    <ul>
+                        {{#link-to 'assignments' tagName='li'}}
+                            <a class="h4">
+                            <i class="fa fa-coffee"></i>
+                            <span>
+                                Assignments
+                            </span>
+                            </a>
+                        {{/link-to}}
+
+                        {{#link-to 'completedAssignments' tagName='li'}}
+                        <a class="h4">
+                            &emsp;&emsp;&emsp;
+                            <i class="fa fa-coffee"></i>
+                            <span>
+                                Completed
+                            </span>
+                        </a>
+                        {{/link-to}}
+
+                        {{#link-to 'enrolled' tagName='li'}}
+                        <a class="h4">
+                            <i class="fa fa-coffee"></i>
+                            <span>
+                                My Courses
+                            </span>
+                        </a>
+                        {{/link-to}}
+
+                        {{#link-to 'unenrolled' tagName='li'}}
+                        <a class="h4">
+                            <i class="fa fa-coffee"></i>
+                            <span>
+                                Add Courses
+                            </span>
+                        </a>
+                        {{/link-to}}
+
+                    </ul>
+                </nav>
+                <!-- /main navigation -->
+            </aside>
+            <!-- /sidebar menu -->
+
+            <!-- main content -->
+            <section class="main-content">
+                <!-- content wrapper -->
+                <div class="content-wrap">
+                    {{outlet}}
+                </div>
+                <!-- /content wrapper -->
+                <div class="site-overlay"></div>
+            </section>
+            <!-- /main content -->
+        </section>
+
+    </div>
+    </script>
+
+    <!-- core scripts -->
+    <script src="js/libs/jquery-1.10.2.min.js"></script>
+    <script src="bootstrap/js/bootstrap.js"></script>
+    <!-- /core scripts -->
+
+    <!-- theme scripts -->
+    <script src="js/off-canvas.js"></script>
+    <script src="js/main.js"></script>
+    <!-- /theme scripts -->
+
+    <!-- page scripts -->
+    <script src="vendor/bootstrap-select/bootstrap-select.js"></script>
+    <script src="vendor/datatables/jquery.dataTables.js"></script>
+    <script src="vendor/jquery.transit.min.js"></script>
+    <script src="vendor/moment.min.js"></script>
+    <script src="js/dashboard.js"></script>
+    <script src="js/datatables.js"></script>
+    <script src="vendor/fastclick.js"></script>
+    <script src="vendor/switchery/switchery.min.js"></script>
+    <script src="vendor/jquery.tinysort.min.js"></script>
+    <!-- /page scripts -->
+
+    <!-- Ember Core Scripts -->
+    <script src="js/libs/handlebars-1.0.0.js"></script>
+    <script src="js/libs/ember.js"></script>
+    <script src="js/libs/ember-data.js"></script>
+    <script src="js/libs/localstorage_adapter.js"></script>
+    <!-- /Ember Core Scripts -->
+
+    <!-- Ember Main Scripts -->
+    <script src="js/ember/functions.js"></script>
+    <script src="js/ember/application.js"></script>
+    <script src="js/ember/router.js"></script>
+    <script src="js/ember/controllers.js"></script>
+    <script src="js/ember/models.js"></script>
+    <script src="js/ember/views.js"></script>
+    <script src="js/ember/components.js"></script>
+
+    <!-- /Ember Main Scripts -->
+
+    <!-- Handlebars Templates -->
+
+    <script type="text/x-handlebars" data-template-name="assignments">
+        <!-- sidebar details -->
+        <aside class="details-sidebar canvas-right bg-dark pull-right">
+            <div class="slimscroll" data-height="auto" data-size="6px" data-distance="0">
+                <div class="row pd-md right-sidebar-content">
+                    {{outlet}}
+                </div>
+            </div>
+        </aside>
+        <!-- /sidebar details -->
+        <section class="panel panel-primary">
+
+            <div class="panel-heading">
+                {{input type="text" value=searchTerm classNames='form-control input-rounded' id="search"}}
+            </div>
+            <ul class="list-group list">
+                {{#each assignment in controller}}
+                    {{#link-to 'assignments.info' assignment}}
+                    <li class="list-group-item toggle-right assignment" >
+
+                        <div class="show no-margin mg-t-xs">
+                            {{assignment.assignment_name}}
+                            <span {{bind-attr class=":label :pull-right assignment.urgencyLabel"}}>
+                                Due {{assignment.dueDate}}
+                            </span>
+                        </div>
+
+                        <small class="text-muted">{{assignment.owner.course_name}}</small>
+                    </li>
+                    {{/link-to}}
+                {{/each}}
+            </ul>
+        </section>
+
+    </script>
+
+
+    <script type="text/x-handlebars" data-template-name="assignments/info">
+        <div class="col-sm-12">
+            <section class="panel no-border overflow-hidden">
+                <div class="bg-info pd-md clearfix">
+                    <div class="h3 mg-t-xs mg-b-xs">{{assignment_name}}</div>
+                    <small>{{enrolled.course_name}}</small>
+                </div>
+                <div class="panel-body black">
+                    {{description}}
+                </div>
+                <div class="row no-margin">
+                    <div class="col-sm-12 bg-warning pd-md text-center">
+                        <span class="h4">
+                        <i class="fa fa-clock-o"></i> {{dueDate}}
+                        </span>
+                    </div>
+                </div>
+
+                <div class="row no-margin">
+                    <div class="col-sm-12 pd-md text-center">
+                        <span class="h4">
+                            <button type="button"  class="btn btn-primary btn-sm" {{action 'removeAssignment'}} >
+                                <i class="fa fa-check"></i> Done
+                            </button>
+                        </span>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </script>
+
+    <script type="text/x-handlebars" data-template-name="completedAssignments">
+        <section class="panel panel-primary">
+            <div class="panel-heading">
+                {{input type="text" value=searchTerm classNames='form-control input-rounded' id="search"}}
+            </div>
+            <ul class="list-group list">
+                {{#each assignment in controller}}
+                <li class="list-group-item toggle-right assignment" >
+
+                    <div class="show no-margin mg-t-xs">
+                        <button type="button"  class="pull-right btn-rounded btn btn-primary btn-circle btn-sm" {{action 'unRemoveAssignment' assignment}} >
+                        <i class="fa fa-check fa-refresh"></i>
+                        </button>
+
+
+                        {{assignment.assignment_name}}
+                        <span class="label pull-right">
+                        {{assignment.due_date}}
+                        </span>
+                    </div>
+
+                    <small class="text-muted">{{assignment.owner.course_name}}</small>
+
+                </li>
+                {{/each}}
+            </ul>
+        </section>
+
+    </script>
+
+
+    <script type="text/x-handlebars" data-template-name="enrolled">
+        <!-- sidebar details -->
+        <aside class="details-sidebar canvas-right bg-dark pull-right">
+            <div class="slimscroll" data-height="auto" data-size="6px" data-distance="0">
+                <div class="row pd-md right-sidebar-content">
+                    {{outlet}}
+                </div>
+            </div>
+        </aside>
+        <!-- /sidebar details -->
+        <section class="panel panel-primary">
+            <div class="panel-heading">
+                {{input type="text" value=searchTerm classNames='form-control input-rounded' id="search"}}
+            </div>
+            <ul class="list-group list">
+                {{#each course in content}}
+                    {{#link-to 'enrolled.profile' course }}
+                        <li class="list-group-item toggle-right">
+                            <div class="show no-margin pd-t-xs">
+                                {{course.course_name}}
+                                <small class="pull-right">{{course.admin_id}}</small>
+                            </div>
+                            <small class="text-muted">IDC Herzliya</small>
+                        </li>
+                    {{/link-to}}
+                {{/each}}
+            </ul>
+        </section>
+    </script>
+
+    <script type="text/x-handlebars" data-template-name="enrolled/profile">
+        {{course-profile toggleCourse="removeCourse" name=course_name description = course_description add_remove="Remove Course" }}
+    </script>
+
+    <script type="text/x-handlebars" data-template-name="unenrolled">
+        <!-- sidebar details -->
+        <aside class="details-sidebar canvas-right bg-dark pull-right">
+            <div class="slimscroll" data-height="auto" data-size="6px" data-distance="0">
+                <div class="row pd-md right-sidebar-content">
+                    {{outlet}}
+                </div>
+            </div>
+        </aside>
+        <!-- /sidebar details -->
+        <section class="panel panel-primary">
+            <div class="panel-heading">
+                {{input type="text" value=searchTerm classNames='form-control input-rounded' id="search"}}
+            </div>
+            <ul class="list-group list">
+                {{#each course in content}}
+                    {{#link-to 'unenrolled.profile' course }}
+                        <li class="list-group-item toggle-right">
+                            <div class="show no-margin pd-t-xs">
+                                {{course.course_name}}
+                                <small class="pull-right">{{course.admin_id}}</small>
+                            </div>
+                            <small class="text-muted">IDC Herzliya</small>
+                        </li>
+                    {{/link-to}}
+                {{/each}}
+            </ul>
+        </section>
+    </script>
+
+    <script type="text/x-handlebars" data-template-name="unenrolled/profile">
+        {{course-profile toggleCourse="addCourse" name=course_name description = course_description add_remove="Add Course" }}
+    </script>
+
+    <script type="text/x-handlebars" data-template-name="components/course-profile">
+        <br/>
+        <br/>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            <section class="panel position-relative">
+                <div class="ribbon ribbon-danger">
+                    <div class="banner">
+                        <div class="text">IDC Herzliya</div>
+                    </div>
+                </div>
+                <div class="panel-body black">
+                    <div>
+                        <h4>
+                            {{name}}
+                        </h4>
+                    </div>
+                    <p>
+                        {{description}}
+                    </p>
+                    <button type="button" class="btn btn-info btn-outline btn-rounded" {{action 'toggleCourse'}}>{{add_remove}}</button>
+                </div>
+            </section>
+        </div>
+    </script>
+
+</body>
+</html>
