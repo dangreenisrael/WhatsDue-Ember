@@ -1,4 +1,4 @@
-/**
+    /**
  * Created by dan on 2014-05-13.
  */
 
@@ -26,14 +26,14 @@ App.UnenrolledRoute = Ember.Route.extend({
             };
         getUpdates("/all/courses", this, 'course', headers);
         setTitle('Add Courses');
-        return this.store.find('course', {'enrolled': false});
+        return this.store.find('course');
     }
 });
 
 App.EnrolledRoute = Ember.Route.extend({
     model: function() {
         setTitle('My Courses');
-        return this.store.find('course', {'enrolled': true});
+        return this.store.find('course');
     }
 });
 
@@ -41,7 +41,7 @@ App.AssignmentsRoute = Ember.Route.extend({
     model: function() {
         updateAssignments(this);
         setTitle('Assignments Due');
-        return this.store.find('assignment', {'enrolled': true, 'completed':false});
+        return this.store.find('assignment');
     }
 });
 
@@ -50,16 +50,5 @@ App.CompletedAssignmentsRoute = Ember.Route.extend({
         updateAssignments(this);
         setTitle('Recently Completed');
         return this.store.find('assignment', {'enrolled': true, 'completed':true});
-    }
-});
-
-Handlebars.registerHelper("debug", function(optionalValue) {
-    console.log("Current Context");
-    console.log("====================");
-    console.log(this);
-    if (optionalValue) {
-        console.log("Value");
-        console.log("====================");
-        console.log(optionalValue);
     }
 });

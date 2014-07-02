@@ -30,8 +30,7 @@
     <!-- /Custom Stuff -->
     <!-- load modernizer -->
     <script src="vendor/modernizr.js"></script>
-    <script src="build/js/angular/angular.js"></script>
-    <script src="build/js/angular/angular-touch.js"></script>
+
 </head>
 
 <body class="full-size">
@@ -275,7 +274,7 @@
                 {{input type="text" value=searchTerm classNames='form-control input-rounded' id="search"}}
             </div>
             <ul class="list-group list">
-                {{#each course in content}}
+                {{#each course in filteredData}}
                     {{#link-to 'enrolled.profile' course }}
                         <li class="list-group-item toggle-right">
                             <div class="show no-margin pd-t-xs">
@@ -309,7 +308,7 @@
                 {{input type="text" value=searchTerm classNames='form-control input-rounded' id="search"}}
             </div>
             <ul class="list-group list">
-                {{#each course in content}}
+                {{#each course in filteredData}}
                     {{#link-to 'unenrolled.profile' course }}
                         <li class="list-group-item toggle-right">
                             <div class="show no-margin pd-t-xs">

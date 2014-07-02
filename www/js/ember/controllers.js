@@ -42,6 +42,7 @@ App.EnrolledProfileController = Ember.ObjectController.extend({
 });
 
 App.UnenrolledProfileController = Ember.ObjectController.extend({
+
     actions: {
         addCourse: function() {
             var course = this.get('model');
@@ -56,7 +57,23 @@ App.UnenrolledProfileController = Ember.ObjectController.extend({
             });
         }
     }
+
 });
+
+App.EnrolledController = Ember.ArrayController.extend({
+    content:[],
+    filteredData: (function() {
+        return this.get('content').filterBy('enrolled', true)
+    }).property('content.@each.enrolled')
+});
+
+App.UnenrolledController = Ember.ArrayController.extend({
+    content:[],
+    filteredData: (function() {
+        return this.get('content').filterBy('enrolled', false)
+    }).property('content.@each.enrolled')
+});
+
 
 App.AssignmentsInfoController = Ember.ObjectController.extend({
     actions: {
@@ -81,7 +98,10 @@ App.AssignmentController = Ember.ObjectController.extend({
 });
 
 App.AssignmentsController = Ember.ArrayController.extend({
-    sortProperties: ['due_date']
+    sortProperties: ['due_date'],
+    filteredData: (function() {
+        return this.get('content').filterBy('completed',false)
+    }).property('content.@each.completed')
 });
 
 App.CompletedAssignmentsController = Ember.ArrayController.extend({
