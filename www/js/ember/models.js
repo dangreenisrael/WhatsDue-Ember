@@ -8,7 +8,6 @@ App.Course = DS.Model.extend({
     admin_id:            DS.attr('string'),
     enrolled:            DS.attr('boolean', {defaultValue: false}),
     assignments:          DS.hasMany('assignment')
-
 });
 
 App.CourseAdapter = DS.LSAdapter.extend({
@@ -21,12 +20,11 @@ App.Assignment = DS.Model.extend({
     description:        DS.attr('string'),
     due_date:           DS.attr('string'),
     last_modified:      DS.attr('number'),
-    last_updated:       DS.attr('number'),
-    course_id:          DS.attr('number'),
-    date_completed:     DS.attr('number'),
+    last_updated:       DS.attr('number', {defaultValue: null}),
+    date_completed:     DS.attr('number', {defaultValue: null}),
     enrolled:           DS.attr('boolean', {defaultValue: true}),
     completed:          DS.attr('boolean', {defaultValue: false}),
-    owner:              DS.belongsTo('course'),
+    course_id:              DS.belongsTo('course'),
     dueDate: function() {
       return moment(this.get('due_date')).fromNow()
     }.property('due_date'),

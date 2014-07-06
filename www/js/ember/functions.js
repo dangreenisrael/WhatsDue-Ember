@@ -8,37 +8,38 @@ var site = "http://admin.whatsdueapp.com";
 /** Bringing In Data from the server **/
 
 // This is for getting assignment info
-function updateAssignments(parent){
-   parent.store.find('course', {'enrolled':true}).then(
-        function(currentRecord) {
-            // Get list of Courses
-            var idList = [];
-            currentRecord = currentRecord.get('content');
-            currentRecord.forEach(function(currentRecord){
-                // We need to make each value an array - .push() interferes with Ember
-                var temp = [currentRecord.id];
-                idList = idList.concat(temp);
+function updateAssignments(context){
+    var courses = localStorage.getItem('courses')
+    getUpdates('/assignments', context, 'assignment', {
+        'courses': "["+courses+"]"
+    });
+
+}
+
+function updateCourses(context){
+    var headers = {
+    };
+    getUpdates("/all/courses", context, 'course', headers);
+}
+
+function addNotification(title, message, date){
+    for (i = 0; i < 20; i++) {
+        if (cordovaLoaded == true){
+            window.plugin.notification.local.add({
+                title:   title,
+                message: message,
+                date:    date
             });
-            getUpdates('/assignments', parent, 'assignment', {
-                'courses': "["+idList+"]"
-            });
+            break;
+        }else{
+
         }
-   );
-    var recentlyDeleted = getRecentlyDeletedCourses();
-    var recentlyUnDeleted = getRecentlyUnDeletedCourses();
-
-    if (recentlyDeleted != 'null' && recentlyDeleted != null){
-        deleteAssignments(parent, recentlyDeleted);
-    }
-
-    if (recentlyUnDeleted != 'null' && recentlyUnDeleted != null){
-        unDeleteAssignments(parent, recentlyUnDeleted);
     }
 }
 
 /** This gets ALL different types of updates - DON'T fucking touch this **/
-function getUpdates(url, parent, model, headers){
-    var store = parent.store;
+function getUpdates(url, context, model, headers){
+    var store = context.store;
     headers.timestamp = localStorage.getItem('timestamp_'+model);
     $.ajax({
         url: site+url,
@@ -50,13 +51,20 @@ function getUpdates(url, parent, model, headers){
             localStorage.setItem("timestamp_"+model, newTimestamp);
             $.each(response, function(i, record) {
                 if (record.created_at == record.last_modified){
-                    record.owner = parent.get('content');
-                    currentRecord = store.createRecord(model,record);
-                    currentRecord.save();
+                    context.store.find('course',record.course_id).then(function(course){
+                        record.course_id = course;
+                        currentRecord = store.createRecord(model,record);
+                        currentRecord.save();
+                        setInterval(function(){
+                                elementLoaded();
+                            }
+                            ,300
+                        );
+                    });
                 }
                 else{
                     store.find(model, record.id).then(function(thisRecord){
-                        deleteRecord(parent,model, record.id);
+                        deleteRecord(context,model, record.id);
                         currentRecord = store.createRecord(model,thisrecord);
                         currentRecord.save();
                         console.log('Updated Record '+record.id)
@@ -66,14 +74,16 @@ function getUpdates(url, parent, model, headers){
         }
     });
 }
+
+
 /** Start editing again **/
 
 
-function deleteAssignments(parent, course_ids){
+function deleteAssignments(context, course_ids){
     var i = 0;
     for (len = course_ids.length; i < len; i++) {
         value = Number(course_ids[i]);
-        parent.store.find('assignment',{"course_id":value}).then(function(record){
+        context.store.find('assignment',{"course_id":value}).then(function(record){
             record.content.forEach(function(rec) {
                 Ember.run.once(this, function() {
                     rec.set('enrolled',false);
@@ -85,11 +95,11 @@ function deleteAssignments(parent, course_ids){
     wipeRecentlyDeletedCourses();
 }
 
-function unDeleteAssignments(parent, course_ids){
+function unDeleteAssignments(context, course_ids){
     var i = 0;
     for (len = course_ids.length; i < len; i++) {
         value = Number(course_ids[i]);
-        parent.store.find('assignment',{"course_id":value}).then(function(record){
+        context.store.find('assignment',{"course_id":value}).then(function(record){
             record.content.forEach(function(rec) {
                 Ember.run.once(this, function() {
                     rec.set('enrolled',true);
@@ -101,15 +111,15 @@ function unDeleteAssignments(parent, course_ids){
     wipeRecentlyUnDeletedCourses();
 }
 
-function deleteRecord(parent, model, id){
-    parent.store.find(model, id).then(function(record){
+function deleteRecord(context, model, id){
+    context.store.find(model, id).then(function(record){
         record.deleteRecord();
         record.save();
     });
 }
 
-function deleteAll(parent, model){
-    parent.store.find(model).then(function(record){
+function deleteAll(context, model){
+    context.store.find(model).then(function(record){
         record.content.forEach(function(rec) {
             Ember.run.once(this, function() {
                 rec.deleteRecord();

@@ -5,14 +5,14 @@
 App.EnrolledView = Ember.View.extend({
     didInsertElement: function() {
         filter('search');
-        toggleRight();
+        elementLoaded();
     }
 });
 
 App.UnenrolledView = Ember.View.extend({
     didInsertElement: function() {
         filter('search');
-        toggleRight();
+        elementLoaded();
     }
 });
 
@@ -20,7 +20,7 @@ App.UnenrolledView = Ember.View.extend({
 App.AssignmentsView = Ember.View.extend({
     didInsertElement: function() {
         filter('search');
-        toggleRight();
+        elementLoaded();
     }
 });
 
@@ -49,8 +49,8 @@ function filter(textArea){
 }
 
 
-function toggleRight(){
-    $('.toggle-right').click(function(){
-       $('.app').addClass('move-right off-canvas');
+function elementLoaded(){
+    $('.toggle-right').click( function(){
+        $('.app').addClass('move-right off-canvas');
     });
 }

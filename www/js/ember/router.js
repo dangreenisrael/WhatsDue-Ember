@@ -20,11 +20,13 @@ App.Router.map(function(){
     });
 });
 
+
+App.Route = Ember.Route.extend({
+
+});
 App.UnenrolledRoute = Ember.Route.extend({
     model: function() {
-        var headers = {
-            };
-        getUpdates("/all/courses", this, 'course', headers);
+        updateCourses(this)
         setTitle('Add Courses');
         return this.store.find('course');
     }
@@ -42,6 +44,14 @@ App.AssignmentsRoute = Ember.Route.extend({
         updateAssignments(this);
         setTitle('Assignments Due');
         return this.store.find('assignment');
+    }
+
+});
+
+App.AssignmentsInfoRoute = Ember.Route.extend({
+    model: function(params){
+        console.log(params.id)
+        return this.store.find('assignment', params.id);
     }
 });
 

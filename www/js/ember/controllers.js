@@ -13,7 +13,22 @@ App.ApplicationController = Ember.Controller.extend({
                 sendAll:true
             };
             getUpdates("/all/courses", this, 'course', headers);
+            localStorage.removeItem('courses');
+
         }
+    },
+    init: function() {
+        console.log('start')
+        var context = this;
+        if (Ember.isNone(this.get('pollster')) ){
+            this.set('pollster', App.Pollster.create({
+                onPoll: function() {
+                     console.log('poll');
+                     updateAssignments(context);
+                }
+            }));
+        }
+        this.get('pollster').start();
     }
 });
 
@@ -34,6 +49,24 @@ App.EnrolledProfileController = Ember.ObjectController.extend({
                    });
                }, this);
             });
+
+            // Remove Course from local storage
+            var courses = localStorage.getItem('courses');
+            courses = courses.split(',');
+            console.log(courses.length);
+
+            if (courses.length <= 1) {
+                localStorage.removeItem('courses');
+            } else{
+                 // Find and remove courseId from array
+                 var i = courses.indexOf(this.get('id'));
+                 if(i != -1) {
+                    courses.splice(i, 1);
+                 }
+                 var serialized = courses.toString();
+                 localStorage.setItem('courses', serialized);
+            }
+
             this.transitionToRoute('unenrolled').then(function(){
                 $('.app').removeClass('move-right off-canvas');
             });
@@ -48,10 +81,20 @@ App.UnenrolledProfileController = Ember.ObjectController.extend({
             var course = this.get('model');
             course.set('enrolled', true);
             course.save();
+
             getUpdates('/assignments', this, 'assignment', {
                 'courses': "[" + this.get('id') + "]",
                 'sendAll': true
             });
+
+            // Add course to local storage;
+            var courses = localStorage.getItem('courses');
+            if (courses !== null) {
+                courses = courses + "," + this.get('id');
+                localStorage.setItem('courses', courses);
+            } else{
+                localStorage.setItem('courses', this.get('id'));
+            }
             this.transitionToRoute('enrolled').then(function(){
                 $('.app').removeClass('move-right off-canvas');
             });
@@ -87,21 +130,19 @@ App.AssignmentsInfoController = Ember.ObjectController.extend({
             });
         }
     }
-});
-
-App.CompletedAssignmentsController = Ember.ObjectController.extend({
 
 });
 
-App.AssignmentController = Ember.ObjectController.extend({
+App.AssignmentController = Ember.ArrayController.extend({
 
-});
+})
 
 App.AssignmentsController = Ember.ArrayController.extend({
     sortProperties: ['due_date'],
     filteredData: (function() {
         return this.get('content').filterBy('completed',false)
     }).property('content.@each.completed')
+
 });
 
 App.CompletedAssignmentsController = Ember.ArrayController.extend({
