@@ -23,6 +23,14 @@
                         {
                             "xml": "<feature name=\"Media\"><param name=\"ios-package\" value=\"CDVSound\" /></feature>",
                             "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"PushPlugin\"><param name=\"ios-package\" value=\"PushPlugin\" /></feature>",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"Notification\"><param name=\"ios-package\" value=\"CDVNotification\" /></feature>",
+                            "count": 1
                         }
                     ]
                 }
@@ -40,6 +48,12 @@
                             "xml": "false",
                             "count": 1
                         }
+                    ],
+                    "AudioToolbox.framework": [
+                        {
+                            "xml": "true",
+                            "count": 1
+                        }
                     ]
                 }
             }
@@ -50,6 +64,12 @@
             "PACKAGE_NAME": "com.whatsdo.cordova"
         },
         "org.apache.cordova.media": {
+            "PACKAGE_NAME": "com.whatsdo.cordova"
+        },
+        "com.phonegap.plugins.PushPlugin": {
+            "PACKAGE_NAME": "com.whatsdo.cordova"
+        },
+        "org.apache.cordova.dialogs": {
             "PACKAGE_NAME": "com.whatsdo.cordova"
         }
     },
