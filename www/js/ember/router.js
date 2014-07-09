@@ -26,7 +26,7 @@ App.Route = Ember.Route.extend({
 });
 App.UnenrolledRoute = Ember.Route.extend({
     model: function() {
-        updateCourses(this)
+        updateCourses(this);
         setTitle('Add Courses');
         return this.store.find('course');
     }
@@ -50,7 +50,6 @@ App.AssignmentsRoute = Ember.Route.extend({
 
 App.AssignmentsInfoRoute = Ember.Route.extend({
     model: function(params){
-        console.log(params.id)
         return this.store.find('assignment', params.id);
     }
 });

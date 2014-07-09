@@ -29,7 +29,6 @@ var cordovaApp = {
         document.addEventListener('deviceready', this.onDeviceReady, false);
     },
     // deviceready Event Handler
-    //
     // The scope of 'this' is the event. In order to call the 'receivedEvent'
     // function, we must explicitly call 'cordovaApp.receivedEvent(...);'
     onDeviceReady: function() {
@@ -37,44 +36,58 @@ var cordovaApp = {
     },
     // Update DOM on a Received Event
     receivedEvent: function(id) {
-        
         var pushNotification = window.plugins.pushNotification;
-        pushNotification.register(cordovaApp.successHandler, cordovaApp.errorHandler,{"senderID":"642810142071","ecb":"cordovaApp.onNotificationGCM"});
-
-        console.log('Received Event: ' + id);
+            pushNotification.register(cordovaApp.successHandler, cordovaApp.errorHandler,{"senderID":"642810142071","ecb":"cordovaApp.onNotificationGCM"});
+        console.log('Cordova Loaded: ' + id);
     },
-    
     successHandler: function(result) {
-            console.log('Callback Success! Result = '+result)
+        console.log('Success Handler = '+result)
      },
     errorHandler:function(error) {
         console.log(error);
     },
+    /* These are for Push Notifications*/
     onNotificationGCM: function(e) {
         switch( e.event )
         {
             case 'registered':
-                if ( e.regid.length > 0 )
-                {
-                    console.log("Regid " + e.regid);
-                    console.log('registration id = '+e.regid);
+                if (!localStorage.getItem('primaryKey')){
+                    var postData = {
+                    "uuid":      device.uuid,
+                    "platform":  device.platform,
+                    "pushId":    e.regid
+                    };
+                    console.log(postData);
+                    $.ajax({
+                        url: site+"/students",
+                        type: 'POST',
+                        data: postData,
+                        success: function (response) {
+                            console.log(response);
+                            localStorage.setItem("primaryKey", response.primaryKey)
+                        }
+                    });
                 }
                 break;
 
             case 'message':
-                // this is the actual push notification. its format depends on the data model from the push server
-                console.log('message = '+e.message+' msgcnt = '+e.msgcnt);
-                function alertDismissed() {
-                    // do something
+                console.log(e);
+                var data = e.payload;
+                if (data.assignmentId){
+                    // This deals with updated assignments
+                    var updatedAssignment = new CustomEvent('updatedAssignment');
+                    window.dispatchEvent(updatedAssignment);
+                    function alertDismissed() {
+                        window.location.hash = '/'+data.assignmentId;
+                        $('.app').addClass('move-right off-canvas');
+                    }
+                    navigator.notification.alert(
+                        data.message,  // message
+                        alertDismissed,         // callback
+                        data.title,            // title
+                        'OK'                  // buttonName
+                    );
                 }
-
-                navigator.notification.alert(
-                    e.message,  // message
-                    alertDismissed,         // callback
-                    e.payload.title,            // title
-                    'OK'                  // buttonName
-                );
-
                 break;
 
             case 'error':

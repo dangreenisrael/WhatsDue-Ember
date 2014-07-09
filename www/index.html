@@ -183,7 +183,7 @@
                 {{input type="text" value=searchTerm classNames='form-control input-rounded' id="search"}}
             </div>
             <ul class="list-group list">
-                {{#each assignment in controller}}
+                {{#each assignment in filteredData}}
                     {{#link-to 'assignments.info' assignment}}
                     <li class="list-group-item toggle-right assignment" >
 

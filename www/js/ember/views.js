@@ -3,25 +3,25 @@
  */
 
 App.EnrolledView = Ember.View.extend({
-    didInsertElement: function() {
+    contentDidChange: function() {
         filter('search');
         elementLoaded();
-    }
+    }.observes('controller.filteredData')
 });
 
 App.UnenrolledView = Ember.View.extend({
-    didInsertElement: function() {
+    contentDidChange: function() {
         filter('search');
         elementLoaded();
-    }
+    }.observes('controller.filteredData')
 });
 
 
 App.AssignmentsView = Ember.View.extend({
-    didInsertElement: function() {
+    contentDidChange: function() {
         filter('search');
         elementLoaded();
-    }
+    }.observes('controller.filteredData')
 });
 
 
@@ -50,7 +50,10 @@ function filter(textArea){
 
 
 function elementLoaded(){
-    $('.toggle-right').click( function(){
-        $('.app').addClass('move-right off-canvas');
-    });
+    setTimeout(function(){
+        console.log('toggle')
+        $('.toggle-right').click( function(){
+            $('.app').addClass('move-right off-canvas');
+        });},
+        500);
 }

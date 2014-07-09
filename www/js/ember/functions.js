@@ -3,7 +3,7 @@
  */
 
 
-var site = "http://admin.whatsdueapp.com";
+var site = "http://whats.due/app_dev.php";
 
 /** Bringing In Data from the server **/
 
@@ -19,6 +19,11 @@ function updateAssignments(context){
 function updateCourses(context){
     var headers = {
     };
+    console.log(localStorage.getItem('timestamp_course'));
+    if (!localStorage.getItem('timestamp_course')){
+        headers.sendAll = true;
+    }
+
     getUpdates("/all/courses", context, 'course', headers);
 }
 
@@ -48,29 +53,46 @@ function getUpdates(url, context, model, headers){
         success: function (resp) {
             var response = resp[model];
             var newTimestamp = resp['meta']['timestamp'];
+            var oldTimestamp = localStorage.getItem("timestamp_"+model);
             localStorage.setItem("timestamp_"+model, newTimestamp);
             $.each(response, function(i, record) {
-                if (record.created_at == record.last_modified){
-                    context.store.find('course',record.course_id).then(function(course){
-                        record.course_id = course;
-                        currentRecord = store.createRecord(model,record);
-                        currentRecord.save();
-                        setInterval(function(){
-                                elementLoaded();
+                // First see if it exists and try to update it
+                if (record.created_at < oldTimestamp && !headers.sendAll){
+                    context.store.find(model, record.id).then(
+                        function(thisRecord){
+                            if (model == 'assignment'){
+                                console.log(record);
+                                thisRecord.set('assignment_name', record.assignment_name);
+                                thisRecord.set('description', record.description);
+                                thisRecord.set('due_date', record.due_date);
+
+                            }else if(model == 'course'){
+                                thisRecord.set('course_name', record.course_name);
+                                thisRecord.set('course_description', record.course_description);
                             }
-                            ,300
-                        );
-                    });
-                }
-                else{
-                    store.find(model, record.id).then(function(thisRecord){
-                        deleteRecord(context,model, record.id);
-                        currentRecord = store.createRecord(model,thisrecord);
-                        currentRecord.save();
-                        console.log('Updated Record '+record.id)
-                    });
+
+                            thisRecord.save();
+                            console.log('Updated Record '+record.id)
+                        });
+                }else{
+                // If its new, add it
+
+                    if (model == 'assignment'){
+                        context.store.find('course',record.course_id).then(function(course){
+                            record.course_id = course;
+                            var newRecord = context.store.createRecord(model,record);
+                            newRecord.save();
+                            setInterval(elementLoaded(), 500);
+
+                        });
+                    }else{
+                        var newRecord = context.store.createRecord(model,record);
+                        newRecord.save();
+                    }
                 }
             });
+
+            // This enables jQuery events for the new elements
         }
     });
 }
