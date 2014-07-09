@@ -37,7 +37,7 @@ var cordovaApp = {
     // Update DOM on a Received Event
     receivedEvent: function(id) {
         var pushNotification = window.plugins.pushNotification;
-            pushNotification.register(cordovaApp.successHandler, cordovaApp.errorHandler,{"senderID":"642810142071","ecb":"cordovaApp.onNotificationGCM"});
+            pushNotification.register(cordovaApp.successHandler, cordovaApp.errorHandler,{"senderID":"577888563057","ecb":"cordovaApp.onNotificationGCM"});
         console.log('Cordova Loaded: ' + id);
     },
     successHandler: function(result) {
@@ -51,7 +51,6 @@ var cordovaApp = {
         switch( e.event )
         {
             case 'registered':
-                if (!localStorage.getItem('primaryKey')){
                     var postData = {
                     "uuid":      device.uuid,
                     "platform":  device.platform,
@@ -67,7 +66,6 @@ var cordovaApp = {
                             localStorage.setItem("primaryKey", response.primaryKey)
                         }
                     });
-                }
                 break;
 
             case 'message':

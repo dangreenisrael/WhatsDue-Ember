@@ -46,8 +46,6 @@ App.EnrolledProfileController = Ember.ObjectController.extend({
     actions: {
         removeCourse: function() {
             var context = this;
-
-            var courseId = Number(this.get('id'));
             var course = context.get('model');
 
             $.ajax({
@@ -57,7 +55,7 @@ App.EnrolledProfileController = Ember.ObjectController.extend({
                 success: function (response) {
                     course.set('enrolled', false);
                     course.save();
-                    context.get('controllers.assignment').store.find('assignment',{'course_id':courseId}).then(function(record){
+                    context.store.find('assignment',{'course_id':course.get('id')}).then(function(record){
                         record.content.forEach(function(rec) {
                             Ember.run.once(context, function() {
                                 rec.deleteRecord();
