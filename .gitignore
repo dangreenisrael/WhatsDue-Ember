@@ -1,4 +1,5 @@
 Cordova/www/.idea/*
 .idea/*
+www/.idea/*
 platforms/*
 *.log
