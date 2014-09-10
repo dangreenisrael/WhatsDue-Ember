@@ -66,6 +66,7 @@ App.EnrolledProfileController = Ember.ObjectController.extend({
 
                     // Remove Course from local storage
                     var courses = localStorage.getItem('courses');
+
                     courses = courses.split(',');
                     console.log(courses.length);
 
@@ -73,7 +74,8 @@ App.EnrolledProfileController = Ember.ObjectController.extend({
                         localStorage.removeItem('courses');
                     } else{
                         // Find and remove courseId from array
-                        var i = courses.indexOf(this.get('id'));
+                        console.log(this)
+                        var i = courses.indexOf(course.get('id'));
                         if(i != -1) {
                             courses.splice(i, 1);
                         }

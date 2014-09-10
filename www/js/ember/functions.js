@@ -2,8 +2,12 @@
  * Created by dan on 2014-05-15.
  */
 
+var test = true;
 
-var site = "http://admin.whatsdueapp.com/app_dev.php";
+if (test == true){
+    var site = "http://whatsdueserver.com/app_dev.php";
+    localStorage.setItem('primaryKey', '1');
+}
 
 /** Bringing In Data from the server **/
 

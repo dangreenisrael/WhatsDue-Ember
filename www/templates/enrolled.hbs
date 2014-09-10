@@ -1,0 +1,27 @@
+<!-- sidebar details -->
+<aside class="details-sidebar canvas-right bg-dark pull-right">
+    <div class="slimscroll" data-height="auto" data-size="6px" data-distance="0">
+        <div class="row pd-md right-sidebar-content">
+            {{outlet}}
+        </div>
+    </div>
+</aside>
+<!-- /sidebar details -->
+<section class="panel panel-primary">
+    <div class="panel-heading">
+        {{input type="text" value=searchTerm classNames='form-control input-rounded' id="search"}}
+    </div>
+    <ul class="list-group list">
+        {{#each course in filteredData}}
+            {{#link-to 'enrolled.profile' course }}
+                <li class="list-group-item toggle-right">
+                    <div class="show no-margin pd-t-xs">
+                        {{course.course_name}}
+                        <small class="pull-right">{{course.admin_id}}</small>
+                    </div>
+                    <small class="text-muted">IDC Herzliya</small>
+                </li>
+            {{/link-to}}
+        {{/each}}
+    </ul>
+</section>
