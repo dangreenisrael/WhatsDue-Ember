@@ -87,7 +87,6 @@ function getUpdates(url, context, model, headers){
                             var newRecord = context.store.createRecord(model,record);
                             newRecord.save();
                             setInterval(elementLoaded(), 500);
-
                         });
                     }else{
                         var newRecord = context.store.createRecord(model,record);

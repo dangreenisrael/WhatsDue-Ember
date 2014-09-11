@@ -24,7 +24,7 @@
 
 
             {{#each assignment in filteredData}}
-                <div class="assignment">
+                <div class="slider left-box">
                     <div {{action 'removeAssignment' assignment}} class="reveal"></div>
                         <div {{bind-attr class=":removable :red assignment.urgencyLabel"}}>
 
@@ -36,103 +36,21 @@
                                     {{assignment.assignment_name}}
                                 </div>
                                 <div class="course">
-                                    Business 323
+                                    {{ assignment.course_id.course_name }}
+
+
                                 </div>
                             </div>
                         </div>
                 </div>
 
             {{/each}}
-            {{#each assignment in filteredData}}
 
-                    <div class="assignment">
-                        <div class="reveal"></div>
-                        <div class="removable red">
-                                    <span class="time">
-                                        8:30 AM
-                                    </span>
-                            <div class="info">
-                                <div class="title">
-                                    Business Presentation
-                                </div>
-                                <div class="course">
-                                    Business 323
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-            {{/each}}
 
             <div class="day-divider">
                 Tomorrow
             </div>
-            <div class="assignment">
-                <div class="reveal"></div>
-                <div class="removable">
-							<span class="time">
-								8:30 AM
-							</span>
-                    <div class="info">
-                        <div class="title">
-                            Business Presentation
-                        </div>
-                        <div class="course">
-                            Business 323
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="assignment">
-                <div class="reveal"></div>
-                <div class="removable">
-							<span class="time">
-								8:30 AM
-							</span>
-                    <div class="info">
-                        <div class="title">
-                            Business Presentation
-                        </div>
-                        <div class="course">
-                            Business 323
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="day-divider">
-                Wednesday, July 20
-            </div>
-            <div class="assignment">
-                <div class="reveal"></div>
-                <div class="removable">
-							<span class="time">
-								8:30 AM
-							</span>
-                    <div class="info">
-                        <div class="title">
-                            Business Presentation
-                        </div>
-                        <div class="course">
-                            Business 323
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="assignment">
-                <div class="reveal"></div>
-                <div class="removable">
-							<span class="time">
-								8:30 AM
-							</span>
-                    <div class="info">
-                        <div class="title">
-                            Business Presentation
-                        </div>
-                        <div class="course">
-                            Business 323
-                        </div>
-                    </div>
-                </div>
-            </div>
+
 
 
         </div>

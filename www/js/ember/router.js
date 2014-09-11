@@ -29,6 +29,10 @@ App.UnenrolledRoute = Ember.Route.extend({
         updateCourses(this);
         setTitle('Add Courses');
         return this.store.find('course');
+    },
+
+    afterModel: function() {
+        changeRoute();
     }
 });
 
@@ -36,6 +40,9 @@ App.EnrolledRoute = Ember.Route.extend({
     model: function() {
         setTitle('My Courses');
         return this.store.find('course');
+    },
+    afterModel: function() {
+        changeRoute();
     }
 });
 
@@ -44,20 +51,22 @@ App.AssignmentsRoute = Ember.Route.extend({
         updateAssignments(this);
         setTitle('Assignments Due');
         return this.store.find('assignment');
+    },
+    afterModel: function() {
+        changeRoute();
     }
 
 });
 
-App.AssignmentsInfoRoute = Ember.Route.extend({
-    model: function(params){
-        return this.store.find('assignment', params.id);
-    }
-});
+
 
 App.CompletedAssignmentsRoute = Ember.Route.extend({
     model: function() {
         updateAssignments(this);
         setTitle('Recently Completed');
         return this.store.find('assignment', {'enrolled': true, 'completed':true});
+    },
+    afterModel: function() {
+        changeRoute();
     }
 });

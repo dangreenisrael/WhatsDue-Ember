@@ -40,15 +40,47 @@ App.ApplicationController = Ember.Controller.extend({
     }
 });
 
-
-
-App.EnrolledProfileController = Ember.ObjectController.extend({
-    needs:   'assignment',
+App.AssignmentsController = Ember.ArrayController.extend({
+    filteredData: (function() {
+        return this.get('content').filterBy('completed',false).sortBy('due_date');
+    }).property('content.@each'),
     actions: {
-        removeCourse: function() {
-            var context = this;
-            var course = context.get('model');
+        removeAssignment: function(assignment) {
 
+            assignment.set('completed', true);
+            assignment.set('date_completed', Date.now())
+            assignment.save();
+            this.transitionToRoute('completedAssignments').then(function(){
+                // Do Something after transitioning to new route
+            });
+
+        }
+    }
+
+});
+
+App.CompletedAssignmentsController = Ember.ArrayController.extend({
+    sortProperties: ['date_completed'],
+    sortAscending:  false,
+    actions: {
+        unRemoveAssignment: function(assignment) {
+            assignment.set('completed', false);
+            assignment.set('date_completed', null)
+            assignment.save();
+            this.transitionToRoute('assignments').then(function(){
+            });
+        }
+    }
+});
+
+App.EnrolledController = Ember.ArrayController.extend({
+    content:[],
+    filteredData: (function() {
+        return this.get('content').filterBy('enrolled', true)
+    }).property('content.@each'),
+    actions: {
+        removeCourse: function(course) {
+            var context = this;
             $.ajax({
                 url: site+"/courses/"+course.get('id') +"/unenrolls",
                 type: 'POST',
@@ -93,17 +125,18 @@ App.EnrolledProfileController = Ember.ObjectController.extend({
                 }
             });
 
-
-
         }
     }
 });
 
-App.UnenrolledProfileController = Ember.ObjectController.extend({
+App.UnenrolledController = Ember.ArrayController.extend({
+    content:[],
+    filteredData: (function() {
+        return this.get('content').filterBy('enrolled', false)
+    }).property('content.@each'),
     actions: {
-        addCourse: function() {
+        addCourse: function(course) {
             var context = this;
-            var course = context.get('model');
             $.ajax({
                 url: site+"/courses/"+course.get('id')+"/enrolls",
                 type: 'POST',
@@ -113,17 +146,17 @@ App.UnenrolledProfileController = Ember.ObjectController.extend({
                     course.save();
 
                     getUpdates('/assignments', context, 'assignment', {
-                        'courses': "[" + context.get('id') + "]",
+                        'courses': "[" + course.get('id') + "]",
                         'sendAll': true
                     }, true);
 
                     // Add course to local storage;
                     var courses = localStorage.getItem('courses');
                     if (courses !== null) {
-                        courses = courses + "," + context.get('id');
+                        courses = courses + "," + course.get('id');
                         localStorage.setItem('courses', courses);
                     } else{
-                        localStorage.setItem('courses', context.get('id'));
+                        localStorage.setItem('courses', course.get('id'));
                     }
                     context.transitionToRoute('enrolled').then(function(){
                         $('.app').removeClass('move-right off-canvas');
@@ -137,66 +170,6 @@ App.UnenrolledProfileController = Ember.ObjectController.extend({
     }
 });
 
-App.EnrolledController = Ember.ArrayController.extend({
-    content:[],
-    filteredData: (function() {
-        return this.get('content').filterBy('enrolled', true)
-    }).property('content.@each')
-});
 
-App.UnenrolledController = Ember.ArrayController.extend({
-    content:[],
-    filteredData: (function() {
-        return this.get('content').filterBy('enrolled', false)
-    }).property('content.@each')
-});
-
-
-App.AssignmentsInfoController = Ember.ObjectController.extend({
-    actions: {
-        removeAssignment: function() {
-            var assignment = this.get('model');
-            assignment.set('completed', true);
-            assignment.set('date_completed', Date.now())
-            assignment.save();
-            this.transitionToRoute('completedAssignments').then(function(){
-                $('.app').removeClass('move-right off-canvas');
-            });
-        }
-    }
-
-});
-
-
-App.AssignmentsController = Ember.ArrayController.extend({
-    filteredData: (function() {
-        return this.get('content').filterBy('completed',false).sortBy('due_date');
-    }).property('content.@each'),
-    actions: {
-        removeAssignment: function(assignment) {
-            assignment.set('completed', true);
-            assignment.set('date_completed', Date.now())
-            assignment.save();
-            this.transitionToRoute('completedAssignments').then(function(){
-                // Do Something after transitioning to new route
-            });
-        }
-    }
-
-});
-
-App.CompletedAssignmentsController = Ember.ArrayController.extend({
-    sortProperties: ['date_completed'],
-    sortAscending:  false,
-    actions: {
-        unRemoveAssignment: function(assignment) {
-            assignment.set('completed', false);
-            assignment.set('date_completed', null)
-            assignment.save();
-            this.transitionToRoute('assignments').then(function(){
-            });
-        }
-    }
-});
 
 

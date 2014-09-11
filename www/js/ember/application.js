@@ -38,9 +38,7 @@ var helperObj = {
 
     templates : [
         'assignments_info.hbs',
-        'components_course-profile.hbs',
-        'enrolled_profile.hbs',
-        'unenrolled_profile.hbs'
+        'components_course-profile.hbs'
     ]
 };
 
@@ -80,6 +78,9 @@ App.ApplicationAdapter = DS.LSAdapter.extend({
 App.Store = DS.Store.extend({
 
 });
+
+
+
 
 App.Pollster = Ember.Object.extend({
     start: function(){
