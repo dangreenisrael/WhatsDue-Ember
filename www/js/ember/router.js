@@ -50,15 +50,13 @@ App.AssignmentsRoute = Ember.Route.extend({
     model: function() {
         updateAssignments(this);
         setTitle('Assignments Due');
-        return this.store.find('assignment');
+        return this.store.find('assignment',  {'enrolled': true, 'completed':false});
     },
     afterModel: function() {
         changeRoute();
     }
 
 });
-
-
 
 App.CompletedAssignmentsRoute = Ember.Route.extend({
     model: function() {

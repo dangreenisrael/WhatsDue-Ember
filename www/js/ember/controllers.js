@@ -50,9 +50,7 @@ App.AssignmentsController = Ember.ArrayController.extend({
             assignment.set('completed', true);
             assignment.set('date_completed', Date.now())
             assignment.save();
-            this.transitionToRoute('completedAssignments').then(function(){
-                // Do Something after transitioning to new route
-            });
+
 
         }
     }
@@ -67,8 +65,7 @@ App.CompletedAssignmentsController = Ember.ArrayController.extend({
             assignment.set('completed', false);
             assignment.set('date_completed', null)
             assignment.save();
-            this.transitionToRoute('assignments').then(function(){
-            });
+           // this.transitionToRoute('assignments').then(function(){});
         }
     }
 });

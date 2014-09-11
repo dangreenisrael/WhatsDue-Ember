@@ -27,7 +27,6 @@ function updateCourses(context){
     if (!localStorage.getItem('timestamp_course')){
         headers.sendAll = true;
     }
-
     getUpdates("/all/courses", context, 'course', headers);
 }
 
@@ -41,7 +40,6 @@ function addNotification(title, message, date){
             });
             break;
         }else{
-
         }
     }
 }
@@ -80,7 +78,6 @@ function getUpdates(url, context, model, headers){
                         });
                 }else{
                 // If its new, add it
-
                     if (model == 'assignment'){
                         context.store.find('course',record.course_id).then(function(course){
                             record.course_id = course;
@@ -94,8 +91,6 @@ function getUpdates(url, context, model, headers){
                     }
                 }
             });
-
-            // This enables jQuery events for the new elements
         }
     });
 }
@@ -170,7 +165,6 @@ function addRecentlyUnRemovedCourse(courseId){
     var serialized = localStorage.getItem('whatsdue-recentlyUnRemovedCourses');
     var list = [courseId];
     if (serialized != 'null' && serialized != null){
-        console.log(serialized)
         list = list.concat(serialized);
     }
     serialized = list.toString();

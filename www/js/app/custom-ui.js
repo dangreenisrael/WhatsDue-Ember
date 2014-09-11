@@ -16,6 +16,7 @@ function changeRoute(){
         readyFunction();
     },delay);
 }
+
 function readyFunction(){
     /*
      * Main Page Control
@@ -145,7 +146,7 @@ function readyFunction(){
             animate(element);
             if (Math.abs(deltaX)> limit){
                 element.css("-webkit-transform", "translate3d(101%,0,0) scale3d(1,1,1)");
-                removeItem(element);
+                swipeRemove(element);
             }
             else{
                 element.css("-webkit-transform", "translate3d(0,0,0) scale3d(1,1,1)");
@@ -260,18 +261,18 @@ function readyFunction(){
         currentPage = 1;
     }
 
-    function removeItem(element) {
-        var removeItem = setTimeout(function(){
-            element.css('display','none')
-        }, transitionTime+1000);
-
-        element.siblings('.reveal').click(function () {
-            window.clearInterval(removeItem);
-            element.css("-webkit-transform", "translate3d(0,0,0) scale3d(1,1,1)");
-        });
+    function swipeRemove(element){
+        setTimeout(function(){
+            element.siblings('.reveal').click();
+            element.hide();
+        }, transitionTime);
     }
+    /* Click Events */
 
-
+    $('.slider .reveal').click(function(){
+        console.log($(this).parent('.slider'));
+        $(this).parent('.slider').hide();
+    });
 
     /* Toggles */
     $('#menuToggle, #leftMenu li').on('click', function(){
