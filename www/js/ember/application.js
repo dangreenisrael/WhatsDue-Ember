@@ -39,8 +39,8 @@ var helperObj = {
     templates : [
         'assignments_info.hbs',
         'components_course-profile.hbs',
-        'enrolled-profile.hbs',
-        'unenrolled-profile.hbs'
+        'enrolled_profile.hbs',
+        'unenrolled_profile.hbs'
     ]
 };
 

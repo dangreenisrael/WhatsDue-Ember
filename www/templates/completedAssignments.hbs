@@ -1,26 +1,20 @@
-<section class="panel panel-primary">
-    <div class="panel-heading">
-        {{input type="text" value=searchTerm classNames='form-control input-rounded' id="search"}}
-    </div>
-    <ul class="list-group list">
+<div id="completedAssignments">
+    <div class="assignments-list">
         {{#each assignment in controller}}
-            <li class="list-group-item toggle-right assignment" >
-
-                <div class="show no-margin mg-t-xs">
-                    <button type="button"  class="pull-right btn-rounded btn btn-primary btn-circle btn-sm" {{action 'unRemoveAssignment' assignment}} >
-                        <i class="fa fa-check fa-refresh"></i>
-                    </button>
-
-
-                    {{assignment.assignment_name}}
-                    <span class="label pull-right">
-                        {{assignment.due_date}}
-                    </span>
+        <div class="assignment">
+            <div class="reveal" {{action 'unRemoveAssignment' assignment}}></div>
+            <div class="putBackable">
+                <div class="info">
+                    <div class="title">
+                        {{assignment.assignment_name}}
+                    </div>
+                    <div class="course">{{assignment.course_id.course_name}}</div>
                 </div>
+               <img src="assets/icons/check-icon.png"/>
 
-                <small class="text-muted">{{assignment.course_id.course_name}}</small>
 
-            </li>
+            </div>
+        </div>
         {{/each}}
-    </ul>
-</section>
+    </div>
+</div>

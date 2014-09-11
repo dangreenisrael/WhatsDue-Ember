@@ -14,6 +14,7 @@ App.ApplicationController = Ember.Controller.extend({
     },
     init: function() {
         console.log('start')
+
         if (localStorage.getItem('timestamp_course')==null){
             localStorage.setItem('timestamp_course',0);
         }
@@ -166,14 +167,21 @@ App.AssignmentsInfoController = Ember.ObjectController.extend({
 
 });
 
-App.AssignmentController = Ember.ArrayController.extend({
-
-})
 
 App.AssignmentsController = Ember.ArrayController.extend({
     filteredData: (function() {
         return this.get('content').filterBy('completed',false).sortBy('due_date');
-    }).property('content.@each')
+    }).property('content.@each'),
+    actions: {
+        removeAssignment: function(assignment) {
+            assignment.set('completed', true);
+            assignment.set('date_completed', Date.now())
+            assignment.save();
+            this.transitionToRoute('completedAssignments').then(function(){
+                // Do Something after transitioning to new route
+            });
+        }
+    }
 
 });
 

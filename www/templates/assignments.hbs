@@ -1,30 +1,139 @@
-    <aside class="details-sidebar canvas-right bg-dark pull-right">
-        <div class="slimscroll" data-height="auto" data-size="6px" data-distance="0">
-            <div class="row pd-md right-sidebar-content">
-                {{outlet}}
+
+    <div id="newAssignments">
+        <nav>
+            <div class="active">
+                What's Due
+						<span class="badge square black">
+							13
+						</span>
             </div>
-        </div>
-    </aside>
-    <section class="panel panel-primary">
+            <div class="vertical-seperator white"></div>
 
-        <div class="panel-heading">
-            {{input type="text" value=searchTerm classNames='form-control input-rounded' id="search"}}
-        </div>
-        <ul class="list-group list">
+            <div>
+                What's New
+						<span class="badge square black">
+							4
+						</span>
+            </div>
+        </nav>
+        <div class="assignments-list">
+            <div class="arrow-up"></div>
+            <div class="day-divider">
+                Today
+            </div>
+
+
             {{#each assignment in filteredData}}
-                {{#link-to 'assignments.info' assignment}}
-                    <li class="list-group-item toggle-right assignment" >
+                <div class="assignment">
+                    <div {{action 'removeAssignment' assignment}} class="reveal"></div>
+                        <div {{bind-attr class=":removable :red assignment.urgencyLabel"}}>
 
-                        <div class="show no-margin mg-t-xs">
-                            {{assignment.assignment_name}}
-                            <span {{bind-attr class=":label :pull-right assignment.urgencyLabel"}}>
-                                Due {{assignment.dueDate}}
-                            </span>
+                                <span class="time">
+                                    {{assignment.dueDate}}
+                                        </span>
+                            <div class="info">
+                                <div class="title">
+                                    {{assignment.assignment_name}}
+                                </div>
+                                <div class="course">
+                                    Business 323
+                                </div>
+                            </div>
                         </div>
+                </div>
 
-                        <small class="text-muted">{{assignment.course_id.course_name}}</small>
-                    </li>
-                {{/link-to}}
             {{/each}}
-        </ul>
-    </section>
+            {{#each assignment in filteredData}}
+
+                    <div class="assignment">
+                        <div class="reveal"></div>
+                        <div class="removable red">
+                                    <span class="time">
+                                        8:30 AM
+                                    </span>
+                            <div class="info">
+                                <div class="title">
+                                    Business Presentation
+                                </div>
+                                <div class="course">
+                                    Business 323
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            {{/each}}
+
+            <div class="day-divider">
+                Tomorrow
+            </div>
+            <div class="assignment">
+                <div class="reveal"></div>
+                <div class="removable">
+							<span class="time">
+								8:30 AM
+							</span>
+                    <div class="info">
+                        <div class="title">
+                            Business Presentation
+                        </div>
+                        <div class="course">
+                            Business 323
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="assignment">
+                <div class="reveal"></div>
+                <div class="removable">
+							<span class="time">
+								8:30 AM
+							</span>
+                    <div class="info">
+                        <div class="title">
+                            Business Presentation
+                        </div>
+                        <div class="course">
+                            Business 323
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="day-divider">
+                Wednesday, July 20
+            </div>
+            <div class="assignment">
+                <div class="reveal"></div>
+                <div class="removable">
+							<span class="time">
+								8:30 AM
+							</span>
+                    <div class="info">
+                        <div class="title">
+                            Business Presentation
+                        </div>
+                        <div class="course">
+                            Business 323
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="assignment">
+                <div class="reveal"></div>
+                <div class="removable">
+							<span class="time">
+								8:30 AM
+							</span>
+                    <div class="info">
+                        <div class="title">
+                            Business Presentation
+                        </div>
+                        <div class="course">
+                            Business 323
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </div>

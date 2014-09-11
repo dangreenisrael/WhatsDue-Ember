@@ -1,9 +1,9 @@
 <div class="app" data-sidebar="locked">
-    <!-- top header -->
+<!-- top header --
     <header class="header header-fixed navbar bg-white">
         <div class="brand bg-success">
             <a href="#" class="fa fa-bars off-left visible-xs" data-toggle="off-canvas" data-move="ltr"></a>
-            <a href="index.html" class="navbar-brand text-white">
+            <a href="/" class="navbar-brand text-white">
                 <span id="page-title">
                 Assignments Due
                 </span>
@@ -13,67 +13,135 @@
             <br/>
         </div>
     </header>
-    <!-- /top header -->
+    -->
+<header id="appHeader">
+    <img id="menuToggle" src="assets/icons/menu-icon.png" class="pull-left">
+    <!--button type="button" class="pull-right" {{action 'reset'}}></button-->
 
-    <section class="layout">
-        <!-- sidebar menu -->
-        <aside class="sidebar canvas-left bg-dark">
-            <!-- main navigation -->
-            <nav class="main-navigation">
-                <ul>
-                    {{#link-to 'assignments' tagName='li'}}
-                        <a class="h4">
-                            <i class="fa fa-coffee"></i>
-                        <span>
-                        Assignments
-                        </span>
-                        </a>
-                    {{/link-to}}
+    <!--
+    <div class="messagesToggle message-count pull-right">
+        <img src="assets/icons/message-count-icon.png">
+        <span>
+            2
+        </span>
+    </div>
+    -->
+    <h1 id="page-title">
+        Assignments Due
+    </h1>
 
-                    {{#link-to 'completedAssignments' tagName='li'}}
-                        <a class="h4">
-                            &emsp;&emsp;&emsp;
-                            <i class="fa fa-coffee"></i>
-                        <span>
-                        Completed
-                        </span>
-                        </a>
-                    {{/link-to}}
 
-                    {{#link-to 'enrolled' tagName='li'}}
-                        <a class="h4">
-                            <i class="fa fa-coffee"></i>
-                        <span>
+</header>
+
+<div id="content">
+    <div id="contentContainer">
+    <div id="left">
+        <div id="menu">
+            <ul id="leftMenu">
+
+                {{#link-to 'assignments' tagName='li'}}
+                    <div>
+                        <img src="assets/icons/current-assignments-icon.png"/>
+                    </div>
+                            <span>
+                                New Assignments
+                            </span>
+                    <span class="count">2</span>
+                {{/link-to}}
+
+
+                {{#link-to 'completedAssignments' tagName='li'}}
+                    <div>
+                        <img src="assets/icons/completed-assignments-icon.png"/>
+                    </div>
+                    <span>
+                        Completed Assignments
+                    </span>
+                {{/link-to}}
+
+
+                {{#link-to 'enrolled' tagName='li'}}
+                    <div>
+                        <img src="assets/icons/my-courses-icon.png"/>
+                    </div>
+                    <span>
                         My Courses
-                        </span>
-                        </a>
-                    {{/link-to}}
+                    </span>
+                {{/link-to}}
 
-                    {{#link-to 'unenrolled' tagName='li'}}
-                        <a class="h4">
-                            <i class="fa fa-coffee"></i>
-                        <span>
-                        Add Courses
-                        </span>
-                        </a>
-                    {{/link-to}}
+                {{#link-to 'unenrolled' tagName='li'}}
+                    <div>
+                        <img src="assets/icons/add-course-icon.png"/>
+                    </div>
+                    <span>
+                        Add a Course
+                    </span>
+                {{/link-to}}
 
-                </ul>
-            </nav>
-            <!-- /main navigation -->
-        </aside>
-        <!-- /sidebar menu -->
 
-        <!-- main content -->
-        <section class="main-content">
-            <!-- content wrapper -->
-            <div class="content-wrap">
-                {{outlet}}
-            </div>
-            <!-- /content wrapper -->
-            <div class="site-overlay"></div>
-        </section>
-        <!-- /main content -->
-    </section>
+                <li>
+                    <div>
+                        <img src="assets/icons/settings-icon.png"/>
+                    </div>
+                            <span>
+                                Settings
+                            </span>
+                </li>
+                <li>
+                    <div>
+                        <img src="assets/icons/feedback-icon.png"/>
+                    </div>
+                            <span>
+                                Feedback &amp; Support
+                            </span>
+                </li>
+                <!--
+                <li onclick="goTo('#about', 'About')">
+                    <div>
+                        <img src="assets/icons/about-icon.png"/>
+                    </div>
+                            <span>
+                                About
+                            </span>
+                </li>
+                -->
+            </ul>
+        </div>
+    </div>
+    <div id="middle">
+        {{outlet}}
+
+    </div>
+    <div id="right">
+
+    </div>
+    </div>
+</div>
+<!-- /top header -->
+
+
+<section class="layout">
+    <!-- sidebar menu -->
+    <aside class="sidebar canvas-left bg-dark">
+        <!-- main navigation -->
+        <nav class="main-navigation">
+            <ul>
+
+
+
+
+
+
+
+
+            </ul>
+        </nav>
+        <!-- /main navigation -->
+    </aside>
+    <!-- /sidebar menu -->
+
+
+    <!-- /main content -->
+</section>
 
 </div>
