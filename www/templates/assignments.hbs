@@ -1,57 +1,44 @@
-
-    <div id="newAssignments">
-        <nav>
-            <div class="active">
-                What's Due
-						<span class="badge square black">
-							13
-						</span>
-            </div>
-            <div class="vertical-seperator white"></div>
-
-            <div>
-                What's New
-						<span class="badge square black">
-							4
-						</span>
-            </div>
-        </nav>
-        <div class="assignments-list">
-            <div class="arrow-up"></div>
-            <div class="day-divider">
-                Today
-            </div>
-
-
-            {{#each assignment in filteredData}}
-                <div class="slider left-box">
-                    <div {{action 'removeAssignment' assignment}} class="reveal"></div>
-                        <div {{bind-attr class=":removable :red assignment.urgencyLabel"}}>
-
-                                <span class="time">
-                                    {{assignment.dueDate}}
-                                        </span>
-                            <div class="info">
-                                <div class="title">
-                                    {{assignment.assignment_name}}
-                                </div>
-                                <div class="course">
-                                    {{ assignment.course_id.course_name }}
-
-
-                                </div>
-                            </div>
+<div id="newAssignments">
+    <nav>
+        <div class="active">
+            What's Due
+            <span class="badge square black">
+                13
+            </span>
+        </div>
+        <div class="vertical-seperator white"></div>
+        <div>
+            What's New
+            <span class="badge square black">
+                4
+            </span>
+        </div>
+    </nav>
+    <div class="assignments-list">
+        <div class="arrow-up"></div>
+        <div class="day-divider">
+            Today
+        </div>
+        {{#each assignment in filteredData}}
+            <div class="slider left-box">
+                <div {{action 'removeAssignment' assignment}} class="reveal"></div>
+                <div {{bind-attr class=":removable :red assignment.urgencyLabel"}}>
+                    <span class="time">
+                        {{assignment.dueDate}}
+                    </span>
+                    <div class="info">
+                        <div class="title">
+                            {{assignment.assignment_name}}
                         </div>
+                        <div class="course">
+                            {{ assignment.course_id.course_name }}
+                        </div>
+                    </div>
                 </div>
-
-            {{/each}}
-
-
-            <div class="day-divider">
-                Tomorrow
             </div>
-
-
-
+        {{/each}}
+        <div class="day-divider">
+            Tomorrow
         </div>
     </div>
+</div>

@@ -144,13 +144,18 @@ function readyFunction(){
             var width = element.width()
             var limit = (width/3)*1
             animate(element);
-            if (Math.abs(deltaX)> limit){
+            console.log(deltaX);
+            console.log(width);
+            if (Math.abs(deltaX) >= width){
+                instantRemove(element)
+            } else if (Math.abs(deltaX) > limit){
                 element.css("-webkit-transform", "translate3d(101%,0,0) scale3d(1,1,1)");
                 swipeRemove(element);
             }
             else{
                 element.css("-webkit-transform", "translate3d(0,0,0) scale3d(1,1,1)");
             }
+
         });
     }
 
@@ -267,11 +272,19 @@ function readyFunction(){
             element.hide();
         }, transitionTime);
     }
+
+    function instantRemove(element){
+        element.siblings('.reveal').click();
+        element.hide();
+    }
     /* Click Events */
 
-    $('.slider .reveal').click(function(){
-        console.log($(this).parent('.slider'));
-        $(this).parent('.slider').hide();
+    $('.putBackable').siblings('.reveal').click(function(){
+        $(this).parent('.slider');
+        var context = this;
+        setTimeout(function(){
+            $(context).parent('.slider').detach();
+        }, 100);
     });
 
     /* Toggles */

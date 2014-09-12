@@ -83,7 +83,7 @@ function getUpdates(url, context, model, headers){
                             record.course_id = course;
                             var newRecord = context.store.createRecord(model,record);
                             newRecord.save();
-                            setInterval(elementLoaded(), 500);
+                            //setInterval(elementLoaded(), 500);
                         });
                     }else{
                         var newRecord = context.store.createRecord(model,record);

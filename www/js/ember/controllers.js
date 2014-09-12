@@ -58,13 +58,16 @@ App.AssignmentsController = Ember.ArrayController.extend({
 });
 
 App.CompletedAssignmentsController = Ember.ArrayController.extend({
-    sortProperties: ['date_completed'],
+    filteredData: (function() {
+        return this.get('content').filterBy('completed',true).sortBy('date_completed');
+    }).property('content.@each'),
     sortAscending:  false,
     actions: {
         unRemoveAssignment: function(assignment) {
             assignment.set('completed', false);
             assignment.set('date_completed', null)
             assignment.save();
+            changeRoute();
            // this.transitionToRoute('assignments').then(function(){});
         }
     }

@@ -1,6 +1,6 @@
 <div id="completedAssignments">
     <div class="assignments-list">
-        {{#each assignment in controller}}
+        {{#each assignment in filteredData}}
         <div class="slider">
             <div class="reveal" {{action 'unRemoveAssignment' assignment}}></div>
             <div class="putBackable">
