@@ -1,0 +1,19 @@
+<div id="completedAssignments">
+    <div class="assignments-list">
+        {{#each assignment in filteredData}}
+        <div class="slider">
+            <div class="reveal" {{action 'unRemoveAssignment' assignment}}>
+                <img src="assets/icons/check-icon.png"/>
+            </div>
+            <div class="putBackable">
+                <div class="info">
+                    <div class="title">
+                        {{assignment.assignment_name}}
+                    </div>
+                    <div class="course">{{assignment.course_id.course_name}}</div>
+                </div>
+            </div>
+        </div>
+        {{/each}}
+    </div>
+</div>

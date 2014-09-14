@@ -1,0 +1,18 @@
+{{#each course in filteredData}}
+    <div class="slider">
+        <div {{action 'removeCourse' course}} class="reveal">
+            <img class="pull-right"src="assets/icons/check-icon.png"/>
+        </div>
+        <div class="putBackable">
+            <div class="info">
+                <div class="title">
+                    {{course.course_name}} - {{course.admin_id}}
+                </div>
+                <div class="course">
+                    {{course.course_description}}
+                </div>
+            </div>
+        </div>
+    </div>
+{{/each}}
+

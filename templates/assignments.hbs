@@ -1,0 +1,71 @@
+<div id="newAssignments">
+    <nav>
+        <div class="due">
+            What's Due
+            <span class="badge square black">
+                13
+            </span>
+        </div>
+        <div class="vertical-seperator white"></div>
+        <div class="overdue">
+            What's Overdue
+            <span class="badge square black">
+                4
+            </span>
+        </div>
+    </nav>
+    <div id="assignments-due">
+        <div class="arrow-up"></div>
+        {{#each assignment in due}}
+            <div class="day-divider">
+                {{assignment.daysAway}}
+            </div>
+            <div {{bind-attr class=":slider :left-box assignment.daysAway"}}>
+                <div {{action 'removeAssignment' assignment}} class="reveal"></div>
+                <div {{bind-attr class=":removable assignment.urgencyLabel"}}>
+                    <div class="time">
+                        <span class="from-now">
+                            {{assignment.fromNow}}
+                        </span>
+                        <span class="time-due">
+                            {{assignment.timeDue}}
+                        </span>
+                    </div>
+                    <div class="info">
+                        <div class="title">
+                            {{assignment.assignment_name}}
+                        </div>
+                        <div class="course">
+                            {{ assignment.course_id.course_name }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {{/each}}
+    </div>
+
+    <div id="assignments-overdue">
+        <div class="arrow-up"></div>
+        <div class="day-divider">
+            Overdue
+        </div>
+        {{#each assignment in overdue}}
+            <div class="slider left-box">
+                <div {{action 'removeAssignment' assignment}} class="reveal"></div>
+                <div {{bind-attr class=":removable :red assignment.urgencyLabel"}}>
+                    <span class="time">
+                        OVERDUE
+                    </span>
+                    <div class="info">
+                        <div class="title">
+                            {{assignment.assignment_name}}
+                        </div>
+                        <div class="course">
+                            {{ assignment.course_id.course_name }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {{/each}}
+    </div>
+</div>
