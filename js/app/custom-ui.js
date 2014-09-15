@@ -3,15 +3,8 @@ $(document).ready(function (){
     readyFunction();
 });
 
-function goTo(page, name){
-	$('#middle > div').css('display','none');
-	$(page).css('display', 'block');
-	$('#appHeader h1').text(name);
-}
-
 function changeRoute(){
-
-    var delay=500;//1 seconds
+    var delay=100;//1 seconds
     setTimeout(function(){
         readyFunction();
     },delay);
@@ -66,24 +59,6 @@ function readyFunction(){
 
     });
 
-
-
-    // Actual Swiping
-    var main = document.getElementById('content');
-    var mainOptions = {
-        preventDefault: true
-    };
-    var mainHammer = new Hammer(main, mainOptions);
-    var currentPage = 1
-    var page = {
-        0 : - 0,
-        1 : - pageWidth,
-        2 : - pageWidth * 2
-    };
-    var x = page[currentPage];
-    var transitionTime = 100;
-
-    /* Helper Functions */
     function closest (event, selector){
         return $(event.target).closest(selector)
     }
@@ -93,49 +68,12 @@ function readyFunction(){
         setTimeout(function(){element.removeClass('animate')}, 300);
     }
 
-    /* Horizontal Drag */
-
-    mainHammer.on('pan', function(event) {
-        if (currentPage >= 1) { return };
-        var deltaX = event.deltaX
-        event.srcEvent.cancelBubble = true;
-        X = event.deltaX + page[currentPage];
-        var element = $('#content > div');
-        if ( 0 <= X || X <= -pageWidth*2){ return };
-
-        element.css("-webkit-transform", "translate3d("+X+"px,0,0) scale3d(1,1,1)");
-
-    });
-
-    /* Release */
-    mainHammer.on('panend', function(event) {
-        event.srcEvent.cancelBubble = true
-        if (currentPage >=1) { return };
-
-        if ( (Date.now()-timestamp) < 10){
-            X = page[currentPage]
-            return
-        };
-        var element = $('#content > div');
-        var deltaX = event.deltaX
-        if ( 0 <= X || X <= -pageWidth*2){ return };
-
-        var limit = (pageWidth/4)
-
-        if (Math.abs(deltaX) > limit){
-            if (deltaX < 0){
-                // Slide Right
-                ++currentPage;
-            }else{
-                // Slide Left
-                --currentPage;
-            }
-        }
-        animate(element);
-        element.css("-webkit-transform", "translate3d("+page[currentPage]+"px,0,0) scale3d(1,1,1)");
-    });
-
-
+    var currentPage = 1
+    var page = {
+        0 : - 0,
+        1 : - pageWidth,
+        2 : - pageWidth * 2
+    };
 
     /*
      * Swipe to Delete
@@ -169,7 +107,7 @@ function readyFunction(){
             var limit = (width/4)
             animate(element);
             if (Math.abs(deltaX) >= width){
-                instantRemove(element)
+                swipeRemove(element)
             } else if (Math.abs(deltaX) > limit){
                 element.css({
                     "-webkit-transform": "translate3d(101%,0,0) scale3d(1,1,1)",
@@ -189,76 +127,6 @@ function readyFunction(){
 
 
 
-
-    /* Put back Completed Course */
-
-    var putBackable = document.getElementsByClassName("putBackable");
-    var putBackableOptions = { };
-    var putBackHammer = [];
-    var putBackOpen = [];
-    var putBackLimit = ((pageWidth/5)*3);
-    var putBackLowerLimit = (putBackLimit - pageWidth)
-    var currentX = [];
-    for (var i = 0; i < putBackable.length; ++i) {
-
-        putBackHammer[i] = new Hammer(putBackable[i], putBackableOptions);
-        // Drag
-        putBackHammer[i].on('pan', function(event) {
-            event.srcEvent.cancelBubble = true;
-            var element = closest(event, '.putBackable');
-            var index = closest(event, '.assignment').index();
-            timestamp = Date.now();
-            var deltaX = event.deltaX;
-
-
-            if (putBackOpen[index] == true){
-                newX = (deltaX + putBackLimit);
-                startX = putBackLimit - pageWidth;
-            }else{
-                newX = (deltaX);
-                startX = 0;
-            }
-            currentX[index] =startX + deltaX;
-            if 	( currentX[index] <  putBackLowerLimit ){
-                element.css("-webkit-transform", "translate3d("+putBackLowerLimit+"px,0,0) scale3d(1,1,1)");
-                return;
-            }else if (0 < currentX[index]){
-                element.css("-webkit-transform", "translate3d(0,0,0) scale3d(1,1,1)");
-                return;
-            }
-
-            element.css("-webkit-transform", "translate3d("+currentX[index]+"px,0,0) scale3d(1,1,1)");
-
-        });
-
-        // Release
-        putBackHammer[i].on('panend', function(event) {
-            event.srcEvent.cancelBubble = true
-            var element = closest(event, '.putBackable')
-            var index = closest(event, '.assignment').index();
-            var deltaX = event.deltaX
-
-            animate(element);
-            if (deltaX < 0){
-                element.css("-webkit-transform", "translate3d("+ putBackLowerLimit +"px,0,0) scale3d(1,1,1)");
-                putBackOpen[index] = true;
-                $( window ).scroll(function(event) {
-                    animate(element);
-                    element.css("-webkit-transform", "translate3d(0,0,0) scale3d(1,1,1)");
-                    putBackOpen[index] = false;
-                    $(this).off(event)
-                });
-            }
-            else{
-                element.css("-webkit-transform", "translate3d(0,0,0) scale3d(1,1,1)");
-                putBackOpen[index] = false;
-
-            }
-        });
-    }
-
-
-
     /*
      * Helper Functions
      */
@@ -273,6 +141,7 @@ function readyFunction(){
             currentPage = 1;
             element.css("-webkit-transform", "translate3d(-33.333%,0,0) scale3d(1,1,1)");
         }
+
     }
 
     function goHome(){
@@ -283,29 +152,18 @@ function readyFunction(){
     }
 
     function swipeRemove(element){
-        setTimeout(function(){
-            element.siblings('.reveal').click();
-            element.hide();
-        }, 0);
-    }
-
-    function instantRemove(element){
         element.siblings('.reveal').click();
-        element.hide();
-    }
-    /* Click Events */
-
-    $('.putBackable').siblings('.reveal').click(function(){
-        $(this).parent('.slider');
-        var context = this;
+        element.parent('.slider').addClass('animate').css('opacity','0');
         setTimeout(function(){
-            $(context).parent('.slider').detach();
-            changeRoute();
-        }, 100);
-    });
+            element.parent('.slider').detach();
+            assignmentCount();
+        }, 400)
+
+    }
+
 
     /* Toggles */
-    $('#menuToggle, #leftMenu li').on('click', function(){
+    $('#menuToggle, #left').on('click', function(){
         toggleMenu()
     });
 
@@ -324,6 +182,7 @@ function readyFunction(){
 
     });
 
+
     /* Display day dividers */
 
     var dup = {};
@@ -336,11 +195,111 @@ function readyFunction(){
     });
 
     /* Header Stuff */
-    var numberDue = $('#assignments-due').find('.slider').length;
-    $('.due .badge').text(numberDue);
-    var numberOverdue = $('#assignments-overdue').find('.slider').length;
-    $('.overdue .badge').text(numberOverdue);
+    function assignmentCount(){
+        var numberDue = $('#assignments-due').find('.slider').length;
+        $('.due .badge, .whatsdue.count').text(numberDue);
 
+        var numberOverdue = $('#assignments-overdue').find('.slider').length;
+        $('.overdue .badge').text(numberOverdue);
+    }
+
+    assignmentCount();
     /* Filtering Courses */
+
+    $(function() {
+        FastClick.attach(document.body);
+    });
+}
+
+
+function putBackable(){
+    /* Click Events */
+    setTimeout(function(){
+
+        var putBackable = $('.putBackable');
+        putBackable.off();
+        putBackable.siblings('.reveal').off();
+        putBackable.siblings('.reveal').click(function(){
+            $(this).parent('.slider');
+            var context = this;
+            setTimeout(function(){
+                $(context).parent('.slider').detach();
+                changeRoute();
+            }, 100);
+        });
+
+        putBackable.on('click', function(){
+            if ($(this).hasClass('open')){
+                console.log($(this).hasClass('open'))
+                $(this).css("-webkit-transform", "translate3d(0,0,0) scale3d(1,1,1)");
+                $(this).removeClass('open');
+            } else{
+                $(this).css("-webkit-transform", "translate3d(80px,0,0) scale3d(1,1,1)");
+                $(this).addClass('open');
+            }
+
+        });
+    }, 500)
+
     $('.search').fastLiveFilter('.searchable');
 }
+
+
+
+/*
+ var x = page[currentPage];
+ // Actual Swiping
+ var main = document.getElementById('content');
+ var mainOptions = {
+ preventDefault: true
+ };
+ var mainHammer = new Hammer(main, mainOptions);
+
+ var transitionTime = 100;
+
+ // Helper Functions
+
+
+ /* Horizontal Drag
+
+ mainHammer.on('pan', function(event) {
+ if (currentPage >= 1) { return };
+ var deltaX = event.deltaX
+ event.srcEvent.cancelBubble = true;
+ X = event.deltaX + page[currentPage];
+ var element = $('#content > div');
+ if ( 0 <= X || X <= -pageWidth*2){ return };
+
+ element.css("-webkit-transform", "translate3d("+X+"px,0,0) scale3d(1,1,1)");
+
+ });
+
+ //Release
+ mainHammer.on('panend', function(event) {
+ event.srcEvent.cancelBubble = true
+ if (currentPage >=1) { return };
+
+ if ( (Date.now()-timestamp) < 10){
+ X = page[currentPage]
+ return
+ };
+ var element = $('#content > div');
+ var deltaX = event.deltaX
+ if ( 0 <= X || X <= -pageWidth*2){ return };
+
+ var limit = (pageWidth/4)
+
+ if (Math.abs(deltaX) > limit){
+ if (deltaX < 0){
+ // Slide Right
+ ++currentPage;
+ }else{
+ // Slide Left
+ --currentPage;
+ }
+ }
+ animate(element);
+ element.css("-webkit-transform", "translate3d("+page[currentPage]+"px,0,0) scale3d(1,1,1)");
+ });
+
+ */

@@ -3,9 +3,9 @@
     {{#each course in filteredData}}
         <li class="slider">
             <div {{action 'addCourse' course}} class="reveal">
-                <img class="pull-right"src="assets/icons/check-icon.png"/>
+                <img class="pull-left"src="assets/icons/check-icon.png"/>
             </div>
-            <div class="putBackable">
+            <div class="putBackable animate">
                 <div class="info">
                     <div class="title">
                         {{course.course_name}} - {{course.admin_id}}

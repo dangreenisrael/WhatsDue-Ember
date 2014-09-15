@@ -155,7 +155,9 @@ App.UnenrolledController = Ember.ArrayController.extend({
                         localStorage.setItem('courses', course.get('id'));
                     }
                     //
-                    //context.transitionToRoute('assignments').then(function(){});
+                    context.transitionToRoute('enrolled').then(function(){
+
+                    });
                 },
                 error: function(){
                     alert("Please check your internet connection and try again :)")

@@ -5,12 +5,14 @@
 App.EnrolledView = Ember.View.extend({
     contentDidChange: function() {
         changeRoute();
+        putBackable();
     }.observes('controller.filteredData')
 });
 
 App.UnenrolledView = Ember.View.extend({
     contentDidChange: function() {
         changeRoute();
+        putBackable();
     }.observes('controller.filteredData')
 });
 
@@ -21,6 +23,11 @@ App.AssignmentsView = Ember.View.extend({
     }.observes('controller.filteredData')
 });
 
+App.CompletedAssignmentsView = Ember.View.extend({
+    contentDidChange: function() {
+        putBackable();
+    }.observes('controller.filteredData')
+});
 
 /** My Functions for fanciness**/
 

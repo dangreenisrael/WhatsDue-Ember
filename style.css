@@ -73,7 +73,7 @@ li{
 }
 
 .animate{
-    transition: all 0.3s linear;
+    transition: all 0.2s linear;
 }
 
 
@@ -85,7 +85,7 @@ header#appHeader{
     padding: 0px;
     font-size: 10px;
     text-align: center;
-    background: linear-gradient(#4fc2d5, #61c7bc);
+    background-image: linear-gradient(#4fc2d5, #61c7bc);
     text-transform: uppercase;
     position: fixed;
     z-index: 99;
@@ -200,7 +200,11 @@ ul#leftMenu li span.count{
 }
 
 .slider{
-
+    transform: translateZ(0);
+    perspective: 1000px;
+    backface-visibility: hidden;
+    height: 60px;
+    overflow-y: hidden;
     position: relative;
 }
 
@@ -208,7 +212,7 @@ ul#leftMenu li span.count{
     padding: 10px 20px;
     height: 40px;
     position: relative;
-    border-bottom: 1px solid #d6d6d6 ;
+    border-top: 1px solid #d6d6d6 ;
     background-color: #f2f2f2;
 }
 
@@ -283,7 +287,7 @@ ul#leftMenu li span.count{
     padding: 10px;
     background-color: #f2f2f2;
     font-weight: bold;
-    border-bottom: black 1px solid;
+    border-top: black 1px solid;
 }
 
 #newAssignments .sliders-list{
@@ -322,7 +326,7 @@ ul#leftMenu li span.count{
 /* Left Box */
 
 .slider.left-box .red{
-    border-bottom: 1px solid #c1272f;
+    border-top: 1px solid #c1272f;
 }
 
 .slider.left-box  .time{
