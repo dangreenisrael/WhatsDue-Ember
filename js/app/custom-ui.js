@@ -1,10 +1,11 @@
 $(document).ready(function (){
-	var timestamp;
     readyFunction();
+    console.log('ready');
 });
 
+readyFunction();
 function changeRoute(){
-    var delay=100;//1 seconds
+    var delay=300;//1 seconds
     setTimeout(function(){
         readyFunction();
     },delay);
@@ -13,9 +14,9 @@ moment.locale('en', {
     calendar : {
         lastDay : '[Yesterday] ',
         sameDay : '[Today] ',
-        nextDay : '[Tomorrow] hh',
-        nextWeek : 'dddd',
-        sameElse : 'dddd L'
+        nextDay : '[Tomorrow]',
+        nextWeek : '[This] dddd',
+        sameElse : 'dddd MMM Do'
     },
     relativeTime : {
         future: "%s ",
@@ -45,7 +46,7 @@ function readyFunction(){
     var headerHeight = $('#appHeader').outerHeight()
     var pageHeight = $(window).height() - headerHeight;
     $('div#content, div#content > div > div ').css('width',pageWidth);
-    $('div#content > div > div').css('height', pageHeight);
+    $('div#left').css('height', pageHeight);
     $('div#content > div').css({'width': pageWidth*3, 'margin-top':headerHeight});
 
     $( window ).resize(function() {
@@ -99,12 +100,15 @@ function readyFunction(){
 
         // Release
         removeHammer[i].on('panend', function(event) {
-            event.srcEvent.cancelBubble = true
-
-            var element = closest(event, '.removable')
-            var deltaX = event.deltaX
-            var width = element.width()
-            var limit = (width/4)
+            event.srcEvent.cancelBubble = true;
+            var element = closest(event, '.removable');
+            if($(element).hasClass('animate')==true){
+                return;
+            }
+            console.log('ran');
+            var deltaX = event.deltaX;
+            var width = element.width();
+            var limit = (width/4);
             animate(element);
             if (Math.abs(deltaX) >= width){
                 swipeRemove(element)
@@ -132,33 +136,40 @@ function readyFunction(){
      */
 
     function toggleMenu(){
+
         var element = $('#content > div');
         animate(element);
         if (currentPage >= 1){
             element.css("-webkit-transform", "translate3d(0,0,0) scale3d(1,1,1)");
             currentPage = 0;
+            window.scrollTo(0,0);
         } else{
             currentPage = 1;
             element.css("-webkit-transform", "translate3d(-33.333%,0,0) scale3d(1,1,1)");
         }
 
+
     }
 
+    // Make Left Menu un-scrollable
+    $('#left').on('touchmove', function(e){
+        //prevent native touch activity like scrolling
+        e.preventDefault();
+    });
+
     function goHome(){
-        var element = $('#content > div');
+        var element = $('#contentContainer');
         animate(element);
         element.css("-webkit-transform", "translate3d(-33.33%,0,0) scale3d(1,1,1)");
         currentPage = 1;
     }
 
     function swipeRemove(element){
-        element.siblings('.reveal').click();
         element.parent('.slider').addClass('animate').css('opacity','0');
         setTimeout(function(){
-            element.parent('.slider').detach();
+            element.siblings('.reveal').click();
             assignmentCount();
-        }, 400)
-
+        }, 350)
     }
 
 
@@ -209,6 +220,8 @@ function readyFunction(){
     $(function() {
         FastClick.attach(document.body);
     });
+    $('.search').fastLiveFilter('.searchable');
+
 }
 
 
@@ -219,7 +232,7 @@ function putBackable(){
         var putBackable = $('.putBackable');
         putBackable.off();
         putBackable.siblings('.reveal').off();
-        putBackable.siblings('.reveal').click(function(){
+        putBackable.not('.keep').siblings('.reveal').click(function(){
             $(this).parent('.slider');
             var context = this;
             setTimeout(function(){
@@ -237,11 +250,9 @@ function putBackable(){
                 $(this).css("-webkit-transform", "translate3d(80px,0,0) scale3d(1,1,1)");
                 $(this).addClass('open');
             }
-
         });
     }, 500)
 
-    $('.search').fastLiveFilter('.searchable');
 }
 
 

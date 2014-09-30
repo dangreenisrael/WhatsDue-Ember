@@ -33,18 +33,20 @@ var cordovaApp = {
     // function, we must explicitly call 'cordovaApp.receivedEvent(...);'
     onDeviceReady: function() {
         cordovaApp.receivedEvent('deviceready');
+        console.log('Device Ready');
+        $('#contentContainer').css("-webkit-transform", "translate3d(-33.33333%,0,0) scale3d(1,1,1)");
     },
     // Update DOM on a Received Event
     receivedEvent: function(id) {
         var pushNotification = window.plugins.pushNotification;
             pushNotification.register(cordovaApp.successHandler, cordovaApp.errorHandler,{"senderID":"577888563057","ecb":"cordovaApp.onNotificationGCM"});
-        console.log('Cordova Loaded: ' + id);
+       // console.log('Cordova Loaded: ' + id);
     },
     successHandler: function(result) {
-        console.log('Success Handler = '+result)
+       // console.log('Success Handler = '+result)
      },
     errorHandler:function(error) {
-        console.log(error);
+       // console.log(error);
     },
     /* These are for Push Notifications*/
     onNotificationGCM: function(e) {
@@ -56,13 +58,13 @@ var cordovaApp = {
                     "platform":  device.platform,
                     "pushId":    e.regid
                     };
-                    console.log(postData);
+                    //console.log(postData);
                     $.ajax({
                         url: site+"/students",
                         type: 'POST',
                         data: postData,
                         success: function (response) {
-                            console.log(response);
+                            //console.log(response);
                             localStorage.setItem("primaryKey", response.primaryKey)
                         }
                     });

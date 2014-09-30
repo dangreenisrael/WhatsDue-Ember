@@ -130,20 +130,14 @@ header#appHeader h1{
 }
 
 #content > div{
-    -webkit-transform: translate3d(-33.333%, 0px, 0px)
+    transform: translate3d(-33.333%, 0px, 0px)
 }
 
 #content > div > div{
     float: left;
-    overflow: hidden;
-}
-#content > div > div#middle, #content > div > div#right{
-    overflow-y: auto;
+    overflow-x: hidden;
 }
 
-div#middle{
-    position: relative;
-}
 
 /* Main Menu */
 
@@ -248,12 +242,12 @@ ul#leftMenu li span.count{
 
 #assignments-due .arrow-up{
     top: 52px;
-    left: 23%;
+    margin-left: 7%;
 }
 
 #assignments-overdue .arrow-up{
     top: 52px;
-    left: 70%;
+    margin-left: 23%;
 }
 
 

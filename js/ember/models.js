@@ -4,7 +4,7 @@
 
 App.Course = DS.Model.extend({
     course_name:         DS.attr('string'),
-    course_description:  DS.attr('string'),
+    instructor_name:     DS.attr('string'),
     admin_id:            DS.attr('string'),
     last_modified:       DS.attr('number'),
     created_at:          DS.attr('number'),

@@ -1,6 +1,5 @@
 <header id="appHeader">
     <img id="menuToggle" src="assets/icons/menu-icon.png" class="pull-left">
-    <!--button type="button" class="pull-right" {{action 'reset'}}> reset</button-->
     <h1 id="page-title">
         Assignments Due
     </h1>
@@ -21,7 +20,7 @@
                             <span>
                                 What's Due
                             </span>
-                    <span class="whatsdue count"></span>
+                    <!--span class="whatsdue count"></span-->
                 {{/link-to}}
 
 
@@ -46,16 +45,17 @@
 
 
 
-
-                <li>
+                <!--
+                <li {action 'reset'}}>
                     <div>
                         <img src="assets/icons/settings-icon.png"/>
                     </div>
                             <span>
-                                Settings
+                                Reset
                             </span>
+
                 </li>
-                <li>
+                <!--li>
                     <div>
                         <img src="assets/icons/feedback-icon.png"/>
                     </div>

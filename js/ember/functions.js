@@ -5,12 +5,10 @@
 var test = false;
 
 if (test == true){
-    var site = "http://whatsdueserver.com.192.168.1.61.xip.io/app_dev.php";
-    localStorage.setItem('primaryKey', '1');
+    //var site = "http://admin.whatsdueapp.com.192.168.2.28.xip.io/app_dev.php/student";
+    var site="http://admin.whatsdueapp.com/app_dev.php/student";
 }else{
-    var site="http://admin.whatsdueapp.com";
-   // localStorage.setItem('primaryKey', '1');
-
+    var site="http://admin.whatsdueapp.com/student";
 }
 
 /** Bringing In Data from the server **/
@@ -27,7 +25,6 @@ function updateAssignments(context){
 function updateCourses(context){
     var headers = {
     };
-    console.log(localStorage.getItem('timestamp_course'));
     if (!localStorage.getItem('timestamp_course')){
         headers.sendAll = true;
     }
@@ -204,6 +201,3 @@ function wipeRecentlyUnDeletedCourses(){
 function setTitle(title){
     $('#page-title').html(title);
 }
-//wipeRecentlyDeletedCourses();
-//addRecentlyDeletedCourse(41)
-//console.log(getRecentlyDeletedCourses())

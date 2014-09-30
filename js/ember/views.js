@@ -20,6 +20,7 @@ App.UnenrolledView = Ember.View.extend({
 App.AssignmentsView = Ember.View.extend({
     contentDidChange: function() {
         changeRoute();
+        console.log('changed')
     }.observes('controller.filteredData')
 });
 
