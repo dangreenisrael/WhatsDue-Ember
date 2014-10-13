@@ -3,7 +3,7 @@
     {{#each course in filteredData}}
         <li class="slider left-box">
             <div {{action 'addCourse' course}} class="reveal">
-                <img class="pull-left"src="assets/icons/check-icon.png"/>
+                {{icon "plus" "pull-left"}}
             </div>
             <div class="putBackable animate keep">
                 <div class="time">

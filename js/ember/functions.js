@@ -2,7 +2,7 @@
  * Created by dan on 2014-05-15.
  */
 
-var test = false;
+var test = true;
 
 if (test == true){
     //var site = "http://admin.whatsdueapp.com.192.168.2.28.xip.io/app_dev.php/student";
@@ -60,14 +60,16 @@ function getUpdates(url, context, model, headers){
             localStorage.setItem("timestamp_"+model, newTimestamp);
             $.each(response, function(i, record) {
                 // First see if it exists and try to update it
-                if (record.created_at < oldTimestamp && !headers.sendAll){
+                if (record.created_at <= oldTimestamp && !headers.sendAll){
                     context.store.find(model, record.id).then(
                         function(thisRecord){
                             if (model == 'assignment'){
                                 console.log(record);
                                 thisRecord.set('assignment_name', record.assignment_name);
-                                thisRecord.set('description', record.description);
+                                thisRecord.set('archived', record.archived);
                                 thisRecord.set('due_date', record.due_date);
+                                thisRecord.set('times_changed', thisRecord.get('times_changed')+1);
+
 
                             }else if(model == 'course'){
                                 thisRecord.set('course_name', record.course_name);
@@ -75,6 +77,7 @@ function getUpdates(url, context, model, headers){
                             }
 
                             thisRecord.save();
+                            console.log(thisRecord);
                             console.log('Updated Record '+record.id)
                         });
                 }else{

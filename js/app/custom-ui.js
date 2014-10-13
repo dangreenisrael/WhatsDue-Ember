@@ -1,9 +1,9 @@
+
 $(document).ready(function (){
     readyFunction();
     console.log('ready');
 });
 
-readyFunction();
 function changeRoute(){
     var delay=300;//1 seconds
     setTimeout(function(){
@@ -43,7 +43,7 @@ function readyFunction(){
 
     // Set dimensions relative to page
     var pageWidth = $(window).width();
-    var headerHeight = $('#appHeader').outerHeight()
+    var headerHeight = '55px'
     var pageHeight = $(window).height() - headerHeight;
     $('div#content, div#content > div > div ').css('width',pageWidth);
     $('div#left').css('height', pageHeight);
@@ -76,6 +76,7 @@ function readyFunction(){
         2 : - pageWidth * 2
     };
 
+
     /*
      * Swipe to Delete
      */
@@ -103,19 +104,21 @@ function readyFunction(){
             event.srcEvent.cancelBubble = true;
             var element = closest(event, '.removable');
             if($(element).hasClass('animate')==true){
-                return;
+               // return;
             }
-            console.log('ran');
+
             var deltaX = event.deltaX;
             var width = element.width();
             var limit = (width/4);
             animate(element);
+
+
             if (Math.abs(deltaX) >= width){
                 swipeRemove(element)
             } else if (Math.abs(deltaX) > limit){
                 element.css({
                     "-webkit-transform": "translate3d(101%,0,0) scale3d(1,1,1)",
-                    "opacity":1
+                    "opacity":0
                 });
                 swipeRemove(element);
             }
@@ -125,7 +128,6 @@ function readyFunction(){
                     "opacity":1
                 });
             }
-
         });
     }
 
@@ -152,10 +154,12 @@ function readyFunction(){
     }
 
     // Make Left Menu un-scrollable
-    $('#left').on('touchmove', function(e){
+    $('#left, #middle').on('touchmove', function(e){
         //prevent native touch activity like scrolling
         e.preventDefault();
     });
+
+
 
     function goHome(){
         var element = $('#contentContainer');
@@ -243,11 +247,10 @@ function putBackable(){
 
         putBackable.on('click', function(){
             if ($(this).hasClass('open')){
-                console.log($(this).hasClass('open'))
                 $(this).css("-webkit-transform", "translate3d(0,0,0) scale3d(1,1,1)");
                 $(this).removeClass('open');
             } else{
-                $(this).css("-webkit-transform", "translate3d(80px,0,0) scale3d(1,1,1)");
+                $(this).css("-webkit-transform", "translate3d(63px,0,0) scale3d(1,1,1)");
                 $(this).addClass('open');
             }
         });
@@ -255,62 +258,3 @@ function putBackable(){
 
 }
 
-
-
-/*
- var x = page[currentPage];
- // Actual Swiping
- var main = document.getElementById('content');
- var mainOptions = {
- preventDefault: true
- };
- var mainHammer = new Hammer(main, mainOptions);
-
- var transitionTime = 100;
-
- // Helper Functions
-
-
- /* Horizontal Drag
-
- mainHammer.on('pan', function(event) {
- if (currentPage >= 1) { return };
- var deltaX = event.deltaX
- event.srcEvent.cancelBubble = true;
- X = event.deltaX + page[currentPage];
- var element = $('#content > div');
- if ( 0 <= X || X <= -pageWidth*2){ return };
-
- element.css("-webkit-transform", "translate3d("+X+"px,0,0) scale3d(1,1,1)");
-
- });
-
- //Release
- mainHammer.on('panend', function(event) {
- event.srcEvent.cancelBubble = true
- if (currentPage >=1) { return };
-
- if ( (Date.now()-timestamp) < 10){
- X = page[currentPage]
- return
- };
- var element = $('#content > div');
- var deltaX = event.deltaX
- if ( 0 <= X || X <= -pageWidth*2){ return };
-
- var limit = (pageWidth/4)
-
- if (Math.abs(deltaX) > limit){
- if (deltaX < 0){
- // Slide Right
- ++currentPage;
- }else{
- // Slide Left
- --currentPage;
- }
- }
- animate(element);
- element.css("-webkit-transform", "translate3d("+page[currentPage]+"px,0,0) scale3d(1,1,1)");
- });
-
- */

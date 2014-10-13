@@ -3,7 +3,8 @@
         {{#each assignment in filteredData}}
         <div class="slider">
             <div class="reveal" {{action 'unRemoveAssignment' assignment}}>
-                <img class="pull-left" src="assets/icons/check-icon.png"/>
+                {{icon "back" "pull-left"}}
+
             </div>
             <div class="putBackable animate">
                 <div class="info">

@@ -2,6 +2,7 @@
  * Created by dan on 2014-05-13.
  */
 
+var OS = "ios";
 var loaderObj = {
 
     templates : [
@@ -79,7 +80,7 @@ App.Store = DS.Store.extend({
 
 App.Pollster = Ember.Object.extend({
     start: function(){
-        this.timer = setInterval(this.onPoll, 20000);
+        this.timer = setInterval(this.onPoll, 1000);
     },
     stop: function(){
         clearInterval(this.timer);
@@ -87,4 +88,11 @@ App.Pollster = Ember.Object.extend({
     onPoll: function(){
         // This gets defined when its called
     }
+});
+
+Ember.Handlebars.helper('icon', function(name, classes, id) {
+    name = Handlebars.Utils.escapeExpression(name);
+    id = Handlebars.Utils.escapeExpression(id);
+    classes = Handlebars.Utils.escapeExpression(classes);
+    return new Ember.Handlebars.SafeString('<img src="assets/icons/'+OS+'/'+name+'.png" id="'+id+'" class="'+classes+'"/>');
 });

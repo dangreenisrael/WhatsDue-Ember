@@ -20,9 +20,10 @@ App.CourseAdapter = DS.LSAdapter.extend({
 App.Assignment = DS.Model.extend({
     assignment_name:    DS.attr('string'),
     created_at:         DS.attr('number'),
-    description:        DS.attr('string'),
     due_date:           DS.attr('string'),
     last_modified:      DS.attr('number'),
+    archived:           DS.attr('boolean'),
+    times_updated:      DS.attr('number', {defaultValue: 0 }),
     last_updated:       DS.attr('number', {defaultValue: null}),
     date_completed:     DS.attr('number', {defaultValue: null}),
     enrolled:           DS.attr('boolean', {defaultValue: true}),

@@ -47,33 +47,36 @@ App.ApplicationController = Ember.Controller.extend({
 
 App.AssignmentsController = Ember.ArrayController.extend({
     due:(function() {
-        return this.get('content').filterBy('completed',false).filterBy('overdue',false).sortBy('due_date');
-    }).property('content.@each.completed'),
+        return this.get('content').filterBy('completed',false).filterBy('archived',false).filterBy('overdue',false).sortBy('due_date');
+    }).property('content.@each.times_changed'),
     overdue:(function() {
-        return this.get('content').filterBy('completed',false).filterBy('overdue',true).sortBy('due_date');
-    }).property('content.@each.completed'),
+        return this.get('content').filterBy('completed',false).filterBy('archived',false).filterBy('overdue',true).sortBy('due_date');
+    }).property('content.@each.times_changed'),
     actions: {
         removeAssignment: function(assignment) {
             assignment.set('completed', true);
-            assignment.set('date_completed', Date.now())
+            assignment.set('date_completed', Date.now());
+            assignment.set('times_changed',assignment.get('times_changed')+1);
+
             assignment.save();
         }
     },
     change:(function(){
         changeRoute();
-    }).observes('content.@each.completed')
+    }).observes('content.@each.times_changed')
 });
 
 App.CompletedAssignmentsController = Ember.ArrayController.extend({
     filteredData: (function() {
-        return this.get('content').filterBy('completed',true).sortBy('date_completed')
-    }).property('content.@each.completed'),
+        return this.get('content').filterBy('completed',true).filterBy('archived',false).sortBy('date_completed')
+    }).property('content.@each.times_changed'),
 
     sortAscending:  false,
     actions: {
         unRemoveAssignment: function(assignment) {
             assignment.set('completed', false);
-            assignment.set('date_completed', null)
+            assignment.set('date_completed', null);
+            assignment.set('times_changed',assignment.get('times_changed')+1);
             assignment.save();
             changeRoute();
         }

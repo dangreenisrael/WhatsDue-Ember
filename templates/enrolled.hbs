@@ -1,7 +1,7 @@
 {{#each course in filteredData}}
     <div class="slider left-box">
         <div {{action 'removeCourse' course}} class="reveal">
-            <img class="pull-left"src="assets/icons/check-icon.png"/>
+            {{icon "minus"}}
         </div>
 
         <div class="putBackable animate">
@@ -22,6 +22,6 @@
 
 
 {{#link-to 'unenrolled' tagName='div' class="add-something"}}
-    <img src="assets/icons/plus.png">
+    {{icon "plus-big"}}
     Add a Course
 {{/link-to}}
