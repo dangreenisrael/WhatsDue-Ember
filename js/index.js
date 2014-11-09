@@ -16,6 +16,8 @@
  * specific language governing permissions and limitations
  * under the License.
  */
+var pushNotification = window.plugins.pushNotification;
+
 var cordovaApp = {
     // Application Constructor
     initialize: function() {
@@ -34,19 +36,62 @@ var cordovaApp = {
     onDeviceReady: function() {
         cordovaApp.receivedEvent('deviceready');
         console.log('Device Ready');
-        $('#contentContainer').css("-webkit-transform", "translate3d(-33.33333%,0,0) scale3d(1,1,1)");
     },
     // Update DOM on a Received Event
     receivedEvent: function(id) {
-        var pushNotification = window.plugins.pushNotification;
-            pushNotification.register(cordovaApp.successHandler, cordovaApp.errorHandler,{"senderID":"577888563057","ecb":"cordovaApp.onNotificationGCM"});
-       // console.log('Cordova Loaded: ' + id);
+
+        //pushNotification.register(cordovaApp.successHandler, cordovaApp.errorHandler,{"senderID":"577888563057","ecb":"cordovaApp.onNotificatioLoaded});
+        if ( device.platform == 'android' || device.platform == 'Android'){
+            pushNotification.register(
+                cordovaApp.successHandler,
+                cordovaApp.errorHandler,
+                {
+                    "senderID":"577888563057",
+                    "ecb":"cordovaApp.onNotificationGCM"
+                });
+        } else {
+            pushNotification.register(
+                cordovaApp.tokenHandler,
+                cordovaApp.errorHandler,
+                {
+                    "badge":"true",
+                    "sound":"true",
+                    "alert":"true",
+                    "ecb":"onNotificationAPN"
+                });
+        }
+    },
+    tokenHandler: function (result) {
+        // Your iOS push server needs to know the token before it can push to this device
+        // here is where you might want to send it the token for later use.
+        console.log('device token = ' + result);
+        console.log('device UUID = ' + device.uuid);
+        console.log('device name = ' + device.platform);
+        var postData = {
+            "uuid":      device.uuid,
+            "platform":  device.platform,
+            "pushId":    result
+        };
+        //console.log(postData);
+        $.ajax({
+            url: site+"/students",
+            type: 'POST',
+            data: postData,
+            success: function (response) {
+                console.log(response);
+                localStorage.setItem("primaryKey", response.primaryKey)
+            },
+            error: function(response){
+                console.log(response)
+            }
+        });
+
     },
     successHandler: function(result) {
-       // console.log('Success Handler = '+result)
+        console.log('Success Handler = '+result)
      },
     errorHandler:function(error) {
-       // console.log(error);
+        alert('Error Handler = '+error);
     },
     /* These are for Push Notifications*/
     onNotificationGCM: function(e) {
@@ -78,8 +123,7 @@ var cordovaApp = {
                     var updatedAssignment = new CustomEvent('updatedAssignment');
                     window.dispatchEvent(updatedAssignment);
                     function alertDismissed() {
-                        window.location.hash = '/'+data.assignmentId;
-                        $('.app').addClass('move-right off-canvas');
+                        window.location.hash = '/';
                     }
                     navigator.notification.alert(
                         data.message,  // message
@@ -98,7 +142,24 @@ var cordovaApp = {
                 console.log('An unknown GCM event has occurred');
                 break;
         }
+    },
+    onNotificationAPN: function (event) {
+    if ( event.alert )
+    {
+        navigator.notification.alert(event.alert);
     }
+
+    if ( event.sound )
+    {
+        var snd = new Media(event.sound);
+        snd.play();
+    }
+
+    if ( event.badge )
+    {
+        pushNotification.setApplicationIconBadgeNumber(successHandler, errorHandler, event.badge);
+    }
+}
     
 };
 cordovaApp.initialize();

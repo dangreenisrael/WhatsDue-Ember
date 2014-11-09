@@ -42,26 +42,16 @@
                         My Courses
                     </span>
                 {{/link-to}}
+                {{#link-to 'support' tagName='li'}}
 
-
-                <!--
-                <li {{action 'reset'}}>
                     <div>
-                        <img src="assets/icons/settings-icon.png"/>
-                    </div>
-                            <span>
-                                Reset
-                            </span>
-
-                </li>
-                <!--li>
-                    <div>
-                        <img src="assets/icons/feedback-icon.png"/>
+                        {{icon "courses"}}
                     </div>
                             <span>
                                 Feedback &amp; Support
                             </span>
-                </li>
+                {{/link-to}}
+
                 <!--
                 <li onclick="goTo('#about', 'About')">
                     <div>

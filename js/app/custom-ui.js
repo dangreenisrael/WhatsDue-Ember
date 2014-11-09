@@ -1,15 +1,12 @@
 
+
 $(document).ready(function (){
     readyFunction();
     console.log('ready');
 });
 
-function changeRoute(){
-    var delay=300;//1 seconds
-    setTimeout(function(){
-        readyFunction();
-    },delay);
-}
+
+/* Start Moment */
 moment.locale('en', {
     calendar : {
         lastDay : '[Yesterday] ',
@@ -36,213 +33,142 @@ moment.locale('en', {
 
 });
 
+/* End Moment */
+
+/* Start Global Variables */
+var pageWidth = $(window).width();
+var currentPage = 1
+var page = {
+    0 : - 0,
+    1 : - pageWidth,
+    2 : - pageWidth * 2
+};
+
+
+/* End Global Variables */
+
+
+/* Start Helper Functions */
+function assignmentCount(){
+    var numberDue = $('#assignments-due').find('.slider').length;
+    $('.due .badge, .whatsdue.count').text(numberDue);
+
+    var numberOverdue = $('#assignments-overdue').find('.slider').length;
+    $('.overdue .badge').text(numberOverdue);
+}
+
+function closest (event, selector){
+    return $(event.target).closest(selector)
+}
+
+function animate(element){
+    element.addClass('animate');
+    setTimeout(function(){element.removeClass('animate')}, 300);
+}
+
+function fastAnimate(element){
+    element.addClass('fastAnimate');
+    setTimeout(function(){element.removeClass('fastAnimate')}, 100);
+}
+
+
+
+function toggleMenu(){
+    var element = $('#contentContainer');
+    fastAnimate(element);
+    document.getElementById('contentContainer').scrollTop = 0;
+    if (currentPage >= 1){
+        element.css({"-webkit-transform": "translate3d(0,0,0) scale3d(1,1,1)", "overflow":"hidden"});
+        currentPage = 0;
+    } else{
+        currentPage = 1;
+        element.css({"-webkit-transform": "translate3d(-33.333%,0,0) scale3d(1,1,1)", "overflow":"auto"});
+    }
+}
+
+function goHome(){
+    var element = $('#contentContainer');
+    animate(element);
+    element.css({"-webkit-transform": "translate3d(-33.33%,0,0) scale3d(1,1,1)", "overflow":"auto"});
+    currentPage = 1;
+}
+
+function sliderSize(){
+    var assignmentWidth;
+    assignmentWidth = $(document).width() - $('.time').width()-80;
+    $('<style type="text/css">.slider .info { width:'+assignmentWidth+'px; }</style>').appendTo('head');
+}
+
+/* End Helper Functions */
 function readyFunction(){
     /*
      * Main Page Control
      */
-
     // Set dimensions relative to page
-    var pageWidth = $(window).width();
-    var headerHeight = '55px'
-    var pageHeight = $(window).height() - headerHeight;
-    $('div#content, div#content > div > div ').css('width',pageWidth);
-    $('div#left').css('height', pageHeight);
-    $('div#content > div').css({'width': pageWidth*3, 'margin-top':headerHeight});
 
+    var headerHeight = $('#appHeader').outerHeight()
+    var pageHeight = $(window).height() - headerHeight;
+    $('div#content, div#content > div > div ').css({'width':pageWidth});
+    $('div#contentContainer').css('height', pageHeight);
+    $('div#content > div').css({'width': pageWidth*3, 'margin-top':headerHeight});
+    sliderSize();
     $( window ).resize(function() {
         var pageWidth = $(window).width();
         var headerHeight = $('#appHeader').outerHeight()
         var pageHeight = $(window).height() - headerHeight;
-
         $('div#content, div#content > div > div ').css('width',pageWidth);
-        $('div#content > div > div').css('height', pageHeight);
+        $('div#contentContainer').css('height', pageHeight);
         $('div#content > div').css({'width': pageWidth*3, 'margin-top':headerHeight});
-
+        sliderSize();
     });
-
-    function closest (event, selector){
-        return $(event.target).closest(selector)
-    }
-
-    function animate(element){
-        element.addClass('animate');
-        setTimeout(function(){element.removeClass('animate')}, 300);
-    }
-
-    var currentPage = 1
-    var page = {
-        0 : - 0,
-        1 : - pageWidth,
-        2 : - pageWidth * 2
-    };
-
-
-    /*
-     * Swipe to Delete
-     */
-
-    var removable = document.getElementsByClassName("removable");
-    var removableOptions = { };
-    var removeHammer = [];
-    for (var i = 0; i < removable.length; ++i) {
-        removeHammer[i] = new Hammer(removable[i], removableOptions);
-        // Drag
-        removeHammer[i].on('pan', function(event) {
-            event.srcEvent.cancelBubble = true
-            timestamp = Date.now();
-            var deltaX = event.deltaX
-            var percent =1-Math.abs(deltaX/pageWidth);
-            var element = closest(event, '.removable');
-            element.css({
-                "-webkit-transform":"translate3d("+deltaX+"px,0,0) scale3d(1,1,1)",
-                "opacity":percent
-            });
-        });
-
-        // Release
-        removeHammer[i].on('panend', function(event) {
-            event.srcEvent.cancelBubble = true;
-            var element = closest(event, '.removable');
-            if($(element).hasClass('animate')==true){
-               // return;
-            }
-
-            var deltaX = event.deltaX;
-            var width = element.width();
-            var limit = (width/4);
-            animate(element);
-
-
-            if (Math.abs(deltaX) >= width){
-                swipeRemove(element)
-            } else if (Math.abs(deltaX) > limit){
-                element.css({
-                    "-webkit-transform": "translate3d(101%,0,0) scale3d(1,1,1)",
-                    "opacity":0
-                });
-                swipeRemove(element);
-            }
-            else{
-                element.css({
-                    "-webkit-transform": "translate3d(0,0,0) scale3d(1,1,1)",
-                    "opacity":1
-                });
-            }
-        });
-    }
-
-
 
     /*
      * Helper Functions
      */
 
-    function toggleMenu(){
-
-        var element = $('#content > div');
-        animate(element);
-        if (currentPage >= 1){
-            element.css("-webkit-transform", "translate3d(0,0,0) scale3d(1,1,1)");
-            currentPage = 0;
-            window.scrollTo(0,0);
-        } else{
-            currentPage = 1;
-            element.css("-webkit-transform", "translate3d(-33.333%,0,0) scale3d(1,1,1)");
-        }
-
-
-    }
-
-    // Make Left Menu un-scrollable
-    $('#left, #middle').on('touchmove', function(e){
-        //prevent native touch activity like scrolling
-        e.preventDefault();
-    });
-
-
-
-    function goHome(){
-        var element = $('#contentContainer');
-        animate(element);
-        element.css("-webkit-transform", "translate3d(-33.33%,0,0) scale3d(1,1,1)");
-        currentPage = 1;
-    }
-
-    function swipeRemove(element){
-        element.parent('.slider').addClass('animate').css('opacity','0');
-        setTimeout(function(){
-            element.siblings('.reveal').click();
-            assignmentCount();
-        }, 350)
-    }
 
 
     /* Toggles */
-    $('#menuToggle, #left').on('click', function(){
+
+    $('#menuToggle, #left').off('click').on('click', function(){
         toggleMenu()
     });
 
-    $('header#appHeader h1').on('click', function(){
+    $('header#appHeader h1').off('click').on('click', function(){
         goHome();
     });
 
-    $('nav > .due').on('click', function () {
-        $('#assignments-due').show();
-        $('#assignments-overdue').hide();
 
-    });
-    $('nav > .overdue').on('click', function () {
-        $('#assignments-due').hide();
-        $('#assignments-overdue').show();
-
-    });
-
-
-    /* Display day dividers */
-
-    var dup = {};
-    $('.day-divider').each(function() {
-        var txt = $(this).text();
-        if (dup[txt])
-            $(this).remove();
-        else
-            dup[txt] = true;
-    });
-
-    /* Header Stuff */
-    function assignmentCount(){
-        var numberDue = $('#assignments-due').find('.slider').length;
-        $('.due .badge, .whatsdue.count').text(numberDue);
-
-        var numberOverdue = $('#assignments-overdue').find('.slider').length;
-        $('.overdue .badge').text(numberOverdue);
-    }
-
-    assignmentCount();
     /* Filtering Courses */
 
     $(function() {
         FastClick.attach(document.body);
     });
-    $('.search').fastLiveFilter('.searchable');
+
+
+    $(window).scroll(function () {
+        $('.removable').css({
+            "-webkit-transform":"translate3d(0,0,0) scale3d(1,1,1)",
+            "opacity":1
+        });
+    });
 
 }
 
 
 function putBackable(){
     /* Click Events */
-    setTimeout(function(){
 
+    setTimeout(function(){
         var putBackable = $('.putBackable');
-        putBackable.off();
+        putBackable.off('click');
         putBackable.siblings('.reveal').off();
         putBackable.not('.keep').siblings('.reveal').click(function(){
             $(this).parent('.slider');
             var context = this;
             setTimeout(function(){
                 $(context).parent('.slider').detach();
-                changeRoute();
-            }, 100);
+            }, 1);
         });
 
         putBackable.on('click', function(){
@@ -250,11 +176,110 @@ function putBackable(){
                 $(this).css("-webkit-transform", "translate3d(0,0,0) scale3d(1,1,1)");
                 $(this).removeClass('open');
             } else{
+                putBackable.removeClass('open');
+                putBackable.css("-webkit-transform", "translate3d(0,0,0) scale3d(1,1,1)");
                 $(this).css("-webkit-transform", "translate3d(63px,0,0) scale3d(1,1,1)");
                 $(this).addClass('open');
             }
         });
-    }, 500)
 
+        $('.search').fastLiveFilter('.searchable');
+        sliderSize();
+
+
+    }, 1)
 }
 
+function complete(element){
+    console.log('removed');
+    element.parent('.slider').addClass('animate').css('opacity','0');
+    setTimeout(function(){
+        element.siblings('.reveal').click();
+        assignmentCount();
+    }, 1)
+}
+
+
+function swipeRemove(){
+
+    setTimeout(function() {
+        /*
+         * Swipe to Delete
+         */
+        var removable = document.getElementsByClassName("removable");
+        var removableOptions = {};
+        var removeHammer = [];
+        for (var i = 0; i < removable.length; ++i) {
+            removeHammer[i] = new Hammer(removable[i], removableOptions);
+            // Drag
+            removeHammer[i].off('pan').on('pan', function (event) {
+                event.srcEvent.cancelBubble = true
+                timestamp = Date.now();
+                var deltaX = event.deltaX
+                var percent = 1 - Math.abs(deltaX / pageWidth);
+                var element = closest(event, '.removable');
+                element.css({
+                    "-webkit-transform": "translate3d(" + deltaX + "px,0,0) scale3d(1,1,1)",
+                    "opacity": percent
+                });
+            });
+
+            // Release
+            removeHammer[i].off('panend').on('panend', function (event) {
+                event.srcEvent.cancelBubble = true;
+                var element = closest(event, '.removable');
+
+                var deltaX = event.deltaX;
+                var width = element.width();
+                var limit = (width / 3);
+                animate(element);
+
+
+                if (Math.abs(deltaX) >= width) {
+                    complete(element)
+                } else if (Math.abs(deltaX) > limit) {
+                    element.css({
+                        "-webkit-transform": "translate3d(101%,0,0) scale3d(1,1,1)",
+                        "opacity": 0
+                    });
+                    complete(element);
+                }
+                else {
+                    element.css({
+                        "-webkit-transform": "translate3d(0,0,0) scale3d(1,1,1)",
+                        "opacity": 1
+                    });
+                }
+            });
+        }
+
+        $('nav > .due').on('click', function () {
+            $('#assignments-due').show();
+            $('#assignments-overdue').hide();
+
+        });
+        $('nav > .overdue').on('click', function () {
+            $('#assignments-due').hide();
+            $('#assignments-overdue').show();
+        });
+
+        /* Display day dividers */
+
+
+        /* Header Stuff */
+        assignmentCount();
+
+    }, 500);
+
+    setTimeout(function(){
+        var dup = {};
+        $('.day-divider').each(function() {
+            var txt = $(this).text();
+            if (dup[txt])
+                $(this).remove();
+            else
+                dup[txt] = true;
+        })
+    },1 )
+    ;
+}

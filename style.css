@@ -1,382 +1,367 @@
-@font-face{
-    font-family: Gibson;
-    src: url('assets/GibsonLight.ttf') format('truetype');
+/*
+ * LESS CSS
+ */
+@font-face {
+  font-family: Gibson;
+  src: url('assets/GibsonLight.ttf') format('truetype');
 }
-
-body{
-    background-color:	#f2f2f2
+html {
+  -webkit-user-select: none;
 }
-
-*{
-    padding: 0;
-    margin: 0;
-    font-family: Gibson, sans-serif;
+body {
+  background-color: #f2f2f2;
 }
-
-img{
-    max-height: 100%;
+#middle {
+  min-height: 420px;
+}
+* {
+  padding: 0;
+  margin: 0;
+  font-family: Gibson, sans-serif;
+}
+img {
+  max-height: 100%;
 }
 *:focus {
-    outline: 0;
+  outline: 0;
 }
-
-li{
-    list-style: none
+li {
+  list-style: none;
 }
 /* Helpers */
-
-::-webkit-scrollbar{
-    display: none;
+::-webkit-scrollbar {
+  display: none;
 }
-.pull-left{
-    float: left!important;
+.pull-left {
+  float: left!important;
 }
-.pull-right{
-    float: right!important;
+.pull-right {
+  float: right!important;
 }
-
-.black, .black *{
-    background-color: rgba(0, 0, 0, 0.3)!important;
-    color: white;
+.black,
+.black * {
+  background-color: rgba(0, 0, 0, 0.3) !important;
+  color: white;
 }
-
-.red, .red *{
-    background-color: #f2534f!important;
-    color: white!important;
+.red,
+.red * {
+  background-color: #f2534f!important;
+  color: white!important;
 }
-
-.white{
-    background-color: white!important;
+.white {
+  background-color: white!important;
 }
-
-.badge{
-    padding: 7px;
+.badge {
+  padding: 7px;
 }
-
-.square{
-    border-radius: 5px;
+.square {
+  border-radius: 5px;
 }
-
-.circle{
-    border-radius: 30px;
+.hidden {
+  display: none!important;
+  visibility: hidden!important;
 }
-
-
-
-.vertical-seperator{
-    width: 1px!important;
-    height: 100%;
-    overflow: hidden!important;
-    position:relative;
-    display: inline-block;
-    background-color: #818181;
+.circle {
+  border-radius: 30px;
 }
-
-.animate{
-    transition: all 0.2s linear;
+.centered {
+  text-align: center;
 }
-
-
-
-/* Header */
-
-header#appHeader{
-    color: white;
-    padding: 0px;
-    padding-top: 0px;
-    font-size: 10px;
-    text-align: center;
-    background-image: linear-gradient(#4fc2d5, #61c7bc);
-    text-transform: uppercase;
-    position: fixed;
-    z-index: 99;
-    width: 100%;
-
-}
-
-header#appHeader img{
-    height: 20px;
-    padding: 20px 10px 15px;
-}
-
-header#appHeader .message-count{
-    position: relative;
-
-}
-
-header#appHeader .message-count img{
-    height: 35px;
-    margin-top: -15px;
-}
-
-header#appHeader .message-count span{
-    position: absolute;
-    top: 6px;
-    left: 26px;
-    font-size: 20px;
-    margin-left: 10px;
-
-}
-
-header#appHeader h1{
-    padding: 20px 0 13px;
-}
-
-
-/* Main Slide */
-
-#content{
-    overflow-x: hidden;
-
-}
-
-#content > div{
-    transform: translate3d(-33.333%, 0px, 0px)
-}
-
-#content > div > div{
-    float: left;
-    overflow-x: hidden;
-}
-
-
-
-
-/* Main Menu */
-
-ul#leftMenu li{
-    list-style: none;
-    padding: 20px;
-    height: 25px;
-    font-size: 25px;
-    color: #323232;
-    border-bottom: 1px solid #d6d6d6;
-}
-
-ul#leftMenu li > div{
-    display: inline-block;
-    width: 35px;
-    border-right: 1px solid #9d9d9d;
-}
-ul#leftMenu li img{
-    max-height: 17px;
-    max-width: 17px;
-    text-align: center;
-}
-
-ul#leftMenu li span{
-    height: 20px;
-    padding-left: 10px;
-}
-
-ul#leftMenu li span.count{
-    float: right;
-    color: #f1544d;
-}
-
-/* About */
-
-#about h2{
-    padding: 10px 20px;
-    border-bottom: 2px solid #333;
-}
-
-#about p{
-    padding: 10px 40px;
-}
-
-
-
-
-
-/* Assignments */
-
-#assignments-overdue{
-    display: none;
-}
-
-.slider{
-    transform: translateZ(0);
-    perspective: 1000px;
-    backface-visibility: hidden;
-    height: 60px;
-    overflow-y: hidden;
-    position: relative;
-}
-
-.slider > div:nth-child(2) {
-    padding: 10px 20px;
-    height: 40px;
-    position: relative;
-    border-top: 1px solid #d6d6d6 ;
-    background-color: #f2f2f2;
-}
-
-.slider .info{
-    margin-left: 10px;
-    display: inline-block;
-    position: relative;
-    height: 100%;
-}
-.slider .title{
-    font-size: 16px;
-    margin-top: -3px;
-    font-weight: 100;
-    white-space: nowrap;
-    overflow-x: hidden;
-}
-
-.slider .course{
-    font-size: 12px;
-    margin-top: 8px;
-    color: #808080;
-
-}
-
 .arrow-up {
-    width: 0;
-    height: 0;
-    border-left: 10px solid transparent;
-    border-right: 10px solid transparent;
-    border-bottom: 10px solid #f2f2f2;
-    position: absolute;
+  width: 0;
+  height: 0;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-bottom: 10px solid #f2f2f2;
+  position: absolute;
 }
-
-#assignments-due .arrow-up{
-    top: 52px;
-    margin-left: 7%;
+.vertical-seperator {
+  width: 1px!important;
+  height: 100%;
+  overflow: hidden!important;
+  position: relative;
+  display: inline-block;
+  background-color: #818181;
 }
-
-#assignments-overdue .arrow-up{
-    top: 52px;
-    margin-left: 23%;
+.animate {
+  transition: all 0.3s linear;
 }
-
-
-
-#newAssignments > nav{
-    height: 60px;
-    background-color: #3a4944;
-    color: white;
-    line-height: 30px;
-    position: relative;
+.fastAnimate {
+  transition: all 0.1s linear;
 }
-
-
-#newAssignments > nav > .due, #newAssignments > nav > .overdue{
-    padding-top:15px;
-    padding-bottom: 15px;
+/* Header */
+header#appHeader {
+  color: white;
+  padding: 0px;
+  font-size: 10px;
+  text-align: center;
+  background-color: #4fc2d5;
+  /* background-image: linear-gradient(#4fc2d5, #61c7bc);*/
+  text-transform: uppercase;
+  position: fixed;
+  z-index: 99;
+  width: 100%;
 }
-
-#newAssignments > nav > div{
-    width: 49%;
-    float: left;
-    text-align: center;
-    font-size: 18px;
+header#appHeader img {
+  height: 20px;
+  padding: 20px 10px 15px;
 }
-
-
-
-#newAssignments .day-divider{
-    line-height: 40px;
-    font-size: 20px;
-    padding: 10px;
-    background-color: #f2f2f2;
-    font-weight: bold;
-    border-top: black 1px solid;
+header#appHeader .message-count {
+  position: relative;
 }
-
-#newAssignments .sliders-list{
-    position: relative;
+header#appHeader .message-count img {
+  height: 35px;
+  margin-top: -15px;
 }
-
-.from-now{
-    display: none;
+header#appHeader .message-count span {
+  position: absolute;
+  top: 6px;
+  left: 26px;
+  font-size: 20px;
+  margin-left: 10px;
 }
-.Today .time-due{
-    display: none;
+header#appHeader h1 {
+  padding: 20px 0 13px;
 }
-.Today .from-now{
-    display: inline!important;
+/* Main Slide */
+#content {
+  overflow-x: hidden;
 }
-
-
-
+#content > div {
+  transform: translate3d(-33.333%, 0px, 0px);
+}
+#content > div > div {
+  float: left;
+  overflow-x: hidden;
+}
+/* Main Menu */
+#left {
+  overflow-y: hidden;
+}
+ul#leftMenu li {
+  list-style: none;
+  padding: 20px;
+  height: 25px;
+  font-size: 25px;
+  color: #323232;
+  border-bottom: 1px solid #d6d6d6;
+}
+ul#leftMenu li > div {
+  display: inline-block;
+  width: 35px;
+  border-right: 1px solid #9d9d9d;
+}
+ul#leftMenu li img {
+  max-height: 17px;
+  max-width: 17px;
+  text-align: center;
+}
+ul#leftMenu li span {
+  height: 20px;
+  padding-left: 10px;
+}
+ul#leftMenu li span.count {
+  float: right;
+  color: #f1544d;
+}
+/* About */
+#about h2 {
+  padding: 10px 20px;
+  border-bottom: 2px solid #333;
+}
+#about #about p {
+  padding: 10px 40px;
+}
+/* Assignments */
+#assignments-overdue {
+  display: none;
+}
+#assignments-overdue .arrow-up {
+  top: 52px;
+  margin-left: 23%;
+}
+#assignments-due {
+  position: relative;
+}
+#assignments-due .arrow-up {
+  top: -6px;
+  margin-left: 25%;
+}
+/* Sliders*/
+.slider {
+  transform: translateZ(0);
+  perspective: 1000px;
+  backface-visibility: hidden;
+  min-height: 50px;
+  overflow-y: hidden;
+  position: relative;
+}
+.slider > div:nth-child(2) {
+  padding: 10px 20px;
+  min-height: 50px;
+  position: relative;
+  border-top: 1px solid #d6d6d6;
+  background-color: #f2f2f2;
+}
+.slider .info {
+  margin-left: 10px;
+  display: inline-block;
+  position: relative;
+  min-height: 50px;
+  padding-left: 10px;
+  border-left: 1px solid #9d9d9d;
+}
+.slider .title {
+  font-size: 16px;
+  margin-top: -3px;
+  font-weight: 100;
+  overflow-x: hidden;
+}
+.slider .course {
+  font-size: 12px;
+  margin-top: -15px;
+  color: #808080;
+}
+/*
+ * New Assignments
+ */
+#newAssignments > nav > .due,
+#newAssignments > nav > .overdue {
+  padding-top: 15px;
+  padding-bottom: 15px;
+}
+#newAssignments > nav > div {
+  width: 49%;
+  float: left;
+  text-align: center;
+  font-size: 18px;
+}
+#newAssignments > nav {
+  height: 60px;
+  background-color: #3a4944;
+  color: white;
+  line-height: 30px;
+  position: relative;
+}
+#newAssignments .day-divider {
+  line-height: 40px;
+  font-size: 20px;
+  padding: 10px;
+  background-color: #f2f2f2;
+  font-weight: bold;
+  border-top: black 1px solid;
+}
+#newAssignments .sliders-list {
+  position: relative;
+}
+#newAssignments .title {
+  font-size: 16px;
+  font-weight: 700;
+}
+#newAssignments .description {
+  padding-top: 5px;
+  font-size: 14px;
+  font-weight: 100;
+  letter-spacing: 0.3px;
+}
+.from-now {
+  display: none;
+}
+.Today .time-due {
+  display: none;
+}
+.Today .from-now {
+  display: inline !important;
+}
 /* Reveal*/
-
-.reveal{
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
-    background-color: #333333!important
+.reveal {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background-color: #333333 !important;
 }
-
-.reveal img{
-    padding: 10px;
-    height: 40px;
+.reveal img {
+  padding: 15px 10px;
+  height: 40px;
 }
-
-
 /* Left Box */
-
-.slider.left-box .red{
-    border-top: 1px solid #c1272f;
+.slider.left-box .red {
+  border-top: 1px solid #c1272f;
 }
-
-.slider.left-box  .time{
-    border-right: 1px solid white;
+.slider.left-box .time {
+  height: 60px;
+  width: 110px;
+  font-size: 20px;
+  float: left;
+  font-weight: bold;
+  color: #808080;
+  position: relative;
+  overflow: hidden;
 }
-
-.slider.left-box .time{
-    height: 40px;
-    min-width: 100px;
-    line-height: 40px;
-    font-size: 20px;
-    display: inline-block;
-    float: left;
-    padding-right: 10px;
-    border-right: 1px solid #9d9d9d;
-    font-weight: bold;
-    color: #808080;
-    position: relative;
-    overflow: hidden;
+.slider.left-box .time .course {
+  margin-top: 5px;
 }
-
-
-
 /*Completed Assignments */
-
-#completedAssignments .slider img{
-    height: 40px;
-    float: right;
-    padding-top: 10px;
+#completedAssignments .info {
+  padding-left: 0;
+  border: none;
 }
-
-
+#completedAssignments .course {
+  margin-top: 10px;
+  font-weight: bold;
+  font-style: italic;
+}
+#completedAssignments .full {
+  height: 100%;
+}
+#completedAssignments .helper {
+  display: inline-block;
+  height: 100%;
+  vertical-align: middle;
+}
 /* Courses */
-
-input.search{
-    width: 100%;
-    height: 50px;
-    background: url("assets/icons/ios/search.png") no-repeat 10px center;
-    background-size: 30px;
-    padding-left: 60px;
-    font-size: 20px;
-    border: 0;
-    border-bottom: 1px solid!important;
+.courses .instructorName {
+  font-size: 14px;
+  font-style: italic;
+  color: #808080;
+  margin-top: 10px;
 }
-
-.add-something{
-    width: 300px;
-    text-align: center;
-    margin: 40px auto;
-    color: #666666;
-    font-size: 30px;
+input.search {
+  width: 100%;
+  height: 50px;
+  background: url("assets/icons/ios/search.png") no-repeat 10px center;
+  background-size: 30px;
+  padding-left: 60px;
+  font-size: 20px;
+  border: 0;
+  border-bottom: 1px solid!important;
 }
-.add-something img{
-    width: 100px;
-    display: block;
-    margin: 20px auto
+.add-something {
+  width: 300px;
+  text-align: center;
+  margin: 40px auto;
+  color: #666666;
+  font-size: 30px;
+  z-index: 999;
+}
+.add-something img {
+  width: 100px;
+  display: block;
+  margin: 20px auto;
+}
+/* Static Content */
+.static-content {
+  padding: 20px;
+}
+.static-content .static-content h3 {
+  padding: 10px;
+}
+.nothing-due h2 {
+  font-size: 22px;
+}
+.nothing-due img {
+  width: 40%;
+  margin: 40px 30%;
 }

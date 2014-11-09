@@ -4,46 +4,45 @@
 
 App.Router.map(function(){
     this.resource('enrolled', function(){
-        this.route('profile', { path: "/:id" });
     });
 
     this.resource('unenrolled', function(){
-        this.route('profile', { path: "/:id" });
     });
 
     this.resource('assignments', {path: '/'}, function(){
-        this.route('info', {path: '/:id'});
     });
 
     this.resource('completedAssignments', function(){
-        this.route('info', {path: '/:id'});
     });
+
+    this.resource('support', function(){
+    })
 });
 
 
 App.Route = Ember.Route.extend({
 
 });
+
+App.SupportRoute = Ember.Route.extend({
+    model: function(){
+
+        setTitle('Support');
+    }
+});
+
 App.UnenrolledRoute = Ember.Route.extend({
     model: function() {
         updateCourses(this);
         setTitle('Add Courses');
-        changeRoute();
         return this.store.find('course');
-    },
-    afterModel: function() {
-        changeRoute();
     }
 });
 
 App.EnrolledRoute = Ember.Route.extend({
     model: function() {
         setTitle('My Courses');
-        changeRoute();
         return this.store.find('course');
-    },
-    afterModel: function() {
-        changeRoute();
     }
 });
 
@@ -51,23 +50,28 @@ App.AssignmentsRoute = Ember.Route.extend({
     model: function() {
         updateAssignments(this);
         setTitle('Assignments Due');
-        changeRoute();
-        return this.store.find('assignment');
+        return this.store.find('assignment')
+    },
+    actions: {
+        invalidateModel: function() {
+            Ember.Logger.log('Route is now refreshing...');
+            swipeRemove();
+            assignmentCount();
+            this.refresh();
+        }
     },
     afterModel: function() {
-        changeRoute();
-    }
 
+    }
 });
 
 App.CompletedAssignmentsRoute = Ember.Route.extend({
     model: function() {
         updateAssignments(this);
         setTitle('Recently Completed');
-        changeRoute();
         return this.store.find('assignment');
     },
     afterModel: function() {
-        changeRoute();
+        putBackable();
     }
 });

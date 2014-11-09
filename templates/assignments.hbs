@@ -14,6 +14,7 @@
             </span>
         </div>
     </nav>
+
     <div id="assignments-due">
         <div class="arrow-up"></div>
         {{#each assignment in due}}
@@ -30,18 +31,24 @@
                         <span class="time-due">
                             {{assignment.timeDue}}
                         </span>
+                        <div class="course">
+                            {{ assignment.course_id.course_name }}
+                        </div>
                     </div>
                     <div class="info">
                         <div class="title">
                             {{assignment.assignment_name}}
                         </div>
-                        <div class="course">
-                            {{ assignment.course_id.course_name }}
+                        <div class="description">
+                            {{assignment.description}}
                         </div>
+
                     </div>
                 </div>
             </div>
         {{/each}}
+
+
     </div>
 
     <div id="assignments-overdue">
@@ -53,19 +60,33 @@
             <div class="slider left-box">
                 <div {{action 'removeAssignment' assignment}} class="reveal"></div>
                 <div {{bind-attr class=":removable :red assignment.urgencyLabel"}}>
-                    <span class="time">
-                        OVERDUE
-                    </span>
+                    <div class="time">
+                        <span class="from-now">
+                            {{assignment.fromNow}}
+                        </span>
+                        <span class="time-due">
+                            OVERDUE
+                        </span>
+                        <div class="course">
+                            {{ assignment.course_id.course_name }}
+                        </div>
+                    </div>
                     <div class="info">
                         <div class="title">
                             {{assignment.assignment_name}}
                         </div>
-                        <div class="course">
-                            {{ assignment.course_id.course_name }}
+                        <div class="description">
+                            {{assignment.description}}
                         </div>
                     </div>
                 </div>
             </div>
         {{/each}}
+    </div>
+    <div class="static-content nothing-due hidden">
+        <img src="assets/img/thumbs-up.png">
+        <h2 class="centered">
+            Looks like you've got nothing due
+        </h2>
     </div>
 </div>

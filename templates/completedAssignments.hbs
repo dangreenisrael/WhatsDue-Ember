@@ -3,10 +3,12 @@
         {{#each assignment in filteredData}}
         <div class="slider">
             <div class="reveal" {{action 'unRemoveAssignment' assignment}}>
-                {{icon "back" "pull-left"}}
-
+                <div class="full">
+                    <span class="helper"></span>
+                    {{icon "back"}}
+                </div>
             </div>
-            <div class="putBackable animate">
+            <div class="putBackable fastAnimate">
                 <div class="info">
                     <div class="title">
                         {{assignment.assignment_name}}

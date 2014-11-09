@@ -10,7 +10,8 @@ var loaderObj = {
         'assignments.hbs',
         'completedAssignments.hbs',
         'enrolled.hbs',
-        'unenrolled.hbs'
+        'unenrolled.hbs',
+        'support.hbs'
     ]
 };
 
@@ -36,10 +37,7 @@ function loadTemplates(templates) {
 }
 
 var helperObj = {
-
     templates : [
-        'assignments_info.hbs',
-        'components_course-profile.hbs'
     ]
 };
 
@@ -74,13 +72,10 @@ App.ApplicationAdapter = DS.LSAdapter.extend({
     namespace: 'whatsdue'
 });
 
-App.Store = DS.Store.extend({
-
-});
 
 App.Pollster = Ember.Object.extend({
     start: function(){
-        this.timer = setInterval(this.onPoll, 1000);
+        this.timer = setInterval(this.onPoll, 5000);
     },
     stop: function(){
         clearInterval(this.timer);

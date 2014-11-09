@@ -1,27 +1,29 @@
-{{#each course in filteredData}}
-    <div class="slider left-box">
-        <div {{action 'removeCourse' course}} class="reveal">
-            {{icon "minus"}}
-        </div>
-
-        <div class="putBackable animate">
-            <div class="time">
-                {{course.admin_id}}
+<div class="courses">
+    {{#each course in filteredData}}
+        <div class="slider left-box">
+            <div {{action 'removeCourse' course}} class="reveal">
+                {{icon "minus"}}
             </div>
-            <div class="info">
-                <div class="title">
-                    {{course.course_name}}
+
+            <div class="putBackable fastAnimate">
+                <div class="time">
+                    {{course.admin_id}}
                 </div>
-                <div class="course">
-                    {{course.instructor_name}}
+                <div class="info">
+                    <div class="courseName">
+                        {{course.course_name}}
+                    </div>
+                    <div class="instructorName">
+                        {{course.instructor_name}}
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-{{/each}}
+    {{/each}}
 
 
-{{#link-to 'unenrolled' tagName='div' class="add-something"}}
-    {{icon "plus-big"}}
-    Add a Course
-{{/link-to}}
+    {{#link-to 'unenrolled' tagName='div' class="add-something"}}
+        {{icon "plus-big"}}
+        Add a Course
+    {{/link-to}}
+</div>

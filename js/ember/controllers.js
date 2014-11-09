@@ -13,7 +13,6 @@ App.ApplicationController = Ember.Controller.extend({
         }
     },
     init: function() {
-        console.log('start')
 
         if (localStorage.getItem('timestamp_course')==null){
             localStorage.setItem('timestamp_course',0);
@@ -47,30 +46,44 @@ App.ApplicationController = Ember.Controller.extend({
 
 App.AssignmentsController = Ember.ArrayController.extend({
     due:(function() {
-        return this.get('content').filterBy('completed',false).filterBy('archived',false).filterBy('overdue',false).sortBy('due_date');
-    }).property('content.@each.times_changed'),
+        var context = this;
+        setTimeout(function(){
+            var total = context.get('model').filterBy('archived',false).filterBy('completed',false).length;
+            console.log(total);
+            if(total == 0){
+                $('.nothing-due').removeClass('hidden');
+                $('.day-divider').addClass('hidden');
+
+            }else{
+                $('.nothing-due').addClass('hidden')
+                $('.day-divider').removeClass('hidden');
+                ;
+            }
+        }, 5)
+        return this.get('model').filterBy('completed',false).filterBy('archived',false).filterBy('overdue',false).sortBy('due_date');
+    }).property('model.@each.due_date', 'model.@each.archived'),
     overdue:(function() {
-        return this.get('content').filterBy('completed',false).filterBy('archived',false).filterBy('overdue',true).sortBy('due_date');
-    }).property('content.@each.times_changed'),
+        return this.get('model').filterBy('completed',false).filterBy('archived',false).filterBy('overdue',true).sortBy('due_date');
+    }).property('model.@each.due_date', 'model.@each.archived'),
     actions: {
         removeAssignment: function(assignment) {
+            trackEvent('Assignment Completed');
             assignment.set('completed', true);
             assignment.set('date_completed', Date.now());
-            assignment.set('times_changed',assignment.get('times_changed')+1);
-
             assignment.save();
+            this.send('invalidateModel');
+        },
+        getLatest: function() {
+            Ember.Logger.log('Controller requesting route to refresh...');
+            this.send('invalidateModel');
         }
-    },
-    change:(function(){
-        changeRoute();
-    }).observes('content.@each.times_changed')
+    }
 });
 
 App.CompletedAssignmentsController = Ember.ArrayController.extend({
     filteredData: (function() {
-        return this.get('content').filterBy('completed',true).filterBy('archived',false).sortBy('date_completed')
-    }).property('content.@each.times_changed'),
-
+        return this.get('model').filterBy('completed',true).sortBy('date_completed')
+    }).property('model.@each.archived'),
     sortAscending:  false,
     actions: {
         unRemoveAssignment: function(assignment) {
@@ -78,16 +91,16 @@ App.CompletedAssignmentsController = Ember.ArrayController.extend({
             assignment.set('date_completed', null);
             assignment.set('times_changed',assignment.get('times_changed')+1);
             assignment.save();
-            changeRoute();
         }
     }
 });
 
 App.EnrolledController = Ember.ArrayController.extend({
-    content:[],
+    model:[],
     filteredData: (function() {
-        return this.get('content').filterBy('enrolled', true)
-    }).property('content.@each.enrolled'),
+        this.set('sortProperties', 'admin_id');
+        return this.get('model').filterBy('enrolled', true).sortBy('admin_id', 'course_name');
+    }).property('model.@each.enrolled'),
     actions: {
         removeCourse: function(course) {
             var context = this;
@@ -106,18 +119,16 @@ App.EnrolledController = Ember.ArrayController.extend({
                             });
                         }, context);
                     });
-
+                    trackEvent('Course Removed', 'Course Name', course.get('course_name'))
                     // Remove Course from local storage
                     var courses = localStorage.getItem('courses');
 
                     courses = courses.split(',');
-                    console.log(courses.length);
 
                     if (courses.length <= 1) {
                         localStorage.removeItem('courses');
                     } else{
                         // Find and remove courseId from array
-                        console.log(this)
                         var i = courses.indexOf(course.get('id'));
                         if(i != -1) {
                             courses.splice(i, 1);
@@ -125,7 +136,6 @@ App.EnrolledController = Ember.ArrayController.extend({
                         var serialized = courses.toString();
                         localStorage.setItem('courses', serialized);
                     }
-
 
                 },
                 error: function(){
@@ -137,10 +147,10 @@ App.EnrolledController = Ember.ArrayController.extend({
 });
 
 App.UnenrolledController = Ember.ArrayController.extend({
-    content:[],
+    model:[],
     filteredData: (function() {
-        return this.get('content').filterBy('enrolled', false)
-    }).property('content.@each.enrolled'),
+        return this.get('model').filterBy('enrolled', false).sortBy('admin_id', 'course_name');
+    }).property('model.@each.enrolled'),
     actions: {
         addCourse: function(course) {
             var context = this;
@@ -167,11 +177,12 @@ App.UnenrolledController = Ember.ArrayController.extend({
                     }
                     //
                     context.transitionToRoute('enrolled').then(function(){
-
+                        trackEvent('Course Added', 'Course Name', course.get('course_name'), 'Username', course.get('admin_id'));
                     });
                 },
                 error: function(){
-                    alert("Please check your internet connection and try again :)")
+                    alert("Are you connected to the Internet?");
+                    trackEvent('Course Adding Failed');
                 }
             });
         }

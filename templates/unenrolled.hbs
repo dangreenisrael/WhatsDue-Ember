@@ -1,24 +1,26 @@
-<input class="search" type="text" placeholder="Search by Course or Instructor"/>
-<ul class="searchable">
+<div class="courses">
+    <input class="search" type="text" placeholder="Search by Course or Instructor"/>
+    <ul class="searchable">
     {{#each course in filteredData}}
-        <li class="slider left-box">
+        <li {{bindAttr class="course.hidden :slider :left-box"}}>
             <div {{action 'addCourse' course}} class="reveal">
                 {{icon "plus" "pull-left"}}
             </div>
-            <div class="putBackable animate keep">
+            <div class="putBackable fastAnimate keep">
                 <div class="time">
                     {{course.admin_id}}
                 </div>
                 <div class="info">
-                    <div class="title">
+                    <div class="courseName">
                         {{course.course_name}}
                     </div>
-                    <div class="course">
+                    <div class="instructorName">
                         {{course.instructor_name}}
                     </div>
                 </div>
             </div>
         </li>
     {{/each}}
-</ul>
+    </ul>
 
+</div>
