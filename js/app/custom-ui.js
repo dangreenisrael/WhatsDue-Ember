@@ -84,6 +84,9 @@ function toggleMenu(){
         currentPage = 1;
         element.css({"-webkit-transform": "translate3d(-33.333%,0,0) scale3d(1,1,1)", "overflow":"auto"});
     }
+    if(cordovaLoaded==true){
+        cordova.plugins.Keyboard.close();
+    }
 }
 
 function goHome(){
@@ -183,7 +186,16 @@ function putBackable(){
             }
         });
 
-        $('.search').fastLiveFilter('.searchable');
+        $('.search').fastLiveFilter('.searchable').on('change', function(){
+            var search = $(this).val();
+            console.log(search);
+            if (search.length >2 ){
+                $('ul.searchable').removeClass('hidden');
+            } else{
+                $('ul.searchable').addClass('hidden');
+            }
+
+        });
         sliderSize();
 
 

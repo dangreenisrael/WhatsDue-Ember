@@ -1,6 +1,6 @@
 <div class="courses">
-    <input class="search" type="text" placeholder="Search by Course or Instructor"/>
-    <ul class="searchable">
+    <input id="search" class="search" type="text" placeholder="Search by Course or Instructor"/>
+    <ul class="searchable hidden">
     {{#each course in filteredData}}
         <li {{bindAttr class="course.hidden :slider :left-box"}}>
             <div {{action 'addCourse' course}} class="reveal">
