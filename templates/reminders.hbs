@@ -1,0 +1,39 @@
+<div id="reminders">
+    <h3>
+        My Reminders ( {{total}} of 3 )
+    </h3>
+    <ul>
+        {{# each reminder in model}}
+        <li>
+            <div class="reveal" {{action 'remove' reminder}}>
+                    <span class="helper"></span>
+                    {{icon "X"}}
+            </div>
+            <div class="putBackable fastAnimate">
+                {{ reminder.time_before}} before each item
+                {{icon "minus-red"}}
+            </div>
+        </li>
+        {{/each}}
+
+    </ul>
+    <div id="new-reminder">
+        <h3>
+            Add Reminder
+        </h3>
+        <figure {{action 'add'}}>
+            <input type="text">
+            {{icon "plus-big"}}
+        </figure>
+        <form>
+            Remind me
+            <input class="time" type="tel" step="1" placeholder="0" max="30">
+            <select class="time-frame">
+                <option value="hours">hour(s)</option>
+                <option value="days">day(s)</option>
+            </select>
+            before everything is due.
+        </form>
+
+    </div>
+</div>
