@@ -25,7 +25,6 @@ App.ApplicationController = Ember.Controller.extend({
         if (Ember.isNone(this.get('pollster')) ){
             this.set('pollster', App.Pollster.create({
                 onPoll: function() {
-                    console.log('poll');
                     updateAssignments(context);
                     updateCourses(context);
                 }
@@ -36,7 +35,7 @@ App.ApplicationController = Ember.Controller.extend({
         //This updates record on push notifications
         window.addEventListener('updatedAssignment', function () {
             updateAssignments(context);
-        })
+        });
 
         if (localStorage.getItem('courses') == null){
             this.transitionToRoute('enrolled').then(function(){})
@@ -49,32 +48,41 @@ App.AssignmentsController = Ember.ArrayController.extend({
         var context = this;
         setTimeout(function(){
             var total = context.get('model').filterBy('archived',false).filterBy('completed',false).length;
-            console.log(total);
             if(total == 0){
                 $('.nothing-due').removeClass('hidden');
                 $('.day-divider').addClass('hidden');
 
             }else{
-                $('.nothing-due').addClass('hidden')
+                $('.nothing-due').addClass('hidden');
                 $('.day-divider').removeClass('hidden');
-                ;
+
             }
-        }, 5)
+        }, 5);
         return this.get('model').filterBy('completed',false).filterBy('archived',false).filterBy('overdue',false).sortBy('due_date');
     }).property('model.@each.due_date', 'model.@each.archived'),
+
+    totalDue: function() {
+        return this.get('due.length');
+    }.property('model.@each.due_date', 'model.@each.archived'),
+    totalOverdue: function() {
+        return this.get('overdue.length');
+    }.property('model.@each.due_date', 'model.@each.archived'),
     overdue:(function() {
-        return this.get('model').filterBy('completed',false).filterBy('archived',false).filterBy('overdue',true).sortBy('due_date');
+        return this.get('model').filterBy('completed',false).filterBy('archived',false).filterBy('overdue',true).filterBy('hidden',false).sortBy('due_date');
     }).property('model.@each.due_date', 'model.@each.archived'),
     actions: {
         removeAssignment: function(assignment) {
+            var context = this;
             trackEvent('Assignment Completed');
-            assignment.set('completed', true);
-            assignment.set('date_completed', Date.now());
-            assignment.save();
-            this.send('invalidateModel');
+            this.store.find('setReminder',{'assignment': assignment.get('id')}).then(function(setReminders){
+                removeSetReminders(setReminders);
+                assignment.set('completed', true);
+                assignment.set('date_completed', Date.now());
+                assignment.save();
+                context.send('invalidateModel');
+            });
         },
         getLatest: function() {
-            Ember.Logger.log('Controller requesting route to refresh...');
             this.send('invalidateModel');
         }
     }
@@ -87,10 +95,16 @@ App.CompletedAssignmentsController = Ember.ArrayController.extend({
     sortAscending:  false,
     actions: {
         unRemoveAssignment: function(assignment) {
-            assignment.set('completed', false);
-            assignment.set('date_completed', null);
-            assignment.set('times_changed',assignment.get('times_changed')+1);
-            assignment.save();
+            var context = this;
+            this.store.find('reminder').then( function(reminders) {
+                reminders.get('content').forEach(function(reminder){
+                    setReminder(assignment, reminder, context);
+                });
+                assignment.set('completed', false);
+                assignment.set('date_completed', null);
+                assignment.set('times_changed',assignment.get('times_changed')+1);
+                assignment.save();
+            });
         }
     }
 });
@@ -111,11 +125,13 @@ App.EnrolledController = Ember.ArrayController.extend({
                 success: function (response) {
                     course.set('enrolled', false);
                     course.save();
-                    context.store.find('assignment',{'course_id':course.get('id')}).then(function(record){
-                        record.content.forEach(function(rec) {
+                    context.store.find('assignment',{'course_id':course.get('id')}).then(function(assignments){
+                        assignments.content.forEach(function(assignment) {
                             Ember.run.once(context, function() {
-                                rec.deleteRecord();
-                                rec.save();
+                                this.store.find('setReminder',{'assignment': assignment.get('id')}).then(function(setReminders){
+                                    removeSetReminders(setReminders);
+                                    assignment.destroyRecord();
+                                });
                             });
                         }, context);
                     });
@@ -187,4 +203,66 @@ App.UnenrolledController = Ember.ArrayController.extend({
             });
         }
     }
+});
+
+
+App.MessagesController = Ember.ArrayController.extend({
+    sortProperties: ['updated_at'],
+    sortAscending: false
+});
+
+App.RemindersController = Ember.ObjectController.extend({
+    actions: {
+        add: function () {
+            var newReminders = $('#new-reminder');
+            var time = parseInt(newReminders.find('.time').val());
+            var context = this;
+            if(( time >0) && (this.get('model.length') <3) ) {
+                var timeFrame = newReminders.find('.time-frame').val();
+                var seconds = 0;
+                if (timeFrame == "days") {
+                    seconds = time * 86400;
+                } else if (timeFrame = "hours") {
+                    seconds = time * 3600;
+                }
+
+                /* Prevent Duplicates */
+                this.store.find('reminder', {seconds_before: seconds}).then(function(total){
+                   if (total.get('length') == 0){
+                       var reminder = context.store.createRecord('reminder', {
+                           id: primaryKey('reminders'),
+                           seconds_before: seconds
+                       });
+                       reminder.save().then(
+                           putBackable()
+                       );
+                       $('input').val("");
+                       context.store.find('assignment',{completed:false}).then( function(assignments) {
+                           assignments.get('content').forEach(function(assignment){
+                               setReminder(assignment, reminder, context);
+                           });
+                       });
+                   }
+                });
+            }
+
+            /* Fix Keyboard */
+            if(cordovaLoaded==true){
+                setTimeout(function(){
+                    cordova.plugins.Keyboard.close();
+                }, 1)
+
+            }
+
+        },
+        remove: function(reminder){
+            this.store.find('setReminder',{'reminder': reminder.get('id')}).then(function(setReminders){
+                removeSetReminders(setReminders);
+                reminder.destroyRecord();
+            });
+        }
+    },
+    total: function() {
+        return this.get('model.length');
+    }.property('[]')
 });

@@ -28,3 +28,16 @@ function onPause() {
     Localytics.close();
     Localytics.upload();
 }
+
+window.addEventListener('native.keyboardshow', keyboardShowHandler);
+
+function keyboardShowHandler(e){
+    var scrollTop = $('#new-reminder').position().top-20;
+    $('#reminders').css('margin-top',-scrollTop)
+}
+
+window.addEventListener('native.keyboardhide', keyboardHideHandler);
+
+function keyboardHideHandler(e){
+    $('#reminders').css('margin-top', 0)
+}

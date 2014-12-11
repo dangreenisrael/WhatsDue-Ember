@@ -8,6 +8,16 @@
   src: url('assets/GibsonLight.ttf') format('truetype');
 }
 
+@black: #333333;
+@lightGrey: #cccccc;
+@darkGrey: #666666;
+
+.placeholder(...) {
+  ::-webkit-input-placeholder {color:@arguments}
+  ::-moz-placeholder {color:@arguments}
+  :-ms-input-placeholder {color:@arguments}
+}
+
 html {
   -webkit-user-select: none;
 }
@@ -40,8 +50,12 @@ li{
 }
 /* Helpers */
 
-::-webkit-scrollbar{
-  display: none;
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  /* display: none; <- Crashes Chrome on hover */
+  -webkit-appearance: none;
+  margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
 }
 .pull-left{
   float: left!important;
@@ -60,6 +74,10 @@ li{
   color: white!important;
 }
 
+.orange, .orange *{
+  background-color: #f2534f!important;
+  color: white!important;
+}
 .white{
   background-color: white!important;
 }
@@ -124,6 +142,8 @@ header#appHeader {
   position: fixed;
   z-index: 99;
   width: 100%;
+  -webkit-transform: translateZ(0);
+  -webkit-backface-visibility: hidden;
   img {
     height: 20px;
     padding: 20px 10px 15px;
@@ -228,6 +248,11 @@ ul#leftMenu {
     top: 52px;
     margin-left: 23%;
   }
+  .slider{
+    > div:nth-child(2){
+      border-bottom: none!important;
+    }
+  }
 }
 
 #assignments-due{
@@ -235,6 +260,14 @@ ul#leftMenu {
   .arrow-up{
     top: -6px;
     margin-left: 25%;
+
+  }
+  .slider{
+    > div{
+      border-bottom: none;
+      border-top: 1px solid #d6d6d6;
+
+    }
 
   }
 }
@@ -253,7 +286,7 @@ ul#leftMenu {
     padding: 10px 20px;
     min-height: @sliderHeight;
     position: relative;
-    border-top: 1px solid #d6d6d6;
+    border-bottom: 1px solid #d6d6d6;
     background-color: #f2f2f2;
   }
 
@@ -337,13 +370,21 @@ ul#leftMenu {
 }
 .Today {
   .time-due {
-    display: none;
+    //display: none;
   }
   .from-now {
-    display: inline !important;
+    //display: inline !important;
   }
 }
 
+
+.putBackable{
+  img{
+    height: 40px;
+    float: right;
+    margin-right: -20px;
+  }
+}
 
 /* Reveal*/
 
@@ -393,8 +434,18 @@ ul#leftMenu {
   .info {
     padding-left: 0;
     border: none;
+    padding-top: 15px;
   }
 
+  .reveal img{
+    padding: 22px 5px;
+  }
+  .putBackable{
+    img{
+      margin-top: -18px;
+      margin-right: -20px;
+    }
+  }
   .course {
     margin-top: 10px;
     font-weight: bold;
@@ -419,6 +470,7 @@ ul#leftMenu {
     color: #808080;
     margin-top: 10px;
   }
+
 }
 input.search{
   width: 100%;
@@ -467,3 +519,109 @@ input.search{
   }
 }
 
+
+/* Messages */
+#messages{
+  .message{
+    @padding:20px;
+    margin: 30px;
+    border: @lightGrey solid 1px;
+    box-shadow: @lightGrey 5px;
+    background-color: white;
+    header{
+      @height: 20px;
+      color: @black;
+      line-height: @height;
+      height: @height;
+      padding: @padding;
+      padding-bottom: 10px;
+      .pull-left{
+        font-size: @height;
+        font-weight: 600;
+      }
+      .pull-right{
+        font-size: 14px;
+      }
+    }
+    article{
+      clear: both;
+      padding: @padding;
+      padding-top: 10px;
+    }
+  }
+}
+
+
+#reminders{
+  h3{
+    padding: 12px 15px;
+    border-bottom: solid @black 1px;
+  }
+  ul{
+    li{
+      position: relative;
+      border-bottom: solid @lightGrey 1px;
+      font-size: 20px;
+      font-weight: 100;
+      .reveal{
+        img{
+          height: 30px;
+          margin-top: -2px;
+          margin-left: 5px;
+        }
+      }
+      .putBackable{
+        padding: 15px 20px;
+        position: relative;
+        background-color: #f2f2f2;
+        img{
+          height: 30px;
+          margin-top: -2px;
+          margin-right: -5px;
+        }
+      }
+    }
+  }
+  #new-reminder{
+    h3{
+      padding-top: 50px;
+    }
+    figure{
+      float: right;
+      padding: 20px 15px;
+      img{
+        width: 30px;
+      }
+      input{
+        width: 50px;
+        height: 50px;
+        position: absolute;
+        right: 33%;
+        opacity: 0;
+      }
+    }
+    form{
+      padding: 20px;
+      font-size: 20px;
+      @pink:rgba(255,102,102, 0.1);
+      input{
+        background: @pink;
+        border: none;
+        width: 30px;
+        font-size: 20px;
+        height: 30px;
+        text-align: center;
+        font-weight: 900;
+        border-radius: 5px;
+      }
+      .placeholder(@lightGrey);
+      select{
+        background: @pink;
+        border: none;
+        font-size: 20px;
+        height: 30px;
+        border-radius: 5px;
+      }
+    }
+  }
+}

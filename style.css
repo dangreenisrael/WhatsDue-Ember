@@ -29,8 +29,12 @@ li {
   list-style: none;
 }
 /* Helpers */
-::-webkit-scrollbar {
-  display: none;
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  /* display: none; <- Crashes Chrome on hover */
+  -webkit-appearance: none;
+  margin: 0;
+  /* <-- Apparently some margin are still there even though it's hidden */
 }
 .pull-left {
   float: left!important;
@@ -45,6 +49,11 @@ li {
 }
 .red,
 .red * {
+  background-color: #f2534f!important;
+  color: white!important;
+}
+.orange,
+.orange * {
   background-color: #f2534f!important;
   color: white!important;
 }
@@ -101,6 +110,8 @@ header#appHeader {
   position: fixed;
   z-index: 99;
   width: 100%;
+  -webkit-transform: translateZ(0);
+  -webkit-backface-visibility: hidden;
 }
 header#appHeader img {
   height: 20px;
@@ -180,12 +191,19 @@ ul#leftMenu li span.count {
   top: 52px;
   margin-left: 23%;
 }
+#assignments-overdue .slider > div:nth-child(2) {
+  border-bottom: none!important;
+}
 #assignments-due {
   position: relative;
 }
 #assignments-due .arrow-up {
   top: -6px;
   margin-left: 25%;
+}
+#assignments-due .slider > div {
+  border-bottom: none;
+  border-top: 1px solid #d6d6d6;
 }
 /* Sliders*/
 .slider {
@@ -200,7 +218,7 @@ ul#leftMenu li span.count {
   padding: 10px 20px;
   min-height: 50px;
   position: relative;
-  border-top: 1px solid #d6d6d6;
+  border-bottom: 1px solid #d6d6d6;
   background-color: #f2f2f2;
 }
 .slider .info {
@@ -267,11 +285,10 @@ ul#leftMenu li span.count {
 .from-now {
   display: none;
 }
-.Today .time-due {
-  display: none;
-}
-.Today .from-now {
-  display: inline !important;
+.putBackable img {
+  height: 40px;
+  float: right;
+  margin-right: -20px;
 }
 /* Reveal*/
 .reveal {
@@ -307,6 +324,14 @@ ul#leftMenu li span.count {
 #completedAssignments .info {
   padding-left: 0;
   border: none;
+  padding-top: 15px;
+}
+#completedAssignments .reveal img {
+  padding: 22px 5px;
+}
+#completedAssignments .putBackable img {
+  margin-top: -18px;
+  margin-right: -20px;
 }
 #completedAssignments .course {
   margin-top: 10px;
@@ -364,4 +389,102 @@ input.search {
 .nothing-due img {
   width: 40%;
   margin: 40px 30%;
+}
+/* Messages */
+#messages .message {
+  margin: 30px;
+  border: #cccccc solid 1px;
+  box-shadow: #cccccc 5px;
+  background-color: white;
+}
+#messages .message header {
+  color: #333333;
+  line-height: 20px;
+  height: 20px;
+  padding: 20px;
+  padding-bottom: 10px;
+}
+#messages .message header .pull-left {
+  font-size: 20px;
+  font-weight: 600;
+}
+#messages .message header .pull-right {
+  font-size: 14px;
+}
+#messages .message article {
+  clear: both;
+  padding: 20px;
+  padding-top: 10px;
+}
+#reminders h3 {
+  padding: 12px 15px;
+  border-bottom: solid #333333 1px;
+}
+#reminders ul li {
+  position: relative;
+  border-bottom: solid #cccccc 1px;
+  font-size: 20px;
+  font-weight: 100;
+}
+#reminders ul li .reveal img {
+  height: 30px;
+  margin-top: -2px;
+  margin-left: 5px;
+}
+#reminders ul li .putBackable {
+  padding: 15px 20px;
+  position: relative;
+  background-color: #f2f2f2;
+}
+#reminders ul li .putBackable img {
+  height: 30px;
+  margin-top: -2px;
+  margin-right: -5px;
+}
+#reminders #new-reminder h3 {
+  padding-top: 50px;
+}
+#reminders #new-reminder figure {
+  float: right;
+  padding: 20px 15px;
+}
+#reminders #new-reminder figure img {
+  width: 30px;
+}
+#reminders #new-reminder figure input {
+  width: 50px;
+  height: 50px;
+  position: absolute;
+  right: 33%;
+  opacity: 0;
+}
+#reminders #new-reminder form {
+  padding: 20px;
+  font-size: 20px;
+}
+#reminders #new-reminder form input {
+  background: rgba(255, 102, 102, 0.1);
+  border: none;
+  width: 30px;
+  font-size: 20px;
+  height: 30px;
+  text-align: center;
+  font-weight: 900;
+  border-radius: 5px;
+}
+#reminders #new-reminder form ::-webkit-input-placeholder {
+  color: #cccccc;
+}
+#reminders #new-reminder form ::-moz-placeholder {
+  color: #cccccc;
+}
+#reminders #new-reminder form :-ms-input-placeholder {
+  color: #cccccc;
+}
+#reminders #new-reminder form select {
+  background: rgba(255, 102, 102, 0.1);
+  border: none;
+  font-size: 20px;
+  height: 30px;
+  border-radius: 5px;
 }

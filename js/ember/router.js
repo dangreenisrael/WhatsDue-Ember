@@ -16,7 +16,14 @@ App.Router.map(function(){
     });
 
     this.resource('support', function(){
-    })
+    });
+
+    this.resource('messages', function(){
+    });
+
+    this.resource('reminders', function(){
+
+    });
 });
 
 
@@ -24,10 +31,22 @@ App.Route = Ember.Route.extend({
 
 });
 
+App.RemindersRoute = Ember.Route.extend({
+    model: function(){
+        setTitle('Reminders');
+        return this.store.find('reminder');
+    }
+});
+
 App.SupportRoute = Ember.Route.extend({
     model: function(){
-
         setTitle('Support');
+    }
+});
+
+App.MessagesRoute = Ember.Route.extend({
+    model: function(){
+        return this.store.find('message');
     }
 });
 
@@ -50,20 +69,19 @@ App.AssignmentsRoute = Ember.Route.extend({
     model: function() {
         updateAssignments(this);
         setTitle('Assignments Due');
-        return this.store.find('assignment')
+        return this.store.find('assignment');
     },
     actions: {
         invalidateModel: function() {
-            Ember.Logger.log('Route is now refreshing...');
             swipeRemove();
-            assignmentCount();
             this.refresh();
         }
     },
     afterModel: function() {
-
+        sliderSize()
     }
 });
+
 
 App.CompletedAssignmentsRoute = Ember.Route.extend({
     model: function() {

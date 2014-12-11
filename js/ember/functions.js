@@ -5,7 +5,7 @@
 var test = false;
 
 if (test == true){
-    var site = "http://admin.whatsdueapp.com/app_dev.php/student";
+    var site = "http://teachers.whatsdueapp.com/app_dev.php/student";
     //var site="http://192.168.1.61/app_dev.php/student";
 }else{
     var site="http://teachers.whatsdueapp.com/student";
@@ -36,9 +36,9 @@ function trackEvent(event, firstOption, firstValue, secondOption, secondValue, t
         }
 
         //Localytics.tagEvent(event, options, 0);
-        console.log('tracked' + event);
+        //console.log('tracked' + event);
     } else{
-        console.log(event +" "+options);
+        //console.log(event +" "+options);
     }
 }
 
@@ -49,6 +49,10 @@ function trackEvent(event, firstOption, firstValue, secondOption, secondValue, t
 function updateAssignments(context){
     var courses = localStorage.getItem('courses')
     getUpdates('/assignments', context, 'assignment', {
+        'courses': "["+courses+"]"
+    });
+
+    getUpdates('/messages', context, 'message', {
         'courses': "["+courses+"]"
     });
 }
@@ -96,45 +100,67 @@ function getUpdates(url, context, model, headers){
                     context.store.find(model, record.id).then(
                         function(thisRecord){
                             if (thisRecord.get('last_modified')!=record.last_modified) {
+
                                 if (model == 'assignment') {
-                                    thisRecord.set('assignment_name', record.assignment_name);
-                                    thisRecord.set('archived', record.archived);
-                                    thisRecord.set('due_date', record.due_date);
-                                    thisRecord.set('description', record.description);
-                                    thisRecord.set('last_modified', record.last_modified);
-                                    console.log(record);
+                                    var assignment = record;
+                                    thisRecord.set('assignment_name', assignment.assignment_name);
+                                    thisRecord.set('archived', assignment.archived);
+                                    thisRecord.set('due_date', assignment.due_date);
+                                    thisRecord.set('description', assignment.description);
+                                    thisRecord.set('last_modified', assignment.last_modified);
 
                                 } else if (model == 'course') {
-                                    console.log(model);
-                                    console.log(thisRecord);
                                     thisRecord.set('course_name', record.course_name);
                                     thisRecord.set('course_description', record.course_description);
                                     thisRecord.set('archived', record.archived);
                                     thisRecord.set('last_modified', record.last_modified);
 
                                 }
-                                thisRecord.save().then(function () {
-                                    console.log('saved')
+                                thisRecord.save().then(function (record) {
                                     var hash = window.location.hash.substr(1);
                                     var controller = App.__container__.lookup("controller:assignments");
                                     if (hash == "/") {
                                         controller.send('getLatest');
                                     }
+                                    swipeRemove();
+                                    sliderSize();
+                                    if (model == 'assignment'){
+                                        /* Remove Old Reminders */
+                                        context.store.find('setReminder',{'assignment': record.get('id')}).then(function(setReminders){
+                                            removeSetReminders(setReminders);
+                                            /* Set New Reminders */
+                                            context.store.find('reminder').then( function(reminders) {
+                                                reminders.get('content').forEach(function(reminder){
+                                                    setReminder(record, reminder, context);
+                                                });
+                                            });
+                                        });
+
+
+                                    }
                                 });
                             }
                         });
-                }else{
+                } else{
                 // If its new, add it
                     if (model == 'assignment'){
                         context.store.find('course',record.course_id).then(function(course){
                             record.course_id = course;
-                            var newRecord = context.store.createRecord(model,record);
-                            newRecord.save().then(function(){
+                            var assignment = context.store.createRecord(model,record);
+                            assignment.save().then(function(assignment){
+
+                                /* Set reminders */
+                                context.store.find('reminder').then( function(reminders) {
+                                    reminders.get('content').forEach(function(reminder){
+                                        setReminder(assignment, reminder, context);
+                                    });
+                                });
                                 swipeRemove();
-                                assignmentCount();
-                            })
+                                sliderSize();
+                            });
                         });
-                    }else{
+                    }
+                    else{
                         var newRecord = context.store.createRecord(model,record);
                         newRecord.save();
                     }
@@ -146,8 +172,63 @@ function getUpdates(url, context, model, headers){
 
 
 /** Start editing again **/
-
-
 function setTitle(title){
     $('#page-title').html(title);
 }
+
+function setReminder(assignment, reminder, context){
+    var duedate_seconds = moment(assignment.get('due_date')).format('X');
+    var seconds_before = reminder.get('seconds_before');
+    var alarm_date = new Date((duedate_seconds - seconds_before)*1000);
+    var reminder_id = primaryKey('setReminders');
+
+    /* If the reminder is going to be set in the future, set it*/
+    if (! (moment(alarm_date).isBefore(new Date())) ){
+        var message = assignment.get('assignment_name') + " is due in " + reminder.get('time_before');
+
+        if (cordovaLoaded == true){
+            assignment.get('course_id').then(function(course){
+                window.plugin.notification.local.add({
+                    id:      reminder_id,
+                    title:   course.get('course_name'),
+                    message: message,
+                    repeat:  'weekly',
+                    date:    alarm_date
+                });
+            });
+
+        } else{
+            console.log(reminder_id+": "+message);
+        }
+
+        /* Record the reminder so that we can unset it if it's removed*/
+        var reminderRecord = context.store.createRecord('setReminder', {
+            id: reminder_id,
+            alarm_date: alarm_date,
+            assignment: assignment,
+            reminder: reminder
+        });
+        reminderRecord.save().then(
+        );
+    }
+}
+
+function removeSetReminders(setReminders){
+    setReminders.forEach(function(setReminder){
+        var reminderId = setReminder.get('id')
+        if (cordovaLoaded == true){
+            window.plugin.notification.local.cancel(reminderId, function () {
+                // The notification has been canceled
+            });
+        } else{
+            console.log("Canceled ID# "+reminderId);
+        }
+        setReminder.destroyRecord();
+    });
+}
+
+function primaryKey(name){
+    localStorage.setItem(name, Number(localStorage.getItem(name)) +1 );
+    return localStorage.getItem(name);
+}
+

@@ -2,7 +2,7 @@
     {{#each course in filteredData}}
         <div class="slider left-box">
             <div {{action 'removeCourse' course}} class="reveal">
-                {{icon "minus"}}
+                {{icon "X"}}
             </div>
 
             <div class="putBackable fastAnimate">
@@ -10,9 +10,12 @@
                     {{course.admin_id}}
                 </div>
                 <div class="info">
+                    {{icon "minus-red"}}
+
                     <div class="courseName">
                         {{course.course_name}}
                     </div>
+
                     <div class="instructorName">
                         {{course.instructor_name}}
                     </div>

@@ -2,15 +2,16 @@
     <input id="search" class="search" type="text" placeholder="Search by Course or Instructor"/>
     <ul class="searchable hidden">
     {{#each course in filteredData}}
-        <li {{bindAttr class="course.hidden :slider :left-box"}}>
+        <li {{bind-attr class="course.hidden :slider :left-box"}}>
             <div {{action 'addCourse' course}} class="reveal">
-                {{icon "plus" "pull-left"}}
+                {{icon "cloud-white" "pull-left"}}
             </div>
             <div class="putBackable fastAnimate keep">
                 <div class="time">
                     {{course.admin_id}}
                 </div>
                 <div class="info">
+                    {{icon "plus-big"}}
                     <div class="courseName">
                         {{course.course_name}}
                     </div>
@@ -22,5 +23,4 @@
         </li>
     {{/each}}
     </ul>
-
 </div>

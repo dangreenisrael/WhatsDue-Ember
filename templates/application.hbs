@@ -42,15 +42,28 @@
                         My Courses
                     </span>
                 {{/link-to}}
+
+                {{#link-to 'reminders' tagName='li'}}
+
+                    <div>
+                        {{icon "reminders"}}
+                    </div>
+                            <span>
+                                Reminders
+                            </span>
+                {{/link-to}}
+
                 {{#link-to 'support' tagName='li'}}
 
                     <div>
-                        {{icon "courses"}}
+                        {{icon "info"}}
                     </div>
                             <span>
                                 Feedback &amp; Support
                             </span>
                 {{/link-to}}
+
+
 
                 <!--
                 <li onclick="goTo('#about', 'About')">

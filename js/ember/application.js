@@ -11,7 +11,9 @@ var loaderObj = {
         'completedAssignments.hbs',
         'enrolled.hbs',
         'unenrolled.hbs',
-        'support.hbs'
+        'support.hbs',
+        'messages.hbs',
+        'reminders.hbs'
     ]
 };
 

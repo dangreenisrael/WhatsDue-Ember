@@ -2,7 +2,6 @@
 
 $(document).ready(function (){
     readyFunction();
-    console.log('ready');
 });
 
 
@@ -49,13 +48,7 @@ var page = {
 
 
 /* Start Helper Functions */
-function assignmentCount(){
-    var numberDue = $('#assignments-due').find('.slider').length;
-    $('.due .badge, .whatsdue.count').text(numberDue);
 
-    var numberOverdue = $('#assignments-overdue').find('.slider').length;
-    $('.overdue .badge').text(numberOverdue);
-}
 
 function closest (event, selector){
     return $(event.target).closest(selector)
@@ -97,9 +90,12 @@ function goHome(){
 }
 
 function sliderSize(){
-    var assignmentWidth;
-    assignmentWidth = $(document).width() - $('.time').width()-80;
-    $('<style type="text/css">.slider .info { width:'+assignmentWidth+'px; }</style>').appendTo('head');
+    setTimeout(function(){
+        var assignmentWidth;
+        assignmentWidth = $(document).width() - $('.time').width()-80;
+        $('<style type="text/css">.slider .info { width:'+assignmentWidth+'px; }</style>').appendTo('head');
+    }, 5)
+
 }
 
 /* End Helper Functions */
@@ -149,13 +145,17 @@ function readyFunction(){
     });
 
 
-    $(window).scroll(function () {
-        $('.removable').css({
-            "-webkit-transform":"translate3d(0,0,0) scale3d(1,1,1)",
-            "opacity":1
-        });
+    $('body').on({
+        'touchmove': function(e) {
+            $('.removable').css({
+                "-webkit-transform":"translate3d(0,0,0) scale3d(1,1,1)",
+                "opacity":1
+            });
+            if(cordovaLoaded==true){
+                cordova.plugins.Keyboard.close();
+            }
+        }
     });
-
 }
 
 
@@ -163,8 +163,9 @@ function putBackable(){
     /* Click Events */
 
     setTimeout(function(){
+        var removeButton = $('.putBackable img');
         var putBackable = $('.putBackable');
-        putBackable.off('click');
+        removeButton.off('click');
         putBackable.siblings('.reveal').off();
         putBackable.not('.keep').siblings('.reveal').click(function(){
             $(this).parent('.slider');
@@ -174,21 +175,30 @@ function putBackable(){
             }, 1);
         });
 
-        putBackable.on('click', function(){
-            if ($(this).hasClass('open')){
-                $(this).css("-webkit-transform", "translate3d(0,0,0) scale3d(1,1,1)");
-                $(this).removeClass('open');
+
+        removeButton.on('click', function(event){
+            event.stopPropagation();
+            var parent = $(this).closest('.putBackable');
+            if (parent.hasClass('open')){
+                parent.css("-webkit-transform", "translate3d(0,0,0) scale3d(1,1,1)");
+                parent.removeClass('open');
             } else{
                 putBackable.removeClass('open');
                 putBackable.css("-webkit-transform", "translate3d(0,0,0) scale3d(1,1,1)");
-                $(this).css("-webkit-transform", "translate3d(63px,0,0) scale3d(1,1,1)");
-                $(this).addClass('open');
+                parent.css("-webkit-transform", "translate3d(63px,0,0) scale3d(1,1,1)");
+                parent.addClass('open');
+            }
+        });
+
+        putBackable.on('click', function(){
+            if ( ($(this).hasClass('open')) ){
+                $(this).removeClass('open');
+                $(this).css("-webkit-transform", "translate3d(0,0,0) scale3d(1,1,1)");
             }
         });
 
         $('.search').fastLiveFilter('.searchable').on('change', function(){
             var search = $(this).val();
-            console.log(search);
             if (search.length >2 ){
                 $('ul.searchable').removeClass('hidden');
             } else{
@@ -203,11 +213,9 @@ function putBackable(){
 }
 
 function complete(element){
-    console.log('removed');
     element.parent('.slider').addClass('animate').css('opacity','0');
     setTimeout(function(){
         element.siblings('.reveal').click();
-        assignmentCount();
     }, 1)
 }
 
@@ -277,9 +285,6 @@ function swipeRemove(){
 
         /* Display day dividers */
 
-
-        /* Header Stuff */
-        assignmentCount();
 
     }, 500);
 

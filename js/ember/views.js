@@ -26,15 +26,22 @@ App.UnenrolledView = Ember.View.extend({
 App.AssignmentsView = Ember.View.extend({
     contentDidChange: function() {
         swipeRemove();
-
-
-    }.observes('controller.filteredData')
+    }.observes('controller.filteredData'),
+    afterRender: function(){
+        sliderSize();
+    }
 });
 
 App.CompletedAssignmentsView = Ember.View.extend({
     contentDidChange: function() {
         putBackable();
     }.observes('controller.filteredData')
+});
+
+App.RemindersView = Ember.View.extend({
+    contentDidChange: function() {
+        putBackable();
+    }.observes('controller.model')
 });
 
 /** My Functions for fanciness**/
