@@ -24,6 +24,10 @@ App.Router.map(function(){
     this.resource('reminders', function(){
 
     });
+
+    this.resource('welcome', function(){
+
+    });
 });
 
 
@@ -78,7 +82,7 @@ App.AssignmentsRoute = Ember.Route.extend({
         }
     },
     afterModel: function() {
-        sliderSize()
+        sliderSize();
     }
 });
 

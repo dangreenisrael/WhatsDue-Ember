@@ -18,6 +18,17 @@
   :-ms-input-placeholder {color:@arguments}
 }
 
+
+.spin {
+  -webkit-animation: rotation 1s infinite linear;
+}
+
+@-webkit-keyframes rotation {
+  from {-webkit-transform: rotate(0deg);}
+  to   {-webkit-transform: rotate(359deg);}
+}
+
+
 html {
   -webkit-user-select: none;
 }
@@ -63,7 +74,9 @@ input::-webkit-inner-spin-button {
 .pull-right{
   float: right!important;
 }
-
+.hide{
+  visibility: hidden;
+}
 .black, .black *{
   background-color: rgba(0, 0, 0, 0.3)!important;
   color: white;
@@ -242,35 +255,45 @@ ul#leftMenu {
 
 /* Assignments */
 
-#assignments-overdue{
-  display: none;
-  .arrow-up{
-    top: 52px;
-    margin-left: 23%;
+#newAssignments{
+  .description{
+    word-wrap: break-word;
+    a.linkified{
+      color: #4fc2d5;
+      text-decoration: none;
+      font-weight: 900;
+    }
   }
-  .slider{
-    > div:nth-child(2){
-      border-bottom: none!important;
+
+
+  #assignments-overdue{
+    display: none;
+    .arrow-up{
+      top: 52px;
+      margin-left: 23%;
+    }
+    .slider{
+      > div:nth-child(2){
+        border-bottom: none!important;
+      }
+    }
+  }
+
+  #assignments-due{
+    position: relative;
+    .arrow-up{
+      top: -6px;
+      margin-left: 25%;
+    }
+    .slider{
+      > div{
+        border-bottom: none;
+        border-top: 1px solid #d6d6d6;
+      }
     }
   }
 }
 
-#assignments-due{
-  position: relative;
-  .arrow-up{
-    top: -6px;
-    margin-left: 25%;
-
-  }
-  .slider{
-    > div{
-      border-bottom: none;
-      border-top: 1px solid #d6d6d6;
-
-    }
-
-  }
-}
 
 
 /* Sliders*/
@@ -623,5 +646,100 @@ input.search{
         border-radius: 5px;
       }
     }
+  }
+}
+
+
+#welcome {
+  color: black;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  z-index: 100;
+  background-color: white;
+  width: 100%;
+  display: none;
+  text-align: center;
+
+  .arrow-right {
+    position: absolute;
+    bottom: 50px;
+    margin: auto;
+    text-align: center;
+    width: 100%;
+    z-index: 120;
+  }
+  .swiper-slide{
+    width: 100%;
+    position: relative;
+    .content-slide {
+      padding: 20px;
+      h3{
+        padding-top: 20px;
+      }
+      p{
+        margin-top: 10px;
+      }
+      img{
+        width: 300px;
+        margin: auto;
+        display: block;
+      }
+      img.button{
+        margin-top: 10px;
+        height: 40px;
+        width: auto;
+      }
+      p.button{
+        padding-top: 30px;
+        font-size: 25px;
+        color: #99CC00;
+      }
+    }
+  }
+
+  .title {
+    font-size: 25px;
+    margin-bottom: 10px;
+  }
+  .pagination {
+    position: absolute;
+    left: 0;
+    text-align: center;
+    bottom: 5px;
+    width: 100%;
+  }
+  .swiper-pagination-switch {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 10px;
+    background: #999;
+    box-shadow: 0px 1px 2px #555 inset;
+    margin: 0 3px;
+    cursor: pointer;
+  }
+  .swiper-active-switch {
+    background: #fff;
+  }
+  .scombobox{
+    margin-top: 15px;
+    input{
+      height: 40px;
+    }
+  }
+}
+
+#support{
+  h3.show-welcome{
+    text-align: center;
+  }
+  a{
+    text-decoration: none;
+    color: #408CBE;
+  }
+  p{
+    font-size: 18px;
+    padding-bottom: 20px;
   }
 }

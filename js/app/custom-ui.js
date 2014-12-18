@@ -285,8 +285,18 @@ function swipeRemove(){
 
         /* Display day dividers */
 
+        $('.description').linkify();
 
-    }, 500);
+        $( "a" ).each(function( index ) {
+            var text = $( this ).text();
+            $(this).on('click', function(evt){
+                window.open(text, '_system');
+                evt.preventDefault();
+                return false;
+            })
+        });
+
+    }, 200);
 
     setTimeout(function(){
         var dup = {};
@@ -300,3 +310,91 @@ function swipeRemove(){
     },1 )
     ;
 }
+
+var swiperSet = false;
+function showWelcome(){
+    var welcome = $('#welcome');
+    welcome.css('display','block');
+
+    function initializeSlider(){
+        var mySwiper = new Swiper('.swiper-container', {
+            pagination: '.pagination',
+            loop: false,
+            grabCursor: true,
+            paginationClickable: true
+        });
+
+        $('.content-slide:not(.last)').on('click', function (e) {
+            mySwiper.swipeNext();
+        });
+
+        $('.content-slide.second-last').on('click', function (e) {
+            setTimeout(function(){
+                cordova.plugins.Keyboard.show();
+                $('.scombobox-display').focus();
+            },500)
+        });
+
+        $('.content-slide.last .button').on('click', function (e) {
+            var school = $('.scombobox-display').val();
+            if (school != ""){
+                mySwiper.swipeTo(0, 100, false);
+                welcome.css('display', 'none');
+                setSchool(school);
+                cordova.plugins.Keyboard.close();
+            }
+        });
+
+        $('.swiper-slide').css('height', 'auto');
+        $('#schoolName').scombobox({
+            fullMatch: true
+            // when fullMatch is true
+            // then highligh is also true by default
+        });
+        $('.scombobox-display').val('');
+        swiperSet = true;
+    }
+    if (!swiperSet) {
+
+        $.ajax( "http://whatsdueapp.com/live-content/welcome-slider.php" )
+            .done(function(data) {
+                welcome.html(data);
+                initializeSlider();
+            })
+            .fail(function(){
+                $.get( "live-content/welcome-slider.html", function( data ) {
+                    welcome.html(data);
+                    initializeSlider();
+                });
+            })
+    }
+}
+
+
+function showSupport(){
+    var content = $('#support');
+    $.get( "http://whatsdueapp.com/live-content/support.php", function( data ) {
+        content.html(data);
+    });
+
+    $.ajax( "http://whatsdueapp.com/live-content/support.php" )
+        .done(function(data) {
+            content.html(data);
+        })
+        .fail(function(){
+            $.get( "live-content/support.html", function( data ) {
+                welcome.html(data);
+                initializeSlider();
+            });
+        })
+}
+
+
+function makeSpinnable(){
+    setTimeout( function(){
+        $('.add-something img, .reveal img').on('click', function(element){
+            $(this).addClass('spin')
+        })
+    }, 50);
+}
+

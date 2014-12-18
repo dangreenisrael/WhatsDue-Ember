@@ -36,6 +36,7 @@ var cordovaApp = {
     onDeviceReady: function() {
         cordovaApp.receivedEvent('deviceready');
         console.log('Device Ready');
+
     },
     // Update DOM on a Received Event
     receivedEvent: function(id) {

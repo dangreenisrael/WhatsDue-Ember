@@ -5,7 +5,10 @@
 App.EnrolledView = Ember.View.extend({
     contentDidChange: function() {
         putBackable();
-    }.observes('controller.filteredData')
+    }.observes('controller.filteredData'),
+    afterRender: function(){
+        makeSpinnable();
+    }
 });
 
 App.UnenrolledView = Ember.View.extend({
@@ -19,6 +22,8 @@ App.UnenrolledView = Ember.View.extend({
                 $('#search').focus();
             }, 500)
         }
+        makeSpinnable();
+
     }
 });
 
@@ -42,6 +47,16 @@ App.RemindersView = Ember.View.extend({
     contentDidChange: function() {
         putBackable();
     }.observes('controller.model')
+});
+
+App.SupportView = Ember.View.extend({
+    afterRender: function(){
+        sliderSize();
+        setTimeout(function(){
+                showSupport();
+            }, 50
+        );
+    }
 });
 
 /** My Functions for fanciness**/

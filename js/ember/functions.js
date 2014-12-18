@@ -2,10 +2,10 @@
  * Created by dan on 2014-05-15.
  */
 
-var test = false;
+var test = true;
 
 if (test == true){
-    var site = "http://teachers.whatsdueapp.com/app_dev.php/student";
+    var site = "http://stage.whatsdueapp.com/student";
     //var site="http://192.168.1.61/app_dev.php/student";
 }else{
     var site="http://teachers.whatsdueapp.com/student";
@@ -16,29 +16,29 @@ if (test == true){
 
 function trackEvent(event, firstOption, firstValue, secondOption, secondValue, thirdOption, thirdValue){
 
-    if (cordovaLoaded == true) {
-        firstOption = firstOption || null;
-        firstValue = firstValue || null;
-        secondOption = secondOption || null;
-        secondValue = secondValue || null;
-        thirdOption = thirdOption || null;
-        thirdValue = thirdValue || null;
+    firstOption = firstOption || null;
+    firstValue = firstValue || null;
+    secondOption = secondOption || null;
+    secondValue = secondValue || null;
+    thirdOption = thirdOption || null;
+    thirdValue = thirdValue || null;
 
-        var options = {};
-        if (firstOption != null) {
-            options[firstOption] = firstValue;
-            if (secondOption != null) {
-                options[secondOption] = secondValue;
-                if (thirdOption != null) {
-                    options[thirdOption] = thirdValue;
-                }
+    var options = {};
+    if (firstOption != null) {
+        options[firstOption] = firstValue;
+        if (secondOption != null) {
+            options[secondOption] = secondValue;
+            if (thirdOption != null) {
+                options[thirdOption] = thirdValue;
             }
         }
-
-        //Localytics.tagEvent(event, options, 0);
-        //console.log('tracked' + event);
+    }
+    if (cordovaLoaded == true) {
+        Localytics.tagEvent(event, options, 0);
+        console.log('tracked' + event);
     } else{
-        //console.log(event +" "+options);
+        console.log(event);
+        console.log(options);
     }
 }
 
@@ -232,3 +232,30 @@ function primaryKey(name){
     return localStorage.getItem(name);
 }
 
+
+/* Location Info Class */
+function LocationInfo (data) {
+    this.city = data.city;
+    this.country = data.country;
+    this.region = data.region;
+}
+
+
+
+$.ajax({
+    url: 'http://ipinfo.io/json',
+    type: 'GET',
+    context: this,
+    success: function (data) {
+        var locationInfo = new LocationInfo(data);
+        trackEvent('App Opened', "City", locationInfo.city, "Region", locationInfo.region, "Country", locationInfo.country);
+    }
+});
+
+function getSchool(){
+    return localStorage.getItem('schoolName');
+}
+
+function setSchool(schoolName){
+    localStorage.setItem('schoolName', schoolName);
+}

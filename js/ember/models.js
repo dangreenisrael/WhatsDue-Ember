@@ -19,6 +19,7 @@ App.Course = DS.Model.extend({
     admin_id:            DS.attr('string'),
     last_modified:       DS.attr('number'),
     created_at:          DS.attr('number'),
+    school_name:         DS.attr('string',  {defaultValue: "IDC Herzliya"}),
     enrolled:            DS.attr('boolean', {defaultValue: false}),
     archived:            DS.attr('boolean', {defaultValue: false}),
     assignments:         DS.hasMany('assignment'),

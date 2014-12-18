@@ -5,6 +5,17 @@
   font-family: Gibson;
   src: url('assets/GibsonLight.ttf') format('truetype');
 }
+.spin {
+  -webkit-animation: rotation 1s infinite linear;
+}
+@-webkit-keyframes rotation {
+  from {
+    -webkit-transform: rotate(0deg);
+  }
+  to {
+    -webkit-transform: rotate(359deg);
+  }
+}
 html {
   -webkit-user-select: none;
 }
@@ -41,6 +52,9 @@ input::-webkit-inner-spin-button {
 }
 .pull-right {
   float: right!important;
+}
+.hide {
+  visibility: hidden;
 }
 .black,
 .black * {
@@ -184,24 +198,32 @@ ul#leftMenu li span.count {
   padding: 10px 40px;
 }
 /* Assignments */
-#assignments-overdue {
+#newAssignments .description {
+  word-wrap: break-word;
+}
+#newAssignments .description a.linkified {
+  color: #4fc2d5;
+  text-decoration: none;
+  font-weight: 900;
+}
+#newAssignments #assignments-overdue {
   display: none;
 }
-#assignments-overdue .arrow-up {
+#newAssignments #assignments-overdue .arrow-up {
   top: 52px;
   margin-left: 23%;
 }
-#assignments-overdue .slider > div:nth-child(2) {
+#newAssignments #assignments-overdue .slider > div:nth-child(2) {
   border-bottom: none!important;
 }
-#assignments-due {
+#newAssignments #assignments-due {
   position: relative;
 }
-#assignments-due .arrow-up {
+#newAssignments #assignments-due .arrow-up {
   top: -6px;
   margin-left: 25%;
 }
-#assignments-due .slider > div {
+#newAssignments #assignments-due .slider > div {
   border-bottom: none;
   border-top: 1px solid #d6d6d6;
 }
@@ -487,4 +509,92 @@ input.search {
   font-size: 20px;
   height: 30px;
   border-radius: 5px;
+}
+#welcome {
+  color: black;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  z-index: 100;
+  background-color: white;
+  width: 100%;
+  display: none;
+  text-align: center;
+}
+#welcome .arrow-right {
+  position: absolute;
+  bottom: 50px;
+  margin: auto;
+  text-align: center;
+  width: 100%;
+  z-index: 120;
+}
+#welcome .swiper-slide {
+  width: 100%;
+  position: relative;
+}
+#welcome .swiper-slide .content-slide {
+  padding: 20px;
+}
+#welcome .swiper-slide .content-slide h3 {
+  padding-top: 20px;
+}
+#welcome .swiper-slide .content-slide p {
+  margin-top: 10px;
+}
+#welcome .swiper-slide .content-slide img {
+  width: 300px;
+  margin: auto;
+  display: block;
+}
+#welcome .swiper-slide .content-slide img.button {
+  margin-top: 10px;
+  height: 40px;
+  width: auto;
+}
+#welcome .swiper-slide .content-slide p.button {
+  padding-top: 30px;
+  font-size: 25px;
+  color: #99CC00;
+}
+#welcome .title {
+  font-size: 25px;
+  margin-bottom: 10px;
+}
+#welcome .pagination {
+  position: absolute;
+  left: 0;
+  text-align: center;
+  bottom: 5px;
+  width: 100%;
+}
+#welcome .swiper-pagination-switch {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 10px;
+  background: #999;
+  box-shadow: 0px 1px 2px #555 inset;
+  margin: 0 3px;
+  cursor: pointer;
+}
+#welcome .swiper-active-switch {
+  background: #fff;
+}
+#welcome .scombobox {
+  margin-top: 15px;
+}
+#welcome .scombobox input {
+  height: 40px;
+}
+#support h3.show-welcome {
+  text-align: center;
+}
+#support a {
+  text-decoration: none;
+  color: #408CBE;
+}
+#support p {
+  font-size: 18px;
+  padding-bottom: 20px;
 }

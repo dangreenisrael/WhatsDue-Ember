@@ -38,7 +38,17 @@ App.ApplicationController = Ember.Controller.extend({
         });
 
         if (localStorage.getItem('courses') == null){
-            this.transitionToRoute('enrolled').then(function(){})
+            $('#welcome').css('display','block');
+            this.transitionToRoute('enrolled').then(function(){
+                setTimeout(function(){
+                    showWelcome();
+                }, 50);
+            })
+        } else if (getSchool() == null){
+            $('#welcome').css('display','block');
+            setTimeout(function(){
+                showWelcome();
+            }, 50);
         }
     }
 });
@@ -116,6 +126,12 @@ App.EnrolledController = Ember.ArrayController.extend({
         return this.get('model').filterBy('enrolled', true).sortBy('admin_id', 'course_name');
     }).property('model.@each.enrolled'),
     actions: {
+        addCourse: function() {
+            var context = this;
+            setTimeout(function(){
+                context.transitionToRoute('unenrolled');
+            },5);
+        },
         removeCourse: function(course) {
             var context = this;
             $.ajax({
@@ -165,11 +181,12 @@ App.EnrolledController = Ember.ArrayController.extend({
 App.UnenrolledController = Ember.ArrayController.extend({
     model:[],
     filteredData: (function() {
-        return this.get('model').filterBy('enrolled', false).sortBy('admin_id', 'course_name');
+        return this.get('model').filterBy('enrolled', false).filterBy('school_name', getSchool()).sortBy('admin_id', 'course_name');
     }).property('model.@each.enrolled'),
     actions: {
         addCourse: function(course) {
             var context = this;
+            cordova.plugins.Keyboard.close();
             $.ajax({
                 url: site+"/courses/"+course.get('id')+"/enrolls",
                 type: 'POST',

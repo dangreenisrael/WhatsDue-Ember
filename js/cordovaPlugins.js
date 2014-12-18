@@ -17,7 +17,10 @@ function onDeviceReady() {
     Localytics.init("343efcc05aba1feeedd4ce3-3f4a6c12-5e6b-11e4-4dc6-00a426b17dd8");
     Localytics.resume();
     Localytics.upload();
-    trackEvent('App Opened');
+    var locationInfo = new LocationInfo();
+    trackEvent('App Opened', "City", locationInfo.city);
+
+
 }
 
 function onResume() {
