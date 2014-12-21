@@ -1,66 +1,48 @@
 <div class="swiper-container">
     <div class="swiper-wrapper">
-        <div class="swiper-slide">
-            <div class="content-slide">
-                <img src="assets/onboarding/add-course.png">
-                <h3>Add Your Courses</h3>
-                <p>
-                    All the dates from your syllabus are already here.
-                    Just search for your prof's name or the name of the course and tap the plus to add it
-                </p>
-                <p class="button">
-                    NEXT
-                </p>
-            </div>
-        </div>
-
-        <div class="swiper-slide">
-            <div class="content-slide">
-                <img src="/assets/onboarding/swipe-remove.png">
-                <h3>Swipe When You're Done</h3>
-                <p>
-                    Tap "What's Due" from the main menu to see all of your due dates in one place
-                </p>
-                <p>
-                    When you finish something, just swipe it away
-                </p>
-                <p>
-                    To put it back, just tap "Recently Completed" from the main menu
-                </p>
-                <p class="button">
-                    NEXT
-                </p>
-            </div>
-        </div>
-
-        <div class="swiper-slide">
-            <div class="content-slide second-last">
-                <img src="assets/onboarding/reminders.png">
-                <h3>Set Reminders</h3>
-                <p>
-                    Just tap on the grey '0' to select how many days before each assignment you want a reminder
-                </p>
-                <p>
-                    You can change days to hours for even more control
-                </p>
-                <p class="button">
-                    NEXT
-                </p>
-            </div>
-        </div>
-
-        <div class="swiper-slide">
-            <div class="content-slide last">
-                <h3>Choose Your School</h3>
+        <div class="swiper-slide swiper-no-swiping">
+            <div class="content-slide start">
+                <h2>Find Your School</h2>
                 <form>
                     <select id="schoolName">
                         <option value="IDC Herzliya">IDC Herzliya</option>
                         <option value="UMD University of Maryland">UMD (University of Maryland)</option>
                     </select>
                 </form>
-                <img class="button" src="assets/onboarding/lets_go.png">
+                <p class="button my-school hidden">
+                    I go to <i><strong id="school-name"></strong></i>
+                </p>
             </div>
         </div>
+
+        <div class="swiper-slide">
+            <div class="content-slide next">
+                <h2>ADD ALL YOUR COURSES</h2>
+                <p>
+                    Search by instructor or course name
+                </p>
+                <img src="assets/onboarding/add-course.png">
+                <p class="button">
+                    NEXT
+                </p>
+            </div>
+        </div>
+
+        <div class="swiper-slide">
+            <div class="content-slide finish">
+                <h2>Check What's Due</h2>
+                <p>
+                    Swipe stuff away when you finish
+                </p>
+                <img src="assets/onboarding/swipe-remove.png">
+                <p class="button">
+                    ADD A CLASS
+                </p>
+            </div>
+        </div>
+
+
+
     </div>
 </div>
 <div class="pagination"></div>

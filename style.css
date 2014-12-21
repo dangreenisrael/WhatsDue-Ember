@@ -39,6 +39,12 @@ img {
 li {
   list-style: none;
 }
+.qtip-content {
+  font-size: 16px;
+}
+.qtip {
+  margin-top: -10px;
+}
 /* Helpers */
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
@@ -115,7 +121,8 @@ input::-webkit-inner-spin-button {
 /* Header */
 header#appHeader {
   color: white;
-  padding: 0px;
+  padding: 0;
+  padding-top: 5px;
   font-size: 10px;
   text-align: center;
   background-color: #4fc2d5;
@@ -536,26 +543,37 @@ input.search {
 #welcome .swiper-slide .content-slide {
   padding: 20px;
 }
+#welcome .swiper-slide .content-slide h2 {
+  margin-bottom: 20px;
+}
 #welcome .swiper-slide .content-slide h3 {
-  padding-top: 20px;
+  margin-bottom: 20px;
 }
 #welcome .swiper-slide .content-slide p {
-  margin-top: 10px;
+  padding-bottom: 20px;
 }
 #welcome .swiper-slide .content-slide img {
-  width: 300px;
+  width: 260px;
   margin: auto;
   display: block;
-}
-#welcome .swiper-slide .content-slide img.button {
-  margin-top: 10px;
-  height: 40px;
-  width: auto;
+  border: #666666 solid 3px;
 }
 #welcome .swiper-slide .content-slide p.button {
   padding-top: 30px;
   font-size: 25px;
   color: #99CC00;
+}
+#welcome .swiper-slide .content-slide p.button.my-school {
+  margin-top: 30px;
+  border: solid #99CC00 2px;
+  width: 90%;
+  margin-left: 5%;
+}
+#welcome .swiper-slide .content-slide #school-name {
+  color: #a0a0a0;
+}
+#welcome .swiper-slide .content-slide .scombobox-dropdown-background {
+  display: none!important;
 }
 #welcome .title {
   font-size: 25px;
@@ -586,6 +604,12 @@ input.search {
 }
 #welcome .scombobox input {
   height: 40px;
+  font-size: 30px;
+  padding: 30px 10px;
+}
+#welcome .scombobox .scombobox-list p {
+  padding: 20px 0;
+  font-size: 20px;
 }
 #support h3.show-welcome {
   text-align: center;

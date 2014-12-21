@@ -24,6 +24,7 @@ function trackEvent(event, firstOption, firstValue, secondOption, secondValue, t
     thirdValue = thirdValue || null;
 
     var options = {};
+    options['School']=getSchool();
     if (firstOption != null) {
         options[firstOption] = firstValue;
         if (secondOption != null) {
@@ -47,7 +48,7 @@ function trackEvent(event, firstOption, firstValue, secondOption, secondValue, t
 
 // This is for getting assignment info
 function updateAssignments(context){
-    var courses = localStorage.getItem('courses')
+    var courses = localStorage.getItem('courses');
     getUpdates('/assignments', context, 'assignment', {
         'courses': "["+courses+"]"
     });

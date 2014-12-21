@@ -56,8 +56,9 @@ App.ApplicationController = Ember.Controller.extend({
 App.AssignmentsController = Ember.ArrayController.extend({
     due:(function() {
         var context = this;
+
         setTimeout(function(){
-            var total = context.get('model').filterBy('archived',false).filterBy('completed',false).length;
+            var total = context.get('totalDue')+context.get('totalOverdue');
             if(total == 0){
                 $('.nothing-due').removeClass('hidden');
                 $('.day-divider').addClass('hidden');
@@ -186,7 +187,9 @@ App.UnenrolledController = Ember.ArrayController.extend({
     actions: {
         addCourse: function(course) {
             var context = this;
-            cordova.plugins.Keyboard.close();
+            if (cordovaLoaded){
+                cordova.plugins.Keyboard.close();
+            }
             $.ajax({
                 url: site+"/courses/"+course.get('id')+"/enrolls",
                 type: 'POST',

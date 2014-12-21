@@ -59,6 +59,14 @@ img{
 li{
   list-style: none
 }
+
+.qtip-content{
+  font-size: 16px;
+}
+
+.qtip{
+  margin-top: -10px;
+}
 /* Helpers */
 
 
@@ -146,7 +154,8 @@ input::-webkit-inner-spin-button {
 
 header#appHeader {
   color: white;
-  padding: 0px;
+  padding: 0;
+  padding-top: 5px;
   font-size: 10px;
   text-align: center;
   background-color: #4fc2d5;
@@ -674,26 +683,38 @@ input.search{
     position: relative;
     .content-slide {
       padding: 20px;
+      h2{
+        margin-bottom: 20px;
+      }
       h3{
-        padding-top: 20px;
+        margin-bottom: 20px;
       }
       p{
-        margin-top: 10px;
+        padding-bottom: 20px;
       }
       img{
-        width: 300px;
+        width: 260px;
         margin: auto;
         display: block;
+        border: @darkGrey solid 3px;
       }
-      img.button{
-        margin-top: 10px;
-        height: 40px;
-        width: auto;
-      }
+
       p.button{
         padding-top: 30px;
         font-size: 25px;
         color: #99CC00;
+      }
+      p.button.my-school{
+        margin-top: 30px;
+        border: solid #99CC00 2px;
+        width: 90%;
+        margin-left: 5%;
+      }
+      #school-name{
+        color: #A0A0A0
+      }
+      .scombobox-dropdown-background{
+        display: none!important;
       }
     }
   }
@@ -726,6 +747,14 @@ input.search{
     margin-top: 15px;
     input{
       height: 40px;
+      font-size: 30px;
+      padding: 30px 10px;
+    }
+    .scombobox-list{
+      p{
+        padding: 20px 0;
+        font-size: 20px;
+      }
     }
   }
 }

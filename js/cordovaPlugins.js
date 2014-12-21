@@ -19,7 +19,7 @@ function onDeviceReady() {
     Localytics.upload();
     var locationInfo = new LocationInfo();
     trackEvent('App Opened', "City", locationInfo.city);
-
+    window.plugin.notification.local.add({ message: 'Great app!' });
 
 }
 

@@ -46,7 +46,14 @@ App.CompletedAssignmentsView = Ember.View.extend({
 App.RemindersView = Ember.View.extend({
     contentDidChange: function() {
         putBackable();
-    }.observes('controller.model')
+    }.observes('controller.model'),
+    afterRender: function(){
+    setTimeout(function(){
+            reminderTips();
+        }, 50
+    );
+}
+
 });
 
 App.SupportView = Ember.View.extend({

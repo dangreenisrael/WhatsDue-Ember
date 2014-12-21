@@ -100,20 +100,24 @@ function sliderSize(){
 
 /* End Helper Functions */
 function readyFunction(){
+
     /*
      * Main Page Control
      */
     // Set dimensions relative to page
 
-    var headerHeight = $('#appHeader').outerHeight()
+    var headerHeight = $('#appHeader').outerHeight();
     var pageHeight = $(window).height() - headerHeight;
     $('div#content, div#content > div > div ').css({'width':pageWidth});
-    $('div#contentContainer').css('height', pageHeight);
-    $('div#content > div').css({'width': pageWidth*3, 'margin-top':headerHeight});
+    $('div#contentContainer').css({
+        'height': pageHeight,
+        "-webkit-transform":"translate3d(-33.3333%,0,0) scale3d(1,1,1)"
+    });
+    $('div#content > div').css({'width': pageWidth*3, 'margin-top':headerHeight-5});
     sliderSize();
     $( window ).resize(function() {
         var pageWidth = $(window).width();
-        var headerHeight = $('#appHeader').outerHeight()
+        var headerHeight = $('#appHeader').outerHeight();
         var pageHeight = $(window).height() - headerHeight;
         $('div#content, div#content > div > div ').css('width',pageWidth);
         $('div#contentContainer').css('height', pageHeight);
@@ -321,42 +325,51 @@ function showWelcome(){
             pagination: '.pagination',
             loop: false,
             grabCursor: true,
-            paginationClickable: true
+            paginationClickable: true,
+            noSwiping: true
         });
 
-        $('.content-slide:not(.last)').on('click', function (e) {
-            mySwiper.swipeNext();
-        });
 
-        $('.content-slide.second-last').on('click', function (e) {
-            setTimeout(function(){
-                cordova.plugins.Keyboard.show();
-                $('.scombobox-display').focus();
-            },500)
-        });
-
-        $('.content-slide.last .button').on('click', function (e) {
-            var school = $('.scombobox-display').val();
-            if (school != ""){
-                mySwiper.swipeTo(0, 100, false);
-                welcome.css('display', 'none');
-                setSchool(school);
-                cordova.plugins.Keyboard.close();
+        $('.content-slide.next, .my-school').on('click', function (e) {
+            if ($('#school-name').text() != ""){
+                mySwiper.swipeNext();
             }
         });
 
-        $('.swiper-slide').css('height', 'auto');
-        $('#schoolName').scombobox({
-            fullMatch: true
-            // when fullMatch is true
-            // then highligh is also true by default
+        $('.content-slide.finish').on('click', function (e) {
+            mySwiper.swipeTo(0, 100, false);
+            welcome.css('display', 'none');
         });
-        $('.scombobox-display').val('');
+
+        $('#schoolName').scombobox({
+            fullMatch: true,
+
+        });
+
+        $('.scombobox-list').on('click',
+            'p',
+            function(){
+                var school = $(this).text();
+                $('#school-name').text($(this).text());
+                if (school != ""){
+                    setSchool(school);
+                    $('.button').removeClass('hidden');
+                    if (cordovaLoaded){
+                        cordova.plugins.Keyboard.close();
+                    }
+                }
+            });
         swiperSet = true;
+        $('.scombobox-display').val('').focus();
+        if (cordovaLoaded){
+            cordova.plugins.Keyboard.show();
+        }
+        $('.swiper-slide').css('height', 'auto');
+
     }
     if (!swiperSet) {
 
-        $.ajax( "http://whatsdueapp.com/live-content/welcome-slider.php" )
+        $.ajax( "http://whatsdueapp.com/live-content/welcome-slider.phpK" )
             .done(function(data) {
                 welcome.html(data);
                 initializeSlider();
@@ -398,3 +411,18 @@ function makeSpinnable(){
     }, 50);
 }
 
+function reminderTips(){
+    var numberTip = $('input.time').qtip({
+        content: {
+            text: 'Tap to choose when to be reminded'
+        },position: {
+            my: 'bottom left',  // Position my top left...
+            at: 'top right' // at the bottom right of...
+        },
+        show: true
+    });
+
+    $('body').one('click', function(){
+        numberTip.qtip('api').hide();
+    });
+}
