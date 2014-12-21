@@ -9,7 +9,6 @@ var cordovaLoaded = false;
 
 function onDeviceReady() {
     cordovaLoaded = true;
-    mixpanel.track("Cordova Loaded");
     $('#contentContainer').css("-webkit-transform", "translate3d(-33.33333%,0,0) scale3d(1,1,1)");
     setTimeout(readyFunction(), 500);
     $('nav > .overdue').click();

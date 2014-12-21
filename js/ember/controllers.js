@@ -237,7 +237,7 @@ App.RemindersController = Ember.ObjectController.extend({
             var newReminders = $('#new-reminder');
             var time = parseInt(newReminders.find('.time').val());
             var context = this;
-            if(( time >0) && (this.get('model.length') <3) ) {
+            if(( time >0) && (this.get('model.length') <1) ) {
                 var timeFrame = newReminders.find('.time-frame').val();
                 var seconds = 0;
                 if (timeFrame == "days") {
@@ -273,12 +273,13 @@ App.RemindersController = Ember.ObjectController.extend({
                 }, 1)
 
             }
-
+            $('#new-reminder').hide();
         },
         remove: function(reminder){
             this.store.find('setReminder',{'reminder': reminder.get('id')}).then(function(setReminders){
                 removeSetReminders(setReminders);
                 reminder.destroyRecord();
+                $('#new-reminder').show();
             });
         }
     },

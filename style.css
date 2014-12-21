@@ -470,9 +470,6 @@ input.search {
   margin-top: -2px;
   margin-right: -5px;
 }
-#reminders #new-reminder h3 {
-  padding-top: 50px;
-}
 #reminders #new-reminder figure {
   float: right;
   padding: 20px 15px;

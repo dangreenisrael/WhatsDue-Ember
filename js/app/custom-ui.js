@@ -68,18 +68,21 @@ function fastAnimate(element){
 
 function toggleMenu(){
     var element = $('#contentContainer');
+
     fastAnimate(element);
+
     document.getElementById('contentContainer').scrollTop = 0;
     if (currentPage >= 1){
         element.css({"-webkit-transform": "translate3d(0,0,0) scale3d(1,1,1)", "overflow":"hidden"});
         currentPage = 0;
     } else{
         currentPage = 1;
-        element.css({"-webkit-transform": "translate3d(-33.333%,0,0) scale3d(1,1,1)", "overflow":"auto"});
+        element.css({"-webkit-transform": "translate3d(-33.333%,0,0) scale3d(1,1,1)", "overflow":"visible"});
     }
     if(cordovaLoaded==true){
         cordova.plugins.Keyboard.close();
     }
+
 }
 
 function goHome(){
@@ -113,7 +116,7 @@ function readyFunction(){
         'height': pageHeight,
         "-webkit-transform":"translate3d(-33.3333%,0,0) scale3d(1,1,1)"
     });
-    $('div#content > div').css({'width': pageWidth*3, 'margin-top':headerHeight-5});
+    $('div#content > div').css({'width': pageWidth*3, 'margin-top':'62px'});
     sliderSize();
     $( window ).resize(function() {
         var pageWidth = $(window).width();
@@ -151,6 +154,7 @@ function readyFunction(){
 
     $('body').on({
         'touchmove': function(e) {
+            console.log('scroll');
             $('.removable').css({
                 "-webkit-transform":"translate3d(0,0,0) scale3d(1,1,1)",
                 "opacity":1
@@ -231,37 +235,29 @@ function swipeRemove(){
          * Swipe to Delete
          */
         var removable = document.getElementsByClassName("removable");
-        var removableOptions = {};
+        var removableOptions = {domEvents: true};
         var removeHammer = [];
         for (var i = 0; i < removable.length; ++i) {
             removeHammer[i] = new Hammer(removable[i], removableOptions);
             // Drag
-            removeHammer[i].off('pan').on('pan', function (event) {
-                event.srcEvent.cancelBubble = true
-                timestamp = Date.now();
-                var deltaX = event.deltaX
-                var percent = 1 - Math.abs(deltaX / pageWidth);
-                var element = closest(event, '.removable');
-                element.css({
-                    "-webkit-transform": "translate3d(" + deltaX + "px,0,0) scale3d(1,1,1)",
-                    "opacity": percent
-                });
-            });
+
 
             // Release
             removeHammer[i].off('panend').on('panend', function (event) {
+                $(document).unbind('touchmove');
                 event.srcEvent.cancelBubble = true;
                 var element = closest(event, '.removable');
 
                 var deltaX = event.deltaX;
+                var deltaY = event.deltaY;
                 var width = element.width();
                 var limit = (width / 3);
                 animate(element);
 
 
-                if (Math.abs(deltaX) >= width) {
+                if ( (Math.abs(deltaX) >= width) && (Math.abs(deltaX) > Math.abs(deltaY)) ){
                     complete(element)
-                } else if (Math.abs(deltaX) > limit) {
+                } else if ( (Math.abs(deltaX) > limit) && (Math.abs(deltaX) > Math.abs(deltaY)) )  {
                     element.css({
                         "-webkit-transform": "translate3d(101%,0,0) scale3d(1,1,1)",
                         "opacity": 0
@@ -275,7 +271,49 @@ function swipeRemove(){
                     });
                 }
             });
+
+            removeHammer[i].off('pan').on('pan', function (event) {
+                event.srcEvent.cancelBubble = true;
+                timestamp = Date.now();
+                var deltaX = event.deltaX;
+                var deltaY = event.deltaY;
+                var percent = 1 - Math.abs(deltaX / pageWidth);
+                var element = closest(event, '.removable');
+                element.css({
+                    "-webkit-transform": "translate3d(" + deltaX + "px,0,0) scale3d(1,1,1)",
+                    "opacity": percent
+                });
+                /* Prevent wonky scrolling */
+                if ( Math.abs(deltaY) > Math.abs(deltaX) ) {
+                    element.css({
+                        "-webkit-transform": "translate3d(0,0,0) scale3d(1,1,1)",
+                        "opacity": 1
+                    });
+                    console.log('yes')
+                } else{
+                    $(document).bind('touchmove', function (e) {
+                        e.preventDefault();
+                    });
+                }
+
+                //console.log(event)
+            });
         }
+
+        /*
+         $('body').on({
+         'touchmove': function(e) {
+         console.log('scroll');
+         $('.removable').css({
+         "-webkit-transform":"translate3d(0,0,0) scale3d(1,1,1)",
+         "opacity":1
+         });
+         if(cordovaLoaded==true){
+         cordova.plugins.Keyboard.close();
+         }
+         }
+         });
+         */
 
         $('nav > .due').on('click', function () {
             $('#assignments-due').show();
@@ -343,6 +381,7 @@ function showWelcome(){
 
         $('#schoolName').scombobox({
             fullMatch: true,
+            highlight: false
 
         });
 
@@ -425,4 +464,8 @@ function reminderTips(){
     $('body').one('click', function(){
         numberTip.qtip('api').hide();
     });
+
+    if($('#total-reminders').val()==1){
+        $('#new-reminder').hide();
+    }
 }
