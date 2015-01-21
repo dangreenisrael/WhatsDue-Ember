@@ -38,6 +38,7 @@ App.Route = Ember.Route.extend({
 App.RemindersRoute = Ember.Route.extend({
     model: function(){
         setTitle('Reminders');
+        this.store.find('setReminder');
         return this.store.find('reminder');
     }
 });

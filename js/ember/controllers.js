@@ -1,7 +1,6 @@
 /**
  * Created by dan on 2014-05-13.
  */
-
 App.ApplicationController = Ember.Controller.extend({
     actions: {
         reset: function() {
@@ -32,7 +31,9 @@ App.ApplicationController = Ember.Controller.extend({
         }
         this.get('pollster').start();
 
-        //This updates record on push notifications
+        /*
+         *  This updates record on push notifications
+         */
         window.addEventListener('updatedAssignment', function () {
             updateAssignments(context);
         });
@@ -50,6 +51,56 @@ App.ApplicationController = Ember.Controller.extend({
                 showWelcome();
             }, 50);
         }
+
+        /*
+         *  This deals with the iOS 64 Reminder limit & Default Reminders
+         */
+        var cordovaInitiated = setInterval(function() {
+            if (cordovaLoaded) {
+                if (localStorage.getItem('schoolName') == null) {
+                    var reminder = context.store.createRecord('reminder', {
+                        id: primaryKey('reminders'),
+                        seconds_before: 86400 // 1 day
+                    });
+                    reminder.save();
+                    context.store.find('assignment', {completed: false}).then(function (assignments) {
+                        assignments.get('content').forEach(function (assignment) {
+                            setReminder(assignment, reminder, context);
+                        });
+                    });
+                }
+
+                window.plugin.notification.local.cancelAll(function () {
+                    context.store.find('reminder');
+                    context.store.find('assignment').then(function(){
+                        swipeRemove();
+                    });
+                    context.store.find('course');
+                    context.store.find('setReminder').then(
+                        function (reminders) {
+                            reminders.filterBy('future').sortBy('timestamp').forEach(function (item, index) {
+                                if (index >= 60) {
+                                    return null
+                                }
+                                var title = item.get('assignment').get('course_id').get('course_name');
+                                var message = item.get('assignment').get('assignment_name') + " is due in " + item.get('reminder').get('time_before');
+                                var reminderId = item.get('id');
+                                var date = item.get('alarm_date_object');
+                                // All notifications have been canceled
+                                window.plugin.notification.local.add({
+                                    id: reminderId,
+                                    date: date,
+                                    message: message,
+                                    title: title
+                                });
+                            });
+                        });
+                });
+
+                clearInterval(cordovaInitiated);
+            }
+        },
+        5);
     }
 });
 
@@ -71,7 +122,6 @@ App.AssignmentsController = Ember.ArrayController.extend({
         }, 5);
         return this.get('model').filterBy('completed',false).filterBy('archived',false).filterBy('overdue',false).sortBy('due_date');
     }).property('model.@each.due_date', 'model.@each.archived'),
-
     totalDue: function() {
         return this.get('due.length');
     }.property('model.@each.due_date', 'model.@each.archived'),
@@ -98,6 +148,8 @@ App.AssignmentsController = Ember.ArrayController.extend({
         }
     }
 });
+
+
 
 App.CompletedAssignmentsController = Ember.ArrayController.extend({
     filteredData: (function() {
@@ -225,19 +277,15 @@ App.UnenrolledController = Ember.ArrayController.extend({
     }
 });
 
-
-App.MessagesController = Ember.ArrayController.extend({
-    sortProperties: ['updated_at'],
-    sortAscending: false
-});
-
 App.RemindersController = Ember.ObjectController.extend({
+    init: function() {
+    },
     actions: {
         add: function () {
             var newReminders = $('#new-reminder');
             var time = parseInt(newReminders.find('.time').val());
             var context = this;
-            if(( time >0) && (this.get('model.length') <1) ) {
+            if(( time >0) && (this.get('model.length') <= 3) ) {
                 var timeFrame = newReminders.find('.time-frame').val();
                 var seconds = 0;
                 if (timeFrame == "days") {
@@ -262,6 +310,15 @@ App.RemindersController = Ember.ObjectController.extend({
                                setReminder(assignment, reminder, context);
                            });
                        });
+                   } else{
+                       if (cordovaLoaded){
+                           navigator.notification.alert(
+                               'This reminder is already set',  // message
+                               null,                            // callback
+                               'Duplicate Reminer',             // title
+                               'OK'                             // buttonName
+                           );
+                       }
                    }
                 });
             }
@@ -270,20 +327,25 @@ App.RemindersController = Ember.ObjectController.extend({
             if(cordovaLoaded==true){
                 setTimeout(function(){
                     cordova.plugins.Keyboard.close();
+                    $('input').blur();
                 }, 1)
 
             }
-            $('#new-reminder').hide();
         },
         remove: function(reminder){
             this.store.find('setReminder',{'reminder': reminder.get('id')}).then(function(setReminders){
                 removeSetReminders(setReminders);
                 reminder.destroyRecord();
-                $('#new-reminder').show();
             });
         }
     },
-    total: function() {
-        return this.get('model.length');
+    totalRecords: function() {
+        return (this.get('model.length'));
+    }.property('[]'),
+    maxxedOut: function() {
+        return (this.get('model.length') >= 3 );
+    }.property('[]'),
+    empty: function(){
+        return (this.get('model.length') == 0 );
     }.property('[]')
 });

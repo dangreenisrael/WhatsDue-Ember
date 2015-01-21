@@ -23,10 +23,8 @@ App.UnenrolledView = Ember.View.extend({
             }, 500)
         }
         makeSpinnable();
-
     }
 });
-
 
 App.AssignmentsView = Ember.View.extend({
     contentDidChange: function() {
@@ -66,25 +64,25 @@ App.SupportView = Ember.View.extend({
     }
 });
 
-/** My Functions for fanciness**/
 
+/*
+ * Handlebars Helpers
+ */
+var dueDays = [];
+var assignmentCount = 0;
+Ember.Handlebars.helper('divider', function(daysAway, totalDue) {
+    assignmentCount++;
 
-function filter(textArea){
-    $('#'+textArea).keyup(function(){
-        var searchTerm = $(this).val();
-        $('.list li').each(function(){
-            var text = $(this).text().toLowerCase();
-            if (searchTerm != "") {
-                if(text.indexOf(searchTerm) > 0){
-                    $(this).show();
-                }
-                else{
-                    $(this).hide();
-                }
-            }
-            else{
-                $(this).show();
-            }
-        });
-    });
-}
+    var count = countInArray(dueDays, daysAway);
+    dueDays.push(daysAway);
+
+    if (totalDue == assignmentCount) {
+        assignmentCount = 0;
+        dueDays = [];
+    }
+
+    var escaped = Handlebars.Utils.escapeExpression(daysAway);
+    if (count == 0){
+        return new Ember.Handlebars.SafeString('<div class="day-divider">' + escaped + '</div>');
+    }
+});

@@ -71,7 +71,8 @@ var cordovaApp = {
         var postData = {
             "uuid":      device.uuid,
             "platform":  device.platform,
-            "pushId":    result
+            "pushId":    result,
+            "school":    getSchool()
         };
         //console.log(postData);
         $.ajax({

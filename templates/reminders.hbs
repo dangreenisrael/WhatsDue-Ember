@@ -1,10 +1,9 @@
 <div id="reminders">
-    <!--
-    <h3>
-         My Reminders (  of 3 )
-
-    </h3>
-    -->
+    {{#unless empty}}
+        <h3>
+             My Reminders ( {{totalRecords}} of 3 )
+        </h3>
+    {{/unless}}
     {{input type="hidden" value=total id="total-reminders"}}
 
     <ul>
@@ -26,22 +25,30 @@
 
     </ul>
     <div id="new-reminder">
-        <h3>
-            Add Reminder
-        </h3>
-        <figure {{action 'add'}}>
-            <input type="text">
-            {{icon "plus-big"}}
-        </figure>
-        <form>
-            Remind me
-            <input class="time" type="tel" step="1" placeholder="0" max="30">
-            <select class="time-frame">
-                <option value="hours">hour(s)</option>
-                <option value="days">day(s)</option>
-            </select>
-            before everything is due.
-        </form>
+
+        {{#unless maxxedOut}}
+            <h3>
+                Add Reminder
+            </h3>
+            <figure {{action 'add'}}>
+                {{icon "plus-big"}}
+            </figure>
+            <form>
+                Remind me
+                <input class="time" type="tel" step="1" placeholder="0" max="30">
+                <select class="time-frame">
+                    <option value="hours">hour(s)</option>
+                    <option value="days">day(s)</option>
+                </select>
+                before everything is due.
+            </form>
+        {{/unless}}
+
+        {{#if maxxedOut}}
+            <h3>
+                Remove a reminder to add another
+            </h3>
+        {{/if}}
 
     </div>
 </div>

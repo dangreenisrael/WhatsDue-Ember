@@ -15,19 +15,18 @@
         </div>
     </nav>
 
-    <div id="assignments-due">
+    <div id="assignments-due" class="needsclick">
+        {{firstOfDay}}
+
         <div class="arrow-up"></div>
         {{#each assignment in due}}
-
-            <div class="day-divider">
-                {{assignment.daysAway}}
-            </div>
-            <div {{bind-attr class=":slider :left-box assignment.daysAway"}}>
+            {{divider assignment.daysAway totalDue}}
+            <div {{bind-attr class=":slider :left-box"}}>
                 <div {{action 'removeAssignment' assignment}} class="reveal"></div>
                 <div {{bind-attr class=":removable assignment.urgencyLabel"}}>
                     <div class="time">
                         <span class="from-now">
-                            {{assignment.fromNow}}
+                            {{assignment.fromNow}} ago
                         </span>
                         <span class="time-due">
                             {{assignment.timeDue}}
@@ -45,6 +44,8 @@
                         </div>
 
                     </div>
+                    {{input class="date-due" type='hidden' value=assignment.daysAway}}
+
                 </div>
             </div>
         {{/each}}

@@ -5,8 +5,8 @@
 var test = true;
 
 if (test == true){
-    var site = "http://stage.whatsdueapp.com/student";
-    //var site="http://192.168.1.61/app_dev.php/student";
+    //var site = "http://stage.whatsdueapp.com/student";
+    var site="http://admin.whatsdueapp.com/app_dev.php/student";
 }else{
     var site="http://teachers.whatsdueapp.com/student";
 }
@@ -38,8 +38,8 @@ function trackEvent(event, firstOption, firstValue, secondOption, secondValue, t
         Localytics.tagEvent(event, options, 0);
         console.log('tracked' + event);
     } else{
-        console.log(event);
-        console.log(options);
+        //console.log(event);
+        //console.log(options);
     }
 }
 
@@ -216,13 +216,13 @@ function setReminder(assignment, reminder, context){
 
 function removeSetReminders(setReminders){
     setReminders.forEach(function(setReminder){
-        var reminderId = setReminder.get('id')
+        var reminderId = setReminder.get('id');
         if (cordovaLoaded == true){
             window.plugin.notification.local.cancel(reminderId, function () {
                 // The notification has been canceled
             });
         } else{
-            console.log("Canceled ID# "+reminderId);
+           // console.log("Canceled ID# "+reminderId);
         }
         setReminder.destroyRecord();
     });
@@ -260,3 +260,16 @@ function getSchool(){
 function setSchool(schoolName){
     localStorage.setItem('schoolName', schoolName);
 }
+
+
+function countInArray(haystack, needle) {
+    var count = 0;
+    for (var i = 0; i < haystack.length; i++) {
+        if (haystack[i] === needle) {
+            count++;
+        }
+    }
+    return count;
+}
+
+

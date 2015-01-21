@@ -64,6 +64,13 @@ function fastAnimate(element){
     setTimeout(function(){element.removeClass('fastAnimate')}, 100);
 }
 
+function customAnimate(element, miliseconds){
+    element.css('transition','all '+miliseconds+'ms linear');
+    setTimeout(function(){
+        element.css('transition','none');
+    }, miliseconds+50);
+
+}
 
 
 function toggleMenu(){
@@ -116,7 +123,7 @@ function readyFunction(){
         'height': pageHeight,
         "-webkit-transform":"translate3d(-33.3333%,0,0) scale3d(1,1,1)"
     });
-    $('div#content > div').css({'width': pageWidth*3, 'margin-top':'62px'});
+    $('div#content > div').css({'width': pageWidth*3});
     sliderSize();
     $( window ).resize(function() {
         var pageWidth = $(window).width();
@@ -154,7 +161,6 @@ function readyFunction(){
 
     $('body').on({
         'touchmove': function(e) {
-            console.log('scroll');
             $('.removable').css({
                 "-webkit-transform":"translate3d(0,0,0) scale3d(1,1,1)",
                 "opacity":1
@@ -182,7 +188,6 @@ function putBackable(){
                 $(context).parent('.slider').detach();
             }, 1);
         });
-
 
         removeButton.on('click', function(event){
             event.stopPropagation();
@@ -216,20 +221,19 @@ function putBackable(){
         });
         sliderSize();
 
-
     }, 1)
 }
 
-function complete(element){
-    element.parent('.slider').addClass('animate').css('opacity','0');
+function complete(element, ms){
+    //customAnimate(element.parent('.slider'), ms);
+    //element.parent('.slider').css('opacity','0');
     setTimeout(function(){
-        element.siblings('.reveal').click();
-    }, 1)
+      element.siblings('.reveal').click();
+    }, ms+100)
 }
 
 
 function swipeRemove(){
-
     setTimeout(function() {
         /*
          * Swipe to Delete
@@ -239,37 +243,58 @@ function swipeRemove(){
         var removeHammer = [];
         for (var i = 0; i < removable.length; ++i) {
             removeHammer[i] = new Hammer(removable[i], removableOptions);
-            // Drag
+
+            removeHammer[i].off('doubletap').on('doubletap', function (event) {
+                event.srcEvent.cancelBubble = true;
+                var element = closest(event, '.removable');
+                var course = $.trim(element.find('.course').text());
+                var assignment = $.trim(element.find('.title').text());
+                var dueTime = $.trim(element.find('.time-due').text());
+                var dueDate = $.trim(element.find('.date-due').val());
+                var message = dueDate + " at " + dueTime + ":\n\n" + assignment + " is due for " + course;
+                shareModal(assignment, course, message);
+            });
 
 
-            // Release
             removeHammer[i].off('panend').on('panend', function (event) {
                 $(document).unbind('touchmove');
                 event.srcEvent.cancelBubble = true;
                 var element = closest(event, '.removable');
-
                 var deltaX = event.deltaX;
                 var deltaY = event.deltaY;
                 var width = element.width();
                 var limit = (width / 3);
-                animate(element);
-
-
+                var distanceRemaining = width-Math.abs(event.deltaX);
+                var velocityX = Math.abs(event.velocityX);
+                var transitionMs = distanceRemaining/velocityX;
                 if ( (Math.abs(deltaX) >= width) && (Math.abs(deltaX) > Math.abs(deltaY)) ){
-                    complete(element)
+                    customAnimate(element,transitionMs);
+                    complete(element, 1)
                 } else if ( (Math.abs(deltaX) > limit) && (Math.abs(deltaX) > Math.abs(deltaY)) )  {
-                    element.css({
-                        "-webkit-transform": "translate3d(101%,0,0) scale3d(1,1,1)",
-                        "opacity": 0
-                    });
-                    complete(element);
+                    customAnimate(element,transitionMs);
+                    if (deltaX > 0 ){
+                        element.css({
+                            "-webkit-transform": "translate3d(101%,0,0) scale3d(1,1,1)",
+                            "opacity": 0
+                        });
+                    } else{
+                        element.css({
+                            "-webkit-transform": "translate3d(-101%,0,0) scale3d(1,1,1)",
+                            "opacity": 0
+                        });
+                    }
+
+                    complete(element, transitionMs);
                 }
                 else {
+                    fastAnimate(element);
                     element.css({
                         "-webkit-transform": "translate3d(0,0,0) scale3d(1,1,1)",
                         "opacity": 1
                     });
                 }
+
+
             });
 
             removeHammer[i].off('pan').on('pan', function (event) {
@@ -285,35 +310,22 @@ function swipeRemove(){
                 });
                 /* Prevent wonky scrolling */
                 if ( Math.abs(deltaY) > Math.abs(deltaX) ) {
+                    fastAnimate(element);
                     element.css({
                         "-webkit-transform": "translate3d(0,0,0) scale3d(1,1,1)",
                         "opacity": 1
                     });
-                    console.log('yes')
                 } else{
                     $(document).bind('touchmove', function (e) {
                         e.preventDefault();
                     });
                 }
 
-                //console.log(event)
             });
+
         }
 
-        /*
-         $('body').on({
-         'touchmove': function(e) {
-         console.log('scroll');
-         $('.removable').css({
-         "-webkit-transform":"translate3d(0,0,0) scale3d(1,1,1)",
-         "opacity":1
-         });
-         if(cordovaLoaded==true){
-         cordova.plugins.Keyboard.close();
-         }
-         }
-         });
-         */
+
 
         $('nav > .due').on('click', function () {
             $('#assignments-due').show();
@@ -338,19 +350,7 @@ function swipeRemove(){
             })
         });
 
-    }, 200);
-
-    setTimeout(function(){
-        var dup = {};
-        $('.day-divider').each(function() {
-            var txt = $(this).text();
-            if (dup[txt])
-                $(this).remove();
-            else
-                dup[txt] = true;
-        })
-    },1 )
-    ;
+    }, 1);
 }
 
 var swiperSet = false;
@@ -408,7 +408,7 @@ function showWelcome(){
     }
     if (!swiperSet) {
 
-        $.ajax( "http://whatsdueapp.com/live-content/welcome-slider.phpK" )
+        $.ajax( "http://whatsdueapp.com/live-content/welcome-slider.php" )
             .done(function(data) {
                 welcome.html(data);
                 initializeSlider();
@@ -451,21 +451,121 @@ function makeSpinnable(){
 }
 
 function reminderTips(){
-    var numberTip = $('input.time').qtip({
-        content: {
-            text: 'Tap to choose when to be reminded'
-        },position: {
-            my: 'bottom left',  // Position my top left...
-            at: 'top right' // at the bottom right of...
-        },
-        show: true
-    });
+    var reminders = $('#reminders');
+    var time = $('input.time');
+    if ( !reminders.find('.putBackable').length){
 
-    $('body').one('click', function(){
-        numberTip.qtip('api').hide();
-    });
+        var numberTip = time.qtip({
+            content: {
+                text: 'Tap to choose when to be reminded'
+            },position: {
+                my: 'bottom left',  // Position my top left...
+                at: 'top right' // at the bottom right of...
+            },
+            show: true
+        });
+        var plusTip;
 
-    if($('#total-reminders').val()==1){
-        $('#new-reminder').hide();
+        reminders.find('.time').keypress(function(){
+            plusTip = reminders.find('figure img').qtip({
+                content: {
+                    text: 'Tap the + sign'
+                },position: {
+                    my: 'top right',  // Position my top left...
+                    at: 'bottom left' // at the bottom right of...
+                },
+                show: true
+            });
+            reminders.find('.time').off('click');
+            $('#menuToggle').one('click', function(){
+                plusTip.qtip('destroy', true);
+            })
+        });
+
+        reminders.find('figure img').on('click', function(){
+            plusTip.qtip('destroy', true);
+        });
+
+
+        time.on('click', function(){
+            numberTip.qtip('destroy', true);
+        });
+
+        $('#menuToggle').one('click', function(){
+            numberTip.qtip('destroy', true);
+        })
+
     }
+
+}
+
+
+function share(message){
+    if (cordovaLoaded){
+        window.plugins.socialsharing.share(message + "\n\nSent via ",
+            null,
+            null, //'http://whatsdueapp.com/img/logo-text-white.png',
+            'http://whatsdueapp.com')
+    } else{
+        console.log(message);
+    }
+}
+
+function shareModal(assignment, course, message){
+    $("#share-modal").modal({onShow: function (dialog) {
+        // Access elements inside the dialog
+        $(".assignment-name", dialog.data).text(assignment);
+
+        /* Prevent accidental click*/
+        setTimeout(function(){
+            $(".button", dialog.data).hover(function() {
+                $(this).css('opacity', '0.5')
+            }, function() {
+                    $(this).css('opacity', '1')
+                }
+            );
+
+            $(".share", dialog.data).click(function () {
+                share(message);
+                setTimeout(function(){
+                        $.modal.close()
+                    },
+                    20);
+                trackEvent('Assignment Shared');
+                return false;
+            });
+            $(".report", dialog.data).click(function () {
+                var subject="WhatsDue%20Change%20Report";
+                var body ="School:%20"+ getSchool() +"%0D%0ACourse:%20"+ course +"%0D%0AAssignment:%20" + assignment +"%0D%0A-------------------------------------------%0D%0APlease%20write%20your%20correction%20here:";
+                window.location='mailto:aaron@whatsdueapp.com?subject='+subject+'&body='+body;
+                $.modal.close();
+                trackEvent('Assignment Reported');
+            });
+            $(".close", dialog.data).click(function () {
+                $.modal.close();
+                trackEvent('Assignment Reported');
+            });
+        }, 200)
+    }});
+}
+
+
+function filter(textArea){
+    $('#'+textArea).keyup(function(){
+        var searchTerm = $(this).val();
+        $('.list li').each(function(){
+            var text = $(this).text().toLowerCase();
+            if (searchTerm != "") {
+                if(text.indexOf(searchTerm) > 0){
+                    $(this).show();
+                }
+                else{
+                    $(this).hide();
+                }
+            }
+            else{
+                $(this).show();
+            }
+        });
+    });
 }
