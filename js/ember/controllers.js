@@ -1,6 +1,8 @@
 /**
  * Created by dan on 2014-05-13.
  */
+
+var goHome;
 App.ApplicationController = Ember.Controller.extend({
     actions: {
         reset: function() {
@@ -21,6 +23,15 @@ App.ApplicationController = Ember.Controller.extend({
         }
 
         var context = this;
+
+        /*
+         * This is for the back button;
+         */
+
+        goHome = function(){
+          context.transitionToRoute('assignments');
+        };
+
         if (Ember.isNone(this.get('pollster')) ){
             this.set('pollster', App.Pollster.create({
                 onPoll: function() {
@@ -149,8 +160,6 @@ App.AssignmentsController = Ember.ArrayController.extend({
     }
 });
 
-
-
 App.CompletedAssignmentsController = Ember.ArrayController.extend({
     filteredData: (function() {
         return this.get('model').filterBy('completed',true).sortBy('date_completed')
@@ -273,6 +282,13 @@ App.UnenrolledController = Ember.ArrayController.extend({
                     trackEvent('Course Adding Failed');
                 }
             });
+        },
+        sendSyllabi: function(){
+            trackEvent("Missing Syllabus");
+            var subject=encodeURIComponent('Syllabus Request - '+getSchool());
+            var body=encodeURIComponent('My class is: ');
+            window.location="mailto:aaron@whatsdueapp.com?subject="+subject+"&body="+body;
+            this.transitionToRoute('assignments');
         }
     }
 });

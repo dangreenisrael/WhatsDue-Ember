@@ -48,3 +48,11 @@ window.addEventListener('native.keyboardhide', keyboardHideHandler);
 function keyboardHideHandler(e){
     //$('#reminders').css('margin-top', 0)
 }
+
+
+document.addEventListener("backbutton", onBackKeyDown, false);
+
+function onBackKeyDown() {
+    $.modal.close();
+    goHome();
+}

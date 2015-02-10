@@ -1,6 +1,18 @@
 <div class="courses">
     <input id="search" class="search" type="text" placeholder="Search by Course or Instructor"/>
+
+
+    <div class="send-syllabus"  {{action 'sendSyllabi'}} style="display: none">
+        <p>
+        Aww Shucks,
+        we don't have your syllabus!!!
+        </p>
+        <div class="btn btn-blue">
+            COMPLAIN
+        </div>
+    </div>
     <ul class="searchable hidden">
+
     {{#each course in filteredData}}
         <li {{bind-attr class="course.hidden :slider :left-box"}}>
             <div {{action 'addCourse' course}} class="reveal">

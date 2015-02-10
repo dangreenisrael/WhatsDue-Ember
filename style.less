@@ -13,7 +13,7 @@
 @darkGrey: #666666;
 @blue: #4fc2d5;
 
-/* 57 for Android, 62 for iOS */
+/* 57/0 for Android, 62/5 for iOS */
 @mainTopMargin: 57px;
 @headerTopPadding: 0px;
 
@@ -513,6 +513,17 @@ ul#leftMenu {
     color: #808080;
     margin-top: 10px;
   }
+  .send-syllabus{
+    p{
+      text-align: center;
+      padding: 20px 10px;
+      font-size: 24px;
+    }
+    .btn{
+      display: table;
+      margin: auto;
+    }
+  }
 
 }
 input.search{
@@ -832,5 +843,20 @@ input.search{
   }
 }
 
+/*
+ * Bootstrap Style Buttons
+ */
 
+.btn{
+  display: inline-block;
+  border-radius: 10px;
+  text-align: center;
+  padding: 20px;
+  font-weight: 900;
+  font-size: 18px;
+}
 
+.btn-blue{
+  background-color: @blue;
+  color: #ffffff;
+}

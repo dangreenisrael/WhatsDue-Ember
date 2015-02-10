@@ -152,8 +152,6 @@ function readyFunction(){
     });
 
 
-    /* Filtering Courses */
-
     $(function() {
         FastClick.attach(document.body);
     });
@@ -210,13 +208,23 @@ function putBackable(){
             }
         });
 
+        /* Filtering */
+        var sendCourse = $('.courses .send-syllabus');
+        sendCourse.hide();
         $('.search').fastLiveFilter('.searchable').on('change', function(){
             var search = $(this).val();
             if (search.length >2 ){
                 $('ul.searchable').removeClass('hidden');
+                if ($('.searchable li:visible').length==0){
+                    sendCourse.show();
+                } else{
+                    sendCourse.hide();
+                }
             } else{
                 $('ul.searchable').addClass('hidden');
+                sendCourse.hide();
             }
+
 
         });
         sliderSize();
@@ -244,7 +252,7 @@ function swipeRemove(){
         for (var i = 0; i < removable.length; ++i) {
             removeHammer[i] = new Hammer(removable[i], removableOptions);
 
-            removeHammer[i].off('doubletap').on('doubletap', function (event) {
+            removeHammer[i].off('doubletap press').on('doubletap press', function (event) {
                 event.srcEvent.cancelBubble = true;
                 var element = closest(event, '.removable');
                 var course = $.trim(element.find('.course').text());
@@ -558,6 +566,7 @@ function filter(textArea){
             if (searchTerm != "") {
                 if(text.indexOf(searchTerm) > 0){
                     $(this).show();
+
                 }
                 else{
                     $(this).hide();

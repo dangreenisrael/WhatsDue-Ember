@@ -2,13 +2,13 @@
  * Created by dan on 2014-05-15.
  */
 
-var test = true;
+var test = false;
 
 if (test == true){
     //var site = "http://stage.whatsdueapp.com/student";
     var site="http://admin.whatsdueapp.com/app_dev.php/student";
 }else{
-    var site="http://teachers.whatsdueapp.com/student";
+    var site="http://admin.whatsdueapp.com/student";
 }
 /*
     Analytics

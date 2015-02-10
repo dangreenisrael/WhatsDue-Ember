@@ -5,7 +5,7 @@
   font-family: Gibson;
   src: url('assets/GibsonLight.ttf') format('truetype');
 }
-/* 57 for Android, 62 for iOS */
+/* 57/0 for Android, 62/5 for iOS */
 .spin {
   -webkit-animation: rotation 1s infinite linear;
 }
@@ -389,6 +389,15 @@ ul#leftMenu li span.count {
   color: #808080;
   margin-top: 10px;
 }
+.courses .send-syllabus p {
+  text-align: center;
+  padding: 20px 10px;
+  font-size: 24px;
+}
+.courses .send-syllabus .btn {
+  display: table;
+  margin: auto;
+}
 input.search {
   width: 100%;
   height: 50px;
@@ -667,4 +676,19 @@ input.search {
   line-height: 16px;
   text-align: center;
   font-weight: 600;
+}
+/*
+ * Bootstrap Style Buttons
+ */
+.btn {
+  display: inline-block;
+  border-radius: 10px;
+  text-align: center;
+  padding: 20px;
+  font-weight: 900;
+  font-size: 18px;
+}
+.btn-blue {
+  background-color: #4fc2d5;
+  color: #ffffff;
 }
