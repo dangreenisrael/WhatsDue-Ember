@@ -1,0 +1,33 @@
+<div class="courses">
+    {{#each course in filteredData}}
+        <div class="slider left-box">
+            <div {{action 'removeCourse' course}} class="reveal">
+                {{icon "X"}}
+            </div>
+
+            <div class="putBackable fastAnimate">
+                <div class="time">
+                    {{course.admin_id}}
+                </div>
+                <div class="info">
+                    {{icon "minus-red"}}
+
+                    <div class="courseName">
+                        {{course.course_name}}
+                    </div>
+
+                    <div class="instructorName">
+                        {{course.instructor_name}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    {{/each}}
+
+
+    <div class="add-something">
+        <img src="assets/icons/ios/plus-big.png" {{action 'addCourse'}}>
+        Add a Course
+    </div>
+
+</div>
