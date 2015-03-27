@@ -22,6 +22,44 @@ App.ApplicationController = Ember.Controller.extend({
             localStorage.setItem('timestamp_assignment',0);
         }
 
+        /*
+         * First Run
+         */
+
+        if (localStorage.getItem('course_code_update') != 'updated'){
+            /*
+             * Delete non-active course
+             */
+            this.get('store').find('course', { enrolled: false }).then(function(record){
+                record.content.forEach(function(rec) {
+                    Ember.run.once(this, function() {
+                        rec.deleteRecord();
+                        rec.save();
+                    });
+                }, this);
+            });
+
+
+            // Mark the update as completed
+            localStorage.setItem('course_code_update', 'updated');
+        }
+
+        if (localStorage.getItem('courses') == null){
+            $('#welcome').css('display','block');
+            this.transitionToRoute('enrolled').then(function(){
+                setTimeout(function(){
+                    showWelcome();
+                }, 50);
+            });
+
+        } else if (getSchool() == null){
+            $('#welcome').css('display','block');
+            setTimeout(function(){
+                showWelcome();
+            }, 50);
+        }
+
+
         var context = this;
 
         /*
@@ -49,19 +87,7 @@ App.ApplicationController = Ember.Controller.extend({
             updateAssignments(context);
         });
 
-        if (localStorage.getItem('courses') == null){
-            $('#welcome').css('display','block');
-            this.transitionToRoute('enrolled').then(function(){
-                setTimeout(function(){
-                    showWelcome();
-                }, 50);
-            })
-        } else if (getSchool() == null){
-            $('#welcome').css('display','block');
-            setTimeout(function(){
-                showWelcome();
-            }, 50);
-        }
+
 
         /*
          *  This deals with the iOS 64 Reminder limit & Default Reminders
@@ -188,11 +214,54 @@ App.EnrolledController = Ember.ArrayController.extend({
         return this.get('model').filterBy('enrolled', true).sortBy('admin_id', 'course_name');
     }).property('model.@each.enrolled'),
     actions: {
-        addCourse: function() {
+        addCourse: function(course_code) {
             var context = this;
-            setTimeout(function(){
-                context.transitionToRoute('unenrolled');
-            },5);
+            course_code = course_code.toUpperCase();
+            $.ajax({
+                url: site+"/courses/"+course_code,
+                type: 'GET',
+                success: function (resp) {
+                    console.log(resp.course);
+
+                    /*
+                     * Enroll without break old version - rewrite in August 2015
+                     */
+                    $.ajax({
+                        url: site + "/courses/" + resp.course.id + "/enrolls",
+                        type: 'POST',
+                        data: {"primaryKey": localStorage.getItem('primaryKey')},
+                        success: function (response) {
+                            if (!context.store.hasRecordForId('course',resp.course.id)) {
+                                var course = context.store.createRecord('course',resp.course);
+                                course.save();
+
+                                getUpdates('/assignments', context, 'assignment', {
+                                    'courses': "[" + course.get('id') + "]",
+                                    'sendAll': true
+                                }, true);
+
+                                // Add course to local storage;
+                                var courses = localStorage.getItem('courses');
+                                if (courses !== null) {
+                                    courses = courses + "," + course.get('id');
+                                    localStorage.setItem('courses', courses);
+                                } else{
+                                    localStorage.setItem('courses', course.get('id'));
+                                }
+                            }
+
+                            var addCourse = $('#addCourse');
+                            addCourse.find('input').val("");
+                            addCourse.find('button').addClass('disabled');
+                        }
+                    });
+
+                },
+                error: function(){
+                    alert("Are you connected to the Internet?");
+                    trackEvent('Course Remove Failed');
+                }
+            });
         },
         removeCourse: function(course) {
             var context = this;
@@ -201,8 +270,7 @@ App.EnrolledController = Ember.ArrayController.extend({
                 type: 'POST',
                 data: {"primaryKey":localStorage.getItem('primaryKey')},
                 success: function (response) {
-                    course.set('enrolled', false);
-                    course.save();
+
                     context.store.find('assignment',{'course_id':course.get('id')}).then(function(assignments){
                         assignments.content.forEach(function(assignment) {
                             Ember.run.once(context, function() {
@@ -212,7 +280,9 @@ App.EnrolledController = Ember.ArrayController.extend({
                                 });
                             });
                         }, context);
+                        course.destroyRecord();
                     });
+
                     trackEvent('Course Removed', 'Course Name', course.get('course_name'))
                     // Remove Course from local storage
                     var courses = localStorage.getItem('courses');
@@ -233,6 +303,8 @@ App.EnrolledController = Ember.ArrayController.extend({
 
                 },
                 error: function(){
+                    alert("Are you connected to the Internet?");
+                    trackEvent('Course Remove Failed');
                 }
             });
 
@@ -243,7 +315,7 @@ App.EnrolledController = Ember.ArrayController.extend({
 App.UnenrolledController = Ember.ArrayController.extend({
     model:[],
     filteredData: (function() {
-        return this.get('model').filterBy('enrolled', false).filterBy('school_name', getSchool()).sortBy('admin_id', 'course_name');
+        return this.get('model').filterBy('enrolled', false);
     }).property('model.@each.enrolled'),
     actions: {
         addCourse: function(course) {

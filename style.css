@@ -40,18 +40,6 @@ img {
 li {
   list-style: none;
 }
-.qtip-content {
-  font-size: 18px;
-  line-height: 20px;
-}
-.qtip {
-  margin-top: -10px;
-}
-.qtip-default {
-  background-color: #4fc2d5 !important;
-  border: #4fc2d5 !important;
-  color: #ffffff!important;
-}
 /* Helpers */
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
@@ -125,10 +113,15 @@ input::-webkit-inner-spin-button {
 .fastAnimate {
   transition: all 0.1s linear;
 }
+button.disabled {
+  opacity: 0.1!important;
+  background: none!important;
+  color: #000000!important;
+}
 /* Header */
 header#appHeader {
   color: white;
-  padding-top: 0px;
+  padding-top: 5px;
   font-size: 10px;
   text-align: center;
   background-color: #4fc2d5;
@@ -167,7 +160,7 @@ header#appHeader h1 {
 }
 #content > div {
   transform: translate3d(-33.333%, 0px, 0px);
-  margin-top: 57px;
+  margin-top: 62px;
 }
 #content > div > div {
   float: left;
@@ -264,6 +257,7 @@ ul#leftMenu li span.count {
   min-height: 50px;
   padding-left: 10px;
   border-left: 1px solid #9d9d9d;
+  width: 85%;
 }
 .slider .title {
   font-size: 16px;
@@ -398,15 +392,40 @@ ul#leftMenu li span.count {
   display: table;
   margin: auto;
 }
-input.search {
-  width: 100%;
+.courses .slider .info {
+  border-left: none;
+}
+.courses #addCourse {
   height: 50px;
   background: url("assets/icons/ios/search.png") no-repeat 10px center;
   background-size: 30px;
   padding-left: 60px;
-  font-size: 20px;
-  border: 0;
   border-bottom: 1px solid!important;
+}
+.courses #addCourse input {
+  height: 50px;
+  background: none;
+  font-size: 20px;
+  text-transform: uppercase;
+  border: 0;
+  width: 150px;
+}
+.courses #addCourse button {
+  height: 30px;
+  width: 80px;
+  font-size: 20px;
+  text-transform: uppercase;
+  float: right;
+  margin-top: 10px;
+  margin-right: 15px;
+  background-color: #4fc2d5;
+  border: 0;
+  color: white;
+  border-radius: 5px;
+  font-weight: 900;
+}
+input.search::-webkit-input-placeholder {
+  text-transform: none;
 }
 .add-something {
   width: 300px;

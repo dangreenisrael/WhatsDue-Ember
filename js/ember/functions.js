@@ -6,7 +6,7 @@ var test = false;
 
 if (test == true){
     //var site = "http://stage.whatsdueapp.com/student";
-    var site="http://admin.whatsdueapp.com/app_dev.php/student";
+    var site="http://test.whatsdueapp.com/app_dev.php/student";
 }else{
     var site="http://admin.whatsdueapp.com/student";
 }
@@ -36,7 +36,7 @@ function trackEvent(event, firstOption, firstValue, secondOption, secondValue, t
     }
     if (cordovaLoaded == true) {
         Localytics.tagEvent(event, options, 0);
-        console.log('tracked' + event);
+       // console.log('tracked' + event);
     } else{
         //console.log(event);
         //console.log(options);
@@ -97,50 +97,44 @@ function getUpdates(url, context, model, headers){
             $.each(response, function(i, record) {
                 // First see if it exists and try to update it
                 if (context.store.hasRecordForId(model,record.id)){
-
                     context.store.find(model, record.id).then(
                         function(thisRecord){
-                            if (thisRecord.get('last_modified')!=record.last_modified) {
+                            if (model == 'assignment') {
+                                var assignment = record;
+                                thisRecord.set('assignment_name', assignment.assignment_name);
+                                thisRecord.set('archived', assignment.archived);
+                                thisRecord.set('due_date', assignment.due_date);
+                                thisRecord.set('description', assignment.description);
+                                thisRecord.set('last_modified', assignment.last_modified);
 
-                                if (model == 'assignment') {
-                                    var assignment = record;
-                                    thisRecord.set('assignment_name', assignment.assignment_name);
-                                    thisRecord.set('archived', assignment.archived);
-                                    thisRecord.set('due_date', assignment.due_date);
-                                    thisRecord.set('description', assignment.description);
-                                    thisRecord.set('last_modified', assignment.last_modified);
-
-                                } else if (model == 'course') {
-                                    thisRecord.set('course_name', record.course_name);
-                                    thisRecord.set('course_description', record.course_description);
-                                    thisRecord.set('archived', record.archived);
-                                    thisRecord.set('last_modified', record.last_modified);
-
+                            } else if (model == 'course') {
+                                thisRecord.set('course_name', record.course_name);
+                                thisRecord.set('course_description', record.course_description);
+                                thisRecord.set('archived', record.archived);
+                                thisRecord.set('course_code', record.course_code);
+                                thisRecord.set('last_modified', record.last_modified);
+                            }
+                            thisRecord.save().then(function (record) {
+                                var hash = window.location.hash.substr(1);
+                                var controller = App.__container__.lookup("controller:assignments");
+                                if (hash == "/") {
+                                    controller.send('getLatest');
                                 }
-                                thisRecord.save().then(function (record) {
-                                    var hash = window.location.hash.substr(1);
-                                    var controller = App.__container__.lookup("controller:assignments");
-                                    if (hash == "/") {
-                                        controller.send('getLatest');
-                                    }
-                                    swipeRemove();
-                                    sliderSize();
-                                    if (model == 'assignment'){
-                                        /* Remove Old Reminders */
-                                        context.store.find('setReminder',{'assignment': record.get('id')}).then(function(setReminders){
-                                            removeSetReminders(setReminders);
-                                            /* Set New Reminders */
-                                            context.store.find('reminder').then( function(reminders) {
-                                                reminders.get('content').forEach(function(reminder){
-                                                    setReminder(record, reminder, context);
-                                                });
+                                swipeRemove();
+                                sliderSize();
+                                if (model == 'assignment'){
+                                    /* Remove Old Reminders */
+                                    context.store.find('setReminder',{'assignment': record.get('id')}).then(function(setReminders){
+                                        removeSetReminders(setReminders);
+                                        /* Set New Reminders */
+                                        context.store.find('reminder').then( function(reminders) {
+                                            reminders.get('content').forEach(function(reminder){
+                                                setReminder(record, reminder, context);
                                             });
                                         });
-
-
-                                    }
-                                });
-                            }
+                                    });
+                                }
+                            });
                         });
                 } else{
                 // If its new, add it
@@ -160,6 +154,9 @@ function getUpdates(url, context, model, headers){
                                 sliderSize();
                             });
                         });
+                    }
+                    else if (model == 'course'){
+                        // Don't add new courses
                     }
                     else{
                         var newRecord = context.store.createRecord(model,record);

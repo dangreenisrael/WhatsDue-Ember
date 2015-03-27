@@ -72,11 +72,10 @@ function customAnimate(element, miliseconds){
 
 }
 
-
 function toggleMenu(){
     var element = $('#contentContainer');
 
-    fastAnimate(element);
+   // fastAnimate(element);
 
     document.getElementById('contentContainer').scrollTop = 0;
     if (currentPage >= 1){
@@ -100,12 +99,10 @@ function goHome(){
 }
 
 function sliderSize(){
-    setTimeout(function(){
-        var assignmentWidth;
-        assignmentWidth = $(document).width() - $('.time').width()-80;
-        $('<style type="text/css">.slider .info { width:'+assignmentWidth+'px; }</style>').appendTo('head');
-    }, 5)
-
+    var assignmentWidth;
+    assignmentWidth = $(document).width() - 180;
+    var style = '#newAssignments .slider .info { width:'+assignmentWidth+'px; }';
+    $('#dynamicStyle').text(style);
 }
 
 /* End Helper Functions */
@@ -144,11 +141,7 @@ function readyFunction(){
     /* Toggles */
 
     $('#menuToggle, #left').off('click').on('click', function(){
-        toggleMenu()
-    });
-
-    $('header#appHeader h1').off('click').on('click', function(){
-        goHome();
+        toggleMenu();
     });
 
 
@@ -208,26 +201,33 @@ function putBackable(){
             }
         });
 
-        /* Filtering */
-        var sendCourse = $('.courses .send-syllabus');
-        sendCourse.hide();
-        $('.search').fastLiveFilter('.searchable').on('change', function(){
-            var search = $(this).val();
-            if (search.length >2 ){
-                $('ul.searchable').removeClass('hidden');
-                if ($('.searchable li:visible').length==0){
-                    sendCourse.show();
-                } else{
-                    sendCourse.hide();
-                }
+        /*
+         * Adding Course Stuff
+         */
+        var addCourse = $('#addCourse');
+        addCourse.find('input').keyup(function(){
+            $('.courses .bubble').addClass('hidden');
+            var count = $(this).val().length;
+            var button = addCourse.find('button');
+            if (count >= 6){
+                button.removeClass('disabled');
+                button.disable(false);
+                $(this).val($(this).val().substring(0,6))
+
             } else{
-                $('ul.searchable').addClass('hidden');
-                sendCourse.hide();
+                button.addClass('disabled');
+                button.disable(true);
             }
 
-
         });
-        sliderSize();
+
+        /*
+         * Run if no courses are added
+         */
+        var courseCount = $('.courses .slider').length;
+        if (!courseCount) {
+           $('.courses .bubble').removeClass('hidden');
+        }
 
     }, 1)
 }
@@ -385,6 +385,7 @@ function showWelcome(){
         $('.content-slide.finish').on('click', function (e) {
             mySwiper.swipeTo(0, 100, false);
             welcome.css('display', 'none');
+            setTitle('My Courses');
         });
 
         $('#schoolName').scombobox({
@@ -462,47 +463,10 @@ function reminderTips(){
     var reminders = $('#reminders');
     var time = $('input.time');
     if ( !reminders.find('.putBackable').length){
-
-        var numberTip = time.qtip({
-            content: {
-                text: 'Tap to choose when to be reminded'
-            },position: {
-                my: 'bottom left',  // Position my top left...
-                at: 'top right' // at the bottom right of...
-            },
-            show: true
+        reminders.find('.bubble').removeClass('hidden');
+        reminders.find('figure').on('click', function(){
+            reminders.find('.bubble').addClass('hidden');
         });
-        var plusTip;
-
-        reminders.find('.time').keypress(function(){
-            plusTip = reminders.find('figure img').qtip({
-                content: {
-                    text: 'Tap the + sign'
-                },position: {
-                    my: 'top right',  // Position my top left...
-                    at: 'bottom left' // at the bottom right of...
-                },
-                show: true
-            });
-            reminders.find('.time').off('click');
-            $('#menuToggle').one('click', function(){
-                plusTip.qtip('destroy', true);
-            })
-        });
-
-        reminders.find('figure img').on('click', function(){
-            plusTip.qtip('destroy', true);
-        });
-
-
-        time.on('click', function(){
-            numberTip.qtip('destroy', true);
-        });
-
-        $('#menuToggle').one('click', function(){
-            numberTip.qtip('destroy', true);
-        })
-
     }
 
 }
@@ -560,21 +524,25 @@ function shareModal(assignment, course, message){
 
 function filter(textArea){
     $('#'+textArea).keyup(function(){
-        var searchTerm = $(this).val();
+        var searchTerm = $(this).val().toUpperCase();
         $('.list li').each(function(){
-            var text = $(this).text().toLowerCase();
-            if (searchTerm != "") {
-                if(text.indexOf(searchTerm) > 0){
-                    $(this).show();
-
-                }
-                else{
-                    $(this).hide();
-                }
-            }
-            else{
-                $(this).show();
+            var text = $(this).find('.courseCode').text().toUpperCase().trim();
+            if( (searchTerm == text) && (searchTerm != "" )) {
+                $(this).removeClass('hidden');
+            }else{
+                $(this).addClass('hidden');
             }
         });
     });
 }
+
+/*
+ * Extend jQuery to allow changing disabled state
+ */
+jQuery.fn.extend({
+    disable: function(state) {
+        return this.each(function() {
+            this.disabled = state;
+        });
+    }
+});

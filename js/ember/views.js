@@ -5,6 +5,7 @@
 App.EnrolledView = Ember.View.extend({
     contentDidChange: function() {
         putBackable();
+        console.log('loaded')
     }.observes('controller.filteredData'),
     afterRender: function(){
         makeSpinnable();
@@ -23,6 +24,9 @@ App.UnenrolledView = Ember.View.extend({
             }, 500)
         }
         makeSpinnable();
+        setTimeout(function() {
+            filter('search')
+        }, 1);
     }
 });
 

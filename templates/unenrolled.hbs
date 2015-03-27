@@ -1,5 +1,5 @@
 <div class="courses">
-    <input id="search" class="search" type="text" placeholder="Search by Course or Instructor"/>
+    <input id="search" class="search" type="text" maxlength="6" placeholder="Enter Course Code"/>
 
 
     <div class="send-syllabus"  {{action 'sendSyllabi'}} style="display: none">
@@ -11,17 +11,14 @@
             COMPLAIN
         </div>
     </div>
-    <ul class="searchable hidden">
+    <ul class="list">
 
     {{#each course in filteredData}}
-        <li {{bind-attr class="course.hidden :slider :left-box"}}>
+        <li {{bind-attr class="course.hidden :hidden :slider :left-box"}}>
             <div {{action 'addCourse' course}} class="reveal">
                 {{icon "cloud-white" "pull-left"}}
             </div>
             <div class="putBackable fastAnimate keep">
-                <div class="time">
-                    {{course.admin_id}}
-                </div>
                 <div class="info">
                     {{icon "plus-big"}}
                     <div class="courseName">
@@ -31,6 +28,9 @@
                         {{course.instructor_name}}
                     </div>
                 </div>
+            </div>
+            <div class="hidden courseCode">
+                {{course.course_code}}
             </div>
         </li>
     {{/each}}
