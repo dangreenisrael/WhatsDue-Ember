@@ -44,20 +44,20 @@ App.ApplicationController = Ember.Controller.extend({
             localStorage.setItem('course_code_update', 'updated');
         }
 
-        if (localStorage.getItem('courses') == null){
-            $('#welcome').css('display','block');
-            this.transitionToRoute('enrolled').then(function(){
-                setTimeout(function(){
-                    showWelcome();
-                }, 50);
-            });
-
-        } else if (getSchool() == null){
-            $('#welcome').css('display','block');
-            setTimeout(function(){
-                showWelcome();
-            }, 50);
-        }
+        //if (localStorage.getItem('courses') == null){
+        //    $('#welcome').css('display','block');
+        //    this.transitionToRoute('enrolled').then(function(){
+        //        setTimeout(function(){
+        //            //showWelcome();
+        //        }, 50);
+        //    });
+        //
+        //} else if (getSchool() == null){
+        //    $('#welcome').css('display','block');
+        //    setTimeout(function(){
+        //        //showWelcome();
+        //    }, 50);
+        //}
 
 
         var context = this;
@@ -257,9 +257,14 @@ App.EnrolledController = Ember.ArrayController.extend({
                     });
 
                 },
-                error: function(){
-                    alert("Are you connected to the Internet?");
-                    trackEvent('Course Remove Failed');
+                error: function (resp){
+                    console.log(resp);
+                    if (resp.statusText == "Course Not Found"){
+                        alert("Course Code is Wrong");
+
+                    }else{
+                        alert("Are you connected to the Internet?");
+                    }
                 }
             });
         },
