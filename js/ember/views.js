@@ -9,6 +9,8 @@ App.EnrolledView = Ember.View.extend({
     }.observes('controller.filteredData'),
     afterRender: function(){
         makeSpinnable();
+        var addCourse = $('#addCourse');
+        addCourse.find('input').val("");
     }
 });
 

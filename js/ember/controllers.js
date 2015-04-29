@@ -22,6 +22,84 @@ App.ApplicationController = Ember.Controller.extend({
             localStorage.setItem('timestamp_assignment',0);
         }
 
+        var context = this;
+
+        /*
+         * Deal with duplicate reminders
+         */
+        this.store.find('reminder', {seconds_before: 86400}).then( function(records){
+                /* Find Duplicates */
+                var totalRecords = records.get('length');
+                var counter = 0;
+                /* Destroy duplicate reminders */
+                records.forEach(function(reminder){
+                    counter = counter+1;
+                    if (counter < totalRecords){
+                        console.log(counter);
+                        context.store.find('setReminder',{'reminder': reminder.get('id')}).then(function(setReminders){
+                            removeSetReminders(setReminders);
+                            reminder.destroyRecord();
+                        });
+                    }
+                })
+            }
+        );
+
+        /*
+         *  This deals with the iOS 64 Reminder limit & Default Reminders
+         */
+        var cordovaInitiated = setInterval(function() {
+                if (cordovaLoaded) {
+
+
+
+                    /*First Run*/
+                    if (localStorage.getItem('course_code_update') != 'updated'){
+                        var reminder = context.store.createRecord('reminder', {
+                            id: primaryKey('reminders'),
+                            seconds_before: 86400 // 1 day
+                        });
+                        reminder.save();
+                        context.store.find('assignment', {completed: false}).then(function (assignments) {
+                            assignments.get('content').forEach(function (assignment) {
+                                setReminder(assignment, reminder, context);
+                            });
+                        });
+                    }
+
+                    window.plugin.notification.local.cancelAll(function () {
+                        context.store.find('reminder');
+                        context.store.find('assignment').then(function(){
+                            swipeRemove();
+                        });
+                        context.store.find('course');
+                        context.store.find('setReminder').then(
+                            function (reminders) {
+                                reminders.filterBy('future').sortBy('timestamp').forEach(function (item, index) {
+                                    if (index >= 60) {
+                                        return null
+                                    }
+                                    var title = item.get('assignment').get('course_id').get('course_name');
+                                    var message = item.get('assignment').get('assignment_name') + " is due in " + item.get('reminder').get('time_before');
+                                    var reminderId = item.get('id');
+                                    var date = item.get('alarm_date_object');
+                                    // All notifications have been canceled
+                                    window.plugin.notification.local.add({
+                                        id: reminderId,
+                                        date: date,
+                                        message: message,
+                                        title: title
+                                    });
+                                });
+                            });
+                    });
+
+                    clearInterval(cordovaInitiated);
+                }
+            },
+            5);
+
+
         /*
          * First Run
          */
@@ -44,23 +122,12 @@ App.ApplicationController = Ember.Controller.extend({
             localStorage.setItem('course_code_update', 'updated');
         }
 
-        //if (localStorage.getItem('courses') == null){
-        //    $('#welcome').css('display','block');
-        //    this.transitionToRoute('enrolled').then(function(){
-        //        setTimeout(function(){
-        //            //showWelcome();
-        //        }, 50);
-        //    });
-        //
-        //} else if (getSchool() == null){
-        //    $('#welcome').css('display','block');
-        //    setTimeout(function(){
-        //        //showWelcome();
-        //    }, 50);
-        //}
+        if (localStorage.getItem('courses') == null){
+            this.transitionToRoute('enrolled').then(function(){
+            });
+        }
 
 
-        var context = this;
 
         /*
          * This is for the back button;
@@ -89,55 +156,7 @@ App.ApplicationController = Ember.Controller.extend({
 
 
 
-        /*
-         *  This deals with the iOS 64 Reminder limit & Default Reminders
-         */
-        var cordovaInitiated = setInterval(function() {
-            if (cordovaLoaded) {
-                if (localStorage.getItem('schoolName') == null) {
-                    var reminder = context.store.createRecord('reminder', {
-                        id: primaryKey('reminders'),
-                        seconds_before: 86400 // 1 day
-                    });
-                    reminder.save();
-                    context.store.find('assignment', {completed: false}).then(function (assignments) {
-                        assignments.get('content').forEach(function (assignment) {
-                            setReminder(assignment, reminder, context);
-                        });
-                    });
-                }
 
-                window.plugin.notification.local.cancelAll(function () {
-                    context.store.find('reminder');
-                    context.store.find('assignment').then(function(){
-                        swipeRemove();
-                    });
-                    context.store.find('course');
-                    context.store.find('setReminder').then(
-                        function (reminders) {
-                            reminders.filterBy('future').sortBy('timestamp').forEach(function (item, index) {
-                                if (index >= 60) {
-                                    return null
-                                }
-                                var title = item.get('assignment').get('course_id').get('course_name');
-                                var message = item.get('assignment').get('assignment_name') + " is due in " + item.get('reminder').get('time_before');
-                                var reminderId = item.get('id');
-                                var date = item.get('alarm_date_object');
-                                // All notifications have been canceled
-                                window.plugin.notification.local.add({
-                                    id: reminderId,
-                                    date: date,
-                                    message: message,
-                                    title: title
-                                });
-                            });
-                        });
-                });
-
-                clearInterval(cordovaInitiated);
-            }
-        },
-        5);
     }
 });
 
@@ -217,6 +236,9 @@ App.EnrolledController = Ember.ArrayController.extend({
         addCourse: function(course_code) {
             var context = this;
             course_code = course_code.toUpperCase();
+            var addCourse = $('#addCourse');
+            addCourse.find('button').addClass('disabled');
+
             $.ajax({
                 url: site+"/courses/"+course_code,
                 type: 'GET',
@@ -248,11 +270,9 @@ App.EnrolledController = Ember.ArrayController.extend({
                                 } else{
                                     localStorage.setItem('courses', course.get('id'));
                                 }
+                                context.set('course_code', "");
                             }
 
-                            var addCourse = $('#addCourse');
-                            addCourse.find('input').val("");
-                            addCourse.find('button').addClass('disabled');
                         }
                     });
 
@@ -261,6 +281,7 @@ App.EnrolledController = Ember.ArrayController.extend({
                     console.log(resp);
                     if (resp.statusText == "Course Not Found"){
                         alert("Course Code is Wrong");
+                        addCourse.removeClass('disabled');
 
                     }else{
                         alert("Are you connected to the Internet?");

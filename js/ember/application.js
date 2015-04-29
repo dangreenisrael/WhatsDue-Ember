@@ -93,3 +93,18 @@ Ember.Handlebars.helper('icon', function(name, classes, id) {
     classes = Handlebars.Utils.escapeExpression(classes);
     return new Ember.Handlebars.SafeString('<img src="assets/icons/'+OS+'/'+name+'.png" id="'+id+'" class="'+classes+'"/>');
 });
+
+Ember.Handlebars.helper('linkify', function(text) {
+    if (typeof text === "undefined") {
+        return Ember.String.htmlSafe("");
+    } else{
+        var options = {
+            callback: function( text, href ) {
+                /* Make it open in the default browser */
+                var defaultBrowser = "onclick=\"window.open('"+href+"', '_system')\"";
+                return href ? '<span class="link"'+defaultBrowser+' >' + text + '</a>' : text;
+            }
+        };
+        return Ember.String.htmlSafe(linkify(text, options));
+    }
+});

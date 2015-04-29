@@ -133,6 +133,11 @@ function readyFunction(){
     });
 
     /*
+     * Fix for "Blank text bug
+     */
+    $('head').append('<style type="text/css">* {font-family:GibsonFixed, sans-serif;}</style>');
+
+    /*
      * Helper Functions
      */
 
@@ -243,9 +248,9 @@ function complete(element, ms){
 
 function swipeRemove(){
     setTimeout(function() {
-        /*
-         * Swipe to Delete
-         */
+        ///*
+        // * Swipe to Delete
+        // */
         var removable = document.getElementsByClassName("removable");
         var removableOptions = {domEvents: true};
         var removeHammer = [];
@@ -304,7 +309,7 @@ function swipeRemove(){
 
 
             });
-
+        //
             removeHammer[i].off('pan').on('pan', function (event) {
                 event.srcEvent.cancelBubble = true;
                 timestamp = Date.now();
@@ -316,13 +321,13 @@ function swipeRemove(){
                     "-webkit-transform": "translate3d(" + deltaX + "px,0,0) scale3d(1,1,1)",
                     "opacity": percent
                 });
-                /* Prevent wonky scrolling */
+                ///* Prevent wonky scrolling */
                 if ( Math.abs(deltaY) > Math.abs(deltaX) ) {
-                    fastAnimate(element);
-                    element.css({
-                        "-webkit-transform": "translate3d(0,0,0) scale3d(1,1,1)",
-                        "opacity": 1
-                    });
+                    //fastAnimate(element);
+                    //element.css({
+                    //    "-webkit-transform": "translate3d(0,0,0) scale3d(1,1,1)",
+                    //    "opacity": 1
+                    //});
                 } else{
                     $(document).bind('touchmove', function (e) {
                         e.preventDefault();
@@ -330,7 +335,6 @@ function swipeRemove(){
                 }
 
             });
-
         }
 
 
@@ -345,18 +349,18 @@ function swipeRemove(){
             $('#assignments-overdue').show();
         });
 
-        /* Display day dividers */
+        /* This to be removed (April 20, 2015*/
 
-        $('.description').linkify();
-
-        $( "a" ).each(function( index ) {
-            var text = $( this ).text();
-            $(this).on('click', function(evt){
-                window.open(text, '_system');
-                evt.preventDefault();
-                return false;
-            })
-        });
+        ///* Display day dividers */
+        //
+        //$( "a" ).each(function( index ) {
+        //    var text = $( this ).text();
+        //    $(this).on('click', function(evt){
+        //        window.open(text, '_system');
+        //        evt.preventDefault();
+        //        return false;
+        //    })
+        //});
 
     }, 1);
 }
